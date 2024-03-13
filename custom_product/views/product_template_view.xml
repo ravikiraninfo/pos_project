@@ -1,0 +1,32 @@
+<odoo>
+    <record id="product_template_form_view_price" model="ir.ui.view">
+        <field name="name">product.template.price</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="mrp_price" widget="monetary"/>
+                <field name="whole_sale_price" widget="monetary"/>
+            </xpath>
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="price_selection"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="product_product_form_view_price" model="ir.ui.view">
+        <field name="name">product.product.price</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="mrp_price" widget="monetary"/>
+                <field name="whole_sale_price" widget="monetary"/>
+            </xpath>
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="price_selection"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
