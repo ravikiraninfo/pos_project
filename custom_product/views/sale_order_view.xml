@@ -1,0 +1,17 @@
+<odoo>
+    <record id="header_view" model="ir.ui.view">
+        <field name="name">Credit Limit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="salesperson_ids"/>
+                <field name="price_id"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_subtotal']" position="before">
+                <field name="salesperson_ids"/>
+                <field name="price_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
