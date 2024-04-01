@@ -20,13 +20,15 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','product','sale','product_multi_uom_pos'],
+    'depends': ['base','product','sale','product_multi_uom_pos','purchase','account'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'views/product_template_view.xml',
-        'views/sale_order_view.xml'
+        'views/sale_order_view.xml',
+        'views/purchase_order_view.xml',
+        'views/res_partner_view.xml'
 
     ],
 

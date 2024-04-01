@@ -11,6 +11,7 @@
                 <field name="pos_multi_uom_ids" attrs="{'invisible':[('multi_uom','=',False)]}">
                     <tree editable="bottom">
                         <field name="uom_id"/>
+                        <field name="profit"/>
                         <field name="price"/>
                         <field name="category_id" invisible="1"/>
                     </tree>

@@ -19,7 +19,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class PosMultiUom(models.Model):
@@ -41,11 +41,27 @@ class PosMultiUom(models.Model):
         related='product_template_id.uom_id.category_id',
         string='UoM Category', help='Category of unit of measure')
     uom_id = fields.Many2one('pos.multi.price', string='Choose a Price')
+    profit = fields.Many2one('pos.profit', string="Profit(%)")
 
-    price = fields.Float(string='Sale Price')
+    price = fields.Float(string='Sale Price', compute="compute_price")
+
+    @api.depends('profit')
+    def compute_price(self):
+        for rec in self:
+            if rec.profit:
+                rec.price = (rec.product_template_id.standard_price * rec.profit.value) / 100 + rec.product_template_id.standard_price
+            else:
+                rec.price = 0
+
 
 class PosPrice(models.Model):
-
     _name = 'pos.multi.price'
 
     name = fields.Char(string="Name")
+
+
+class PosProfit(models.Model):
+    _name = 'pos.profit'
+
+    name = fields.Char(string="Name")
+    value = fields.Float(string="Value")

@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_pos_multi_uom,access.pos.multi.uom,model_pos_multi_uom,base.group_user,1,1,1,1
 access_pos_multi_price,access.pos.multi.price,model_pos_multi_price,base.group_user,1,1,1,1
+access_pos_profit,access.pos.profit,model_pos_profit,base.group_user,1,1,1,1

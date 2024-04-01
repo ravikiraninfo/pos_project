@@ -1,0 +1,6 @@
+<odoo>
+    <menuitem id="menu_bill_in_purchase" action="account.action_move_in_invoice_type"
+              parent="purchase.menu_procurement_management" name="Bills"/>
+     <menuitem id="menu_refund_in_purchaswwe" action="account.action_move_in_refund_type"
+              parent="purchase.menu_procurement_management" name="Refunds"/>
+</odoo>
