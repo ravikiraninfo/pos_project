@@ -10,6 +10,11 @@
                                    t-esc="props.line.salesperson ? props.line.salesperson.map(salesperson => salesperson[1]).join(', ') : ''"/>
                 <br/>
             </t>
+            <t t-if="props.line.helpperson">
+                Helpers: <span id="helpers_value"
+                               t-esc="props.line.helpperson ? props.line.helpperson.map(helpperson => helpperson[1]).join(', ') : ''"/>
+                <br/>
+            </t>
         </xpath>
     </t>
 </templates>

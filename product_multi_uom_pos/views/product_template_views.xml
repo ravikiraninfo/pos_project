@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='pos_categ_id']" position="after">
                 <field name="multi_uom" invisible="1"/>
-                <field name="pos_multi_uom_ids" attrs="{'invisible':[('multi_uom','=',False)]}">
+                <field name="pos_multi_uom_ids">
                     <tree editable="bottom">
                         <field name="uom_id"/>
                         <field name="profit"/>

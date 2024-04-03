@@ -259,6 +259,7 @@ class PosOrderLine(models.Model):
 
     user_id = fields.Many2many('res.users', string='Salesperson',
                               help="You can see salesperson here")
+    employee_id = fields.Many2many('hr.employee',string="Helper")
 
     def get_product_details(self, ids):
         """Function to get the product details"""

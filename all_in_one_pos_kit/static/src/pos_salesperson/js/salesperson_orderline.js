@@ -17,6 +17,7 @@ odoo.define('all_in_one_pos_kit.Orderline', function(require) {
             super(obj, options)
             if (options.json) {
                 this.salesperson = options.json.salesperson;
+                this.helpperson = options.json.helpperson;
             }
         }
         /**
@@ -27,6 +28,7 @@ odoo.define('all_in_one_pos_kit.Orderline', function(require) {
         init_from_JSON(json) {
             super.init_from_JSON(json)
             this.salesperson = json.salesperson;
+            this.helpperson = json.helpperson;
         }
         /**
          * Exports the `SalesPersonOrderline` instance as a JSON object.
@@ -39,8 +41,14 @@ odoo.define('all_in_one_pos_kit.Orderline', function(require) {
             } else {
                 var user_id = ''
             }
+            if (this.helpperson) {
+                var employee_id = this.helpperson.map(helpperson => helpperson[0]);
+            } else {
+                var employee_id = ''
+            }
             return _.extend(super.export_as_JSON(...arguments), {
-                user_id: user_id
+                user_id: user_id,
+                employee_id:employee_id
             })
         }
     }

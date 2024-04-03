@@ -14,22 +14,24 @@ odoo.define('all_in_one_pos_kit.salesperson', function(require) {
         }
         async _onClick() { //Click button service charge
             var self = this;
-            try {
+//            try {
             let list = this.productsList;
             this.showPopup("SalesPersonPopup", {
-                'user_id': this.env.pos.res_users
+                'user_id': this.env.pos.res_users,
+                'employee_id': this.env.pos.employee_ids
             });
 
-        } catch (error) {
-            if (isConnectionError(error)) {
-                this.showPopup("ErrorPopup", {
-                    title: this.env._t("Network Error"),
-                    body: this.env._t("Cannot access Product screen if offline."),
-                });
-            } else {
-                throw error;
-            }
-        }
+//        }
+//        catch (error) {
+//            if (isConnectionError(error)) {
+//                this.showPopup("ErrorPopup", {
+//                    title: this.env._t("Network Error"),
+//                    body: this.env._t("Cannot access Product screen if offline."),
+//                });
+//            } else {
+//                throw error;
+//            }
+//        }
 
         }
     }

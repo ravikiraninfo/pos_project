@@ -114,4 +114,5 @@ class PosSession(models.Model):
         res = super(PosSession, self).load_pos_data()
         res['res_users'] = self.env['res.users'].search_read(fields=['name'])
         res['pos_multi_price'] = self.env['pos.multi.price'].search_read(fields=['name'])
+        res['employee_ids'] = self.env['hr.employee'].search_read(fields=['name'])
         return res

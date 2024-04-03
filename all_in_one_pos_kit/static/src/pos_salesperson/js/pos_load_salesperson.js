@@ -10,6 +10,8 @@ odoo.define('all_in_one_pos_kit.pos', function(require) {
         async _processData(loadedData) {
             await super._processData(...arguments);
             this.res_users = loadedData['res_users'];
+            this.employee_ids = loadedData['employee_ids'];
+
         }
     }
     Registries.Model.extend(PosGlobalState, NewPosGlobalState);

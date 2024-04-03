@@ -35,15 +35,20 @@ class ProductProduct(models.Model):
     @api.model
     def create(self, vals):
         res = super(ProductProduct, self).create(vals)
-        str_val = str(res.pos_categ_id.sequence) + " " + "("
-        for att in res.product_template_attribute_value_ids:
-            str_val = str_val + att.product_attribute_value_id.attribute_id.name + "-" + att.product_attribute_value_id.name + ","
-        str_val = str_val + ")"
+        str_val = ""
+        if res.pos_categ_id:
+            str_val = str(res.pos_categ_id.sequence) + " "
+        if res.product_template_attribute_value_ids:
+            str_val = str_val + "("
+            for att in res.product_template_attribute_value_ids:
+                str_val = str_val + att.product_attribute_value_id.attribute_id.name + "-" + att.product_attribute_value_id.name + ","
+            str_val = str_val + ")"
         barcode_str = self.env['barcode.nomenclature'].sanitize_ean(
             "%s%s" % (res.id, datetime.now().strftime("%d%m%y%H%M")))
         res.barcode = barcode_str
         res.default_code = str_val
         res.product_code = str(res.pos_categ_id.sequence) + "-" + res.seller_ids[
-            0].partner_id.vendor_code + "-" + str(res.create_date.date()) + "-" + str(res.standard_price) + "-" + barcode_str
+            0].partner_id.vendor_code if res.seller_id else False + "-" + str(res.create_date.date()) + "-" + str(
+            res.standard_price) + "-" + barcode_str
 
         return res

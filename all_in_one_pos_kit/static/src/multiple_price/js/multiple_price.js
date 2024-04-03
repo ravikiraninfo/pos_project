@@ -15,22 +15,23 @@ odoo.define('all_in_one_pos_kit.updateprice', function(require) {
         async _onClick() { //Click button service charge
             var self = this;
             console.log('lll',this.env.pos.pos_multi_price)
-            try {
+//            try {
             let list = this.productsList;
             this.showPopup("PricesPopup", {
                 'prices': this.env.pos.pos_multi_price
             });
 
-        } catch (error) {
-            if (isConnectionError(error)) {
-                this.showPopup("ErrorPopup", {
-                    title: this.env._t("Network Error"),
-                    body: this.env._t("Cannot access Product screen if offline."),
-                });
-            } else {
-                throw error;
-            }
-        }
+//        }
+//        catch (error) {
+//            if (isConnectionError(error)) {
+//                this.showPopup("ErrorPopup", {
+//                    title: this.env._t("Network Error"),
+//                    body: this.env._t("Cannot access Product screen if offline."),
+//                });
+//            } else {
+//                throw error;
+//            }
+//        }
 
         }
     }

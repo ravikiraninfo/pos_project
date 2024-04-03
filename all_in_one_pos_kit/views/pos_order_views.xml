@@ -23,6 +23,7 @@
             <xpath expr="/form/sheet/notebook/page/field[@name='lines']/tree/field[@name='full_product_name']"
                    position="after">
                 <field name="user_id" widget="many2many_tags"/>
+                <field name="employee_id" widget="many2many_tags"/>
             </xpath>
         </field>
     </record>

@@ -7,7 +7,7 @@
             <div>
                <header>
                   <h3>
-                     <span>Salespersons</span>
+                     <span>Salespersons/Helpers</span>
                       <i class="fa fa-times" style="float:right"
                          t-on-click="cancel"/>
                       <hr/>
@@ -15,6 +15,7 @@
                    <div class="product-img-create-popup">
                      <img t-att-src="imageUrl" id="img_url_tag_create"/>
                   </div>
+                   <h3>Salesperson</h3>
                    <select t-ref="salePersonRef" class="salesperson_select"
                            style="width:35%;height:30px;border-radius:5px;">
                             <t t-log="props.sales_persons"/>
@@ -27,12 +28,32 @@
                             </option>
                        </t>
                    </select>
+                   <br/>
+                   <h3>Helpers</h3>
+                   <select t-ref="helpPersonRef" class="helpperson_select"
+                           style="width:35%;height:30px;border-radius:5px;">
+                            <t t-log="props.help_persons"/>
+                       <t t-foreach='props.employee_id || []'
+                          t-as='help_person' t-key="help_person.id">
+                            <t t-log="help_person"/>
+                           <option t-att-value='help_person.name'
+                                   t-att-id="help_person.id">
+                                <t t-esc='help_person.name'/>
+                            </option>
+                       </t>
+                   </select>
                </header>
             </div>
          </main>
           <footer class="footer cash-move">
             <div class="button confirm disable highlight" t-on-click="confirm">
-                            Confirm
+                            Add
+                        </div>
+              <div class="button confirm disable highlight" t-on-click="confirmsingle">
+                            Update
+                        </div>
+               <div class="button confirm disable highlight" t-on-click="Removesingle">
+                            Remove
                         </div>
               <div class="button cancel" t-on-click="cancel">
                     Cancel
