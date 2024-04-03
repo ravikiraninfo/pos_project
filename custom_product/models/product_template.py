@@ -48,7 +48,7 @@ class ProductProduct(models.Model):
         res.barcode = barcode_str
         res.default_code = str_val
         res.product_code = str(res.pos_categ_id.sequence) + "-" + res.seller_ids[
-            0].partner_id.vendor_code if res.seller_ids else False + "-" + str(res.create_date.date()) + "-" + str(
+            0].partner_id.vendor_code if res.seller_ids else " " + "-" + str(res.create_date.date()) + "-" + str(
             res.standard_price) + "-" + barcode_str
 
         return res
