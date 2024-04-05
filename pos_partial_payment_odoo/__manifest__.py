@@ -46,6 +46,7 @@
             'pos_partial_payment_odoo/static/src/js/models.js',
             'pos_partial_payment_odoo/static/src/js/ticket_screen.js',
             'pos_partial_payment_odoo/static/src/xml/payment_screen.xml',
+            'pos_partial_payment_odoo/static/src/xml/ClientDetailsEdit.xml',
         ]},
     'images': ['static/description/banner.jpg'],
     'license': 'AGPL-3',

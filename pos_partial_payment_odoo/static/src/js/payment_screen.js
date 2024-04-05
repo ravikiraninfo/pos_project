@@ -44,6 +44,15 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
                 });
                 return false;
             };
+            if (!this.currentOrder.get_partner().street) {
+                this.showPopup('ErrorPopup', {
+                    title: this.env._t('Partial Payment Not Allowed'),
+                    body: this.env._t(
+                        'Customer address is required'
+                    ),
+                });
+                return false;
+            };
             //If Invoice not Selected Show Error
                 if(!this.currentOrder.to_invoice){
                    this.showPopup('ErrorPopup', {

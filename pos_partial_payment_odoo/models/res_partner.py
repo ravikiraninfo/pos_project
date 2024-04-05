@@ -33,3 +33,6 @@ class ResPartner(models.Model):
         string="Dont allow Partial Payment in POS",
         help="If enabled, partial payments will be prevented for Point of Sale "
              "orders associated with this partner.")
+    religion = fields.Char(string="Religion")
+    date_of_birth = fields.Char(string="Date Of Birth")
+    relation = fields.Char(string="Relation")

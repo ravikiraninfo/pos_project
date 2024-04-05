@@ -9,6 +9,13 @@
             <xpath expr="//field[@name='property_payment_term_id']" position="after">
                 <field name="prevent_partial_payment" />
             </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="religion"/>
+                <field name="date_of_birth"/>
+                <field name="relation"/>
+            </xpath>
+
+
         </field>
     </record>
 </odoo>

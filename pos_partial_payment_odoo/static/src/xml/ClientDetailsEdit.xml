@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ClientDetailsEditIdent" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('partner-details-left')]" position="inside">
+           <div class="partner-detail">
+                        <span class="label">Religion</span>
+               <input class="detail" name="religion"
+                      t-model="changes.religion"
+                      t-on-change="captureChange"
+               />
+                    </div>
+            <div class="partner-detail">
+                        <span class="label">Relation</span>
+                <input class="detail" name="relation"
+                       t-model="changes.relation"
+                       t-on-change="captureChange"
+                />
+                    </div>
+        </xpath>
+        <xpath expr="//div[hasclass('partner-details-right')]" position="inside">
+            <div class="partner-detail">
+                        <span class="label">Date</span>
+                <input class="detail datepicker" name="date_of_birth"
+                       t-model="changes.date_of_birth"
+                       t-on-change="captureChange"
+                />
+                    </div>
+        </xpath>
+    </t>
+</templates>
