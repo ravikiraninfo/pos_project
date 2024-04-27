@@ -19,6 +19,7 @@ const Partial = (Order) => class Partial extends Order {
      json.religion = this.religion ;
      json.date_of_birth = this.date_of_birth ;
      json.relation = this.relation ;
+     json.customer_id = this.customer_id ;
      return json;
      }
      init_from_JSON(json) {
@@ -27,6 +28,7 @@ const Partial = (Order) => class Partial extends Order {
       this.religion = this.religion ;
      this.date_of_birth = this.date_of_birth ;
      this.relation = this.relation ;
+     this.customer_id = this.customer_id ;
       }
 };
 Registries.Model.extend(Order, Partial)

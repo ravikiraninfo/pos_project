@@ -36,3 +36,4 @@ class ResPartner(models.Model):
     religion = fields.Char(string="Religion")
     date_of_birth = fields.Char(string="Date Of Birth")
     relation = fields.Char(string="Relation")
+    customer_id = fields.Char(string="Customer ID")

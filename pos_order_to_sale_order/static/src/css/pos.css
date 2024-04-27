@@ -23,3 +23,10 @@
 .pos .popup-create-sale-order .button.button-sale-order span {
     margin-left: 10px;
 }
+.pos .leftpane {
+    max-width: 1200PX;
+}
+.pos .order {
+    max-width: 1200PX;
+}
+

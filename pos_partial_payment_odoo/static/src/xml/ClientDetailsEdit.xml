@@ -19,9 +19,16 @@
         </xpath>
         <xpath expr="//div[hasclass('partner-details-right')]" position="inside">
             <div class="partner-detail">
-                        <span class="label">Date</span>
+                        <span class="label">Date Of Birth</span>
                 <input class="detail datepicker" name="date_of_birth"
                        t-model="changes.date_of_birth"
+                       t-on-change="captureChange"
+                />
+                    </div>
+            <div class="partner-detail">
+                        <span class="label">Customer ID</span>
+                <input class="detail" name="customer_id"
+                       t-model="changes.customer_id"
                        t-on-change="captureChange"
                 />
                     </div>

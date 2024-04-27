@@ -7,6 +7,22 @@
             <xpath expr="//field[@name='vat']" position="after">
                 <field name="vendor_code"/>
             </xpath>
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page string="Purchase History">
+                    <field name="purchase_order_history"/>
+                </page>
+            </xpath>
         </field>
     </record>
+    <record id="purchase_order_form_pt" model="ir.ui.view">
+        <field name="name">purchase.order.form.pt</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="product_template_id_1" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

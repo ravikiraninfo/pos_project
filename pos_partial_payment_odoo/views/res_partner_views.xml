@@ -13,6 +13,7 @@
                 <field name="religion"/>
                 <field name="date_of_birth"/>
                 <field name="relation"/>
+                <field name="customer_id"/>
             </xpath>
 
 
