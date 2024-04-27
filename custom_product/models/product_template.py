@@ -21,18 +21,18 @@ class ProductTemplate(models.Model):
             if rec.price_selection == "wh_price":
                 rec.list_price = rec.whole_sale_price
 
-    # @api.onchange('name')
-    # def onchange_name(self):
-    #     list_a = [(5, 0, 0)]
-    #     attribute_id = [1, 2, 3, 4, 5]
-    #     for aid in attribute_id:
-    #         val = {
-    #            'attribute_id': aid
-    #         }
-    #         list_a.append((0, 0, val))
-    #     self.update({
-    #         'attribute_line_ids': list_a
-    #     })
+    @api.onchange('name')
+    def onchange_name(self):
+        list_a = [(5, 0, 0)]
+        attribute_id = [1, 2, 3, 4, 5]
+        for aid in attribute_id:
+            val = {
+               'attribute_id': aid
+            }
+            list_a.append((0, 0, val))
+        self.update({
+            'attribute_line_ids': list_a
+        })
 
 
 class ProductProduct(models.Model):
