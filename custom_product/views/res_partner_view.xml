@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='vat']" position="after">
                 <field name="vendor_code"/>
-                <field name="vendor_rating" widget="priority"/>
+<!--                <field name="vendor_rating" widget="priority"/>-->
             </xpath>
             <xpath expr="//page[@name='sales_purchases']" position="after">
                 <page string="Purchase History">
@@ -20,9 +20,9 @@
                         </tree>
                     </field>
                 </page>
-                <page string="Communication">
-                    <field name="communication_history"/>
-                </page>
+<!--                <page string="Communication">-->
+<!--                    <field name="communication_history"/>-->
+<!--                </page>-->
             </xpath>
         </field>
     </record>
