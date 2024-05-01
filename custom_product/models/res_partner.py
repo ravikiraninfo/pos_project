@@ -6,7 +6,7 @@ class Partner(models.Model):
 
     vendor_code = fields.Char(string="Customer ID")
     purchase_order_history = fields.Many2many('purchase.order.line', compute="compute_purchase_order_history")
-    communication_history = fields.Text(string="Communication", tracking=True)
+    # communication_history = fields.Text(string="Communication", tracking=True)
     vendor_rating = fields.Selection([('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4')], string="Rating")
 
     @api.model
