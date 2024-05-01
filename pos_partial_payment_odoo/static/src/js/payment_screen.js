@@ -29,12 +29,13 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
                     $(validate).removeClass('highlight');
                 }
             }
-        //Validate Payment Button Functionality
-        async validateOrder(isForceValidate) {
+             async validateOrder(isForceValidate) {
+
                 if (!this.currentOrder.partial_payment){
                 await super.validateOrder(isForceValidate);
                     }
                 else{
+
                 if (this.currentOrder.get_partner().prevent_partial_payment ) {
                 this.showPopup('ErrorPopup', {
                     title: this.env._t('Partial Payment Not Allowed'),
@@ -79,6 +80,57 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
                 }
                 await super.validateOrder(isForceValidate);
             }
+        //Validate Payment Button Functionality
+//        async validateOrder(isForceValidate) {
+//
+//                if (!this.currentOrder.partial_payment){
+//                await super.validateOrder(isForceValidate);
+//                    }
+//                else{
+//                if (this.currentOrder.get_partner().prevent_partial_payment ) {
+//                this.showPopup('ErrorPopup', {
+//                    title: this.env._t('Partial Payment Not Allowed'),
+//                    body: this.env._t(
+//                        'The Customer is not allowed to make Partial Payments.'
+//                    ),
+//                });
+//                return false;
+//            };
+//            if (!this.currentOrder.get_partner().street) {
+//                this.showPopup('ErrorPopup', {
+//                    title: this.env._t('Partial Payment Not Allowed'),
+//                    body: this.env._t(
+//                        'Customer address is required'
+//                    ),
+//                });
+//                return false;
+//            };
+//            //If Invoice not Selected Show Error
+//                if(!this.currentOrder.to_invoice){
+//                   this.showPopup('ErrorPopup', {
+//                    title: this.env._t('Cannot Validate This Order'),
+//                    body: this.env._t(
+//                        'You need to Set Invoice for Validating Partial Payments'
+//                    ),
+//                });
+//                return false;
+//            };
+//            //If amount is fully paid show error
+//            if(!this.currentOrder.get_due()){
+//                   this.showPopup('ErrorPopup', {
+//                    title: this.env._t('Cannot Validate This Order'),
+//                    body: this.env._t(
+//                        'The Amount is Fully Paid Disable Partial Payment to Validate this Order'
+//                    ),
+//                });
+//                return false;
+//            };
+//                this.currentOrder.is_partial_payment = true
+//                this._isOrderValid(isForceValidate)
+//                await this._finalizeValidation();
+//                }
+//                await super.validateOrder(isForceValidate);
+//            }
         };
     Registries.Component.extend(PaymentScreen, PartialPaymentButtonPaymentScreen);
     return PartialPaymentButtonPaymentScreen;

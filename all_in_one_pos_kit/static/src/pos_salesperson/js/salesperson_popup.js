@@ -78,24 +78,21 @@ class SalesPersonPopup extends AbstractAwaitablePopup {
         const newHelpsperson = [parseInt(hoption.id), hoption.value];
 
         // Check if salesperson array exists, if not initialize it
-        if (!line.salesperson) {
-            line.salesperson = [];
-        }
-         if (!line.helpperson) {
-            line.helpperson = [];
-        }
+
+        line.salesperson = [];
+
+
+        line.helpperson = [];
+
 
         // Check if the new salesperson already exists in the list
-        const existingSalesperson = line.salesperson.find(salesperson => salesperson[0] === newSalesperson[0]);
-        if (!existingSalesperson) {
+
             // Add new salesperson to the list
-            line.salesperson.push(newSalesperson);
-        }
-        const existingHelpperson = line.helpperson.find(helpperson => helpperson[0] === newHelpsperson[0]);
-        if (!existingHelpperson) {
+        line.salesperson.push(newSalesperson);
+
             // Add new salesperson to the list
-            line.helpperson.push(newHelpsperson);
-        }
+        line.helpperson.push(newHelpsperson);
+
 
             this.env.posbus.trigger("close-popup", {
                 popupId: this.props.id,

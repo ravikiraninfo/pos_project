@@ -43,13 +43,20 @@ class PosMultiUom(models.Model):
     uom_id = fields.Many2one('pos.multi.price', string='Choose a Price')
     profit = fields.Many2one('pos.profit', string="Profit(%)")
 
-    price = fields.Float(string='Sale Price',)
+    price = fields.Float(string='Sale Price', )
 
-    @api.onchange('profit')
+    @api.onchange('profit', 'product_template_id.standard_price')
     def compute_price(self):
         for rec in self:
             if rec.profit:
-                rec.price = (rec.product_template_id.standard_price * rec.profit.value) / 100 + rec.product_template_id.standard_price
+                price = (
+                                rec.product_template_id.standard_price * rec.profit.value) / 100 + rec.product_template_id.standard_price
+                tax = rec.product_template_id.taxes_id
+                amount = 0
+                for tax in tax:
+                    amount += tax.amount
+                tax_amount = (rec.product_template_id.standard_price * amount) / 100
+                rec.price = price + tax_amount
             else:
                 rec.price = 0
 

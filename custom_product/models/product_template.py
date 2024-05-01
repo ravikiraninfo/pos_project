@@ -12,6 +12,12 @@ class ProductTemplate(models.Model):
     price_selection = fields.Selection(
         [('sale_price', 'Sale Price'), ('mrp_price', 'MRP Price'), ('wh_price', 'WholesalePrice')])
     product_code = fields.Char(string="Product Code")
+    hsn_code = fields.Many2one('hsn.tax', string="HSN Code")
+
+    @api.onchange('hsn_code')
+    def _onhange_hsncode(self):
+        if self.hsn_code:
+            self.taxes_id = self.hsn_code.tax_ids.ids
 
     @api.onchange('price_selection')
     def _onchane_price_selection(self):
@@ -27,7 +33,7 @@ class ProductTemplate(models.Model):
         attribute_id = [1, 2, 3, 4, 5]
         for aid in attribute_id:
             val = {
-               'attribute_id': aid
+                'attribute_id': aid
             }
             list_a.append((0, 0, val))
         self.update({

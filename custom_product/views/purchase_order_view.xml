@@ -1,6 +1,67 @@
 <odoo>
+    <record model="ir.ui.view" id="payment_due_form">
+        <field name="name">Payments</field>
+        <field name="model">account.payment.due</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_register_payment" string="Register Payments"
+                            type="object" class="oe_highlight"
+                    />
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Due Payments">
+                            <field name="invoice_ids">
+                                <tree editable="bottom">
+                                    <field name="select"/>
+                                    <field name="name"/>
+                                    <field name="amount_total_signed"/>
+                                    <field name="payment_state" widget="badge"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="payment_due_tree">
+        <field name="name">Payments</field>
+        <field name="model">account.payment.due</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_check_due_payments">
+        <field name="name">Payments</field>
+        <field name="res_model">account.payment.due</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="action_hsn_code">
+        <field name="name">HSN Code</field>
+        <field name="res_model">hsn.tax</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_check_due_payments" action="action_check_due_payments"
+              parent="purchase.menu_procurement_management" name="Payments"/>
     <menuitem id="menu_bill_in_purchase" action="account.action_move_in_invoice_type"
               parent="purchase.menu_procurement_management" name="Bills"/>
-     <menuitem id="menu_refund_in_purchaswwe" action="account.action_move_in_refund_type"
+    <menuitem id="menu_refund_in_purchaswwe" action="account.action_move_in_refund_type"
               parent="purchase.menu_procurement_management" name="Refunds"/>
+    <menuitem id="menu_hsn_code" action="action_hsn_code"
+              parent="purchase.menu_procurement_management" name="HSN Code"/>
+
 </odoo>

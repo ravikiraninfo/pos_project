@@ -45,6 +45,8 @@
     'assets': {
         'point_of_sale.assets': [
             'pos_invoice_automate/static/src/js/PaymentScreen.js',
+            'pos_invoice_automate/static/src/js/jobwork_popup.js',
+            'pos_invoice_automate/static/src/xml/jobwork_popup.xml'
         ],
     },
     'images': ['static/description/banner.jpg'],

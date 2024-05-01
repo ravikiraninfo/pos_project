@@ -150,6 +150,9 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                         }
                     }
                 }
+            this.showPopup("jobworkpopup", {
+
+            });
             }
         };
     Registries.Component.extend(PaymentScreen, PosInvoiceAutomatePaymentScreen);
