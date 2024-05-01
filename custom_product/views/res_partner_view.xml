@@ -6,6 +6,11 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='vat']" position="after">
                 <field name="vendor_code"/>
+                <field name="tin_no"/>
+                <field name="legder_name"/>
+                <field name="pan_card"/>
+                <field name="gst_type"/>
+                <field name="gst_no"/>
                 <field name="vendor_rating" widget="priority"/>
             </xpath>
             <xpath expr="//page[@name='sales_purchases']" position="after">
