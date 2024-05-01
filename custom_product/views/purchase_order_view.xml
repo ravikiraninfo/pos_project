@@ -64,6 +64,12 @@
         <field name="res_model">res.country.state</field>
         <field name="view_mode">tree,form</field>
     </record>
+     <record model="ir.actions.act_window" id="action_value">
+        <field name="name">value</field>
+        <field name="res_model">product.attribute.value</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
 
     <menuitem id="menu_check_due_payments" action="action_check_due_payments"
               parent="purchase.menu_procurement_management" name="Payments"/>
@@ -75,8 +81,10 @@
               parent="purchase.menu_procurement_management" name="HSN Code"/>
     <menuitem id="country" action="action_country"
               parent="purchase.menu_procurement_management" name="Country"/>
-     <menuitem id="country" action="action_satae"
+     <menuitem id="state" action="action_satae"
               parent="purchase.menu_procurement_management" name="states"/>
+     <menuitem id="valyes" action="action_value"
+              parent="purchase.menu_procurement_management" name="value"/>
 
 
 </odoo>
