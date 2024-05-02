@@ -70,7 +70,8 @@ class ProductProduct(models.Model):
         if not res.seller_ids:
             raise ValidationError(_("Please add vendor"))
         res.product_code = str(res.pos_categ_id.sequence) if res.pos_categ_id.sequence else " " + "-"
-        + res.seller_ids[0].partner_id.supplier_code if res.seller_ids[0].partner_id.supplier_code else " " + "-" + str(
+        + str(res.seller_ids[0].partner_id.supplier_code) if res.seller_ids[
+            0].partner_id.supplier_code else " " + "-" + str(
             res.create_date.date()) + "-" + str(str(res.standard_price).encode())
 
         return res
