@@ -292,7 +292,7 @@
                                     <span t-esc="line.product_id.default_code"/>
                                 </td>
                                 <td class="text_cnter_row">
-                                    <span t-esc="line.product_id.hs_code_id.hs_code"/>
+                                    <span t-esc="line.product_id.hsn_code.name"/>
                                 </td>
                                 <td class="text_cnter_row">
                                     <span t-esc="line.quantity"/>
