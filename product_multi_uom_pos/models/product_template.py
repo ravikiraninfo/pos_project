@@ -45,3 +45,27 @@ class ProductTemplate(models.Model):
         self.write({
             'multi_uom': status
         })
+
+class Productproduct(models.Model):
+    """Inherits model 'product.template' and adds field to set multiple units
+    of measure"""
+    _inherit = 'product.product'
+
+    multi_uom = fields.Boolean(compute='_compute_multi_uom', string='Multi UoM',
+                               help='A boolean field to show the one2many field'
+                                    'POS Multiple UoM if the Multi UoM option'
+                                    ' is enabled in Configuration settings')
+    pos_multi_uom_ids = fields.One2many('pos.multi.uom', 'product_template_id_2',
+                                        string="POS Multiple Price",
+                                        )
+
+    def _compute_multi_uom(self):
+        """
+         Updates the 'multi_uom' field based on the configuration parameter
+          'product_multi_uom_pos.pos_multi_uom'.
+        """
+        status = self.env['ir.config_parameter'].sudo().get_param(
+            'product_multi_uom_pos.pos_multi_uom')
+        self.write({
+            'multi_uom': status
+        })

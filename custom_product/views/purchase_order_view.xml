@@ -54,19 +54,9 @@
         <field name="res_model">hsn.tax</field>
         <field name="view_mode">tree,form</field>
     </record>
-     <record model="ir.actions.act_window" id="action_country">
-        <field name="name">Country</field>
-        <field name="res_model">res.country</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-     <record model="ir.actions.act_window" id="action_satae">
-        <field name="name">State</field>
-        <field name="res_model">res.country.state</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-     <record model="ir.actions.act_window" id="action_value">
-        <field name="name">value</field>
-        <field name="res_model">product.attribute.value</field>
+    <record model="ir.actions.act_window" id="action_purcahse_price_code">
+        <field name="name">Purchase Price Code</field>
+        <field name="res_model">purchase.price.code</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -78,13 +68,10 @@
     <menuitem id="menu_refund_in_purchaswwe" action="account.action_move_in_refund_type"
               parent="purchase.menu_procurement_management" name="Refunds"/>
     <menuitem id="menu_hsn_code" action="action_hsn_code"
-              parent="purchase.menu_procurement_management" name="HSN Code"/>
-    <menuitem id="country" action="action_country"
-              parent="purchase.menu_procurement_management" name="Country"/>
-     <menuitem id="state" action="action_satae"
-              parent="purchase.menu_procurement_management" name="states"/>
-     <menuitem id="valyes" action="action_value"
-              parent="purchase.menu_procurement_management" name="value"/>
+              parent="purchase.menu_purchase_config" name="HSN Code"/>
+     <menuitem id="menu_purcahse_price_code" action="action_purcahse_price_code"
+              parent="purchase.menu_purchase_config" name="Purchase Price Code"/>
+
 
 
 </odoo>

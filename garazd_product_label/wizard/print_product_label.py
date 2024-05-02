@@ -63,7 +63,7 @@ class PrintProductLabel(models.TransientModel):
         string='Label',
         domain=[('model', '=', 'print.product.label.line')],
     )
-    is_template_report = fields.Boolean(compute='_compute_is_template_report')
+    # is_template_report = fields.Boolean(compute='_compute_is_template_report')
     qty_per_product = fields.Integer(
         string='Label quantity per product',
         default=1,
@@ -88,11 +88,11 @@ class PrintProductLabel(models.TransientModel):
         help='Specify a company for product labels.'
     )
 
-    @api.depends('report_id')
-    def _compute_is_template_report(self):
-        for wizard in self:
-            # flake8: noqa: E501
-            wizard.is_template_report = self.report_id == self.env.ref('garazd_product_label.action_report_product_label_from_template')
+    # @api.depends('report_id')
+    # def _compute_is_template_report(self):
+    #     for wizard in self:
+    #         # flake8: noqa: E501
+    #         wizard.is_template_report = self.report_id == self.env.ref('garazd_product_label.action_report_product_label_from_template')
 
     def get_labels_to_print(self):
         self.ensure_one()

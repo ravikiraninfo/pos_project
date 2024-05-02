@@ -1,4 +1,5 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_account_payment_due,account.payment.due,model_account_payment_due,,1,1,1,1
 access_hsn_tax,hsn.tax,model_hsn_tax,,1,1,1,1
+access_purchase_price_code,purchase.price.code,model_purchase_price_code,,1,1,1,1
 

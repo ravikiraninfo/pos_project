@@ -45,24 +45,24 @@
         <field name="print_report_name">'Product Labels 57x35mm'</field>
     </record>
 
-    <record id="action_report_product_label_50x38" model="ir.actions.report">
-        <field name="name">Product Labels 50x38mm</field>
-        <field name="model">print.product.label.line</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="paperformat_id" ref="paperformat_label_50x38"/>
-        <field name="report_name">garazd_product_label.report_product_label_50x38_template</field>
-        <field name="report_file">garazd_product_label.report_product_label_50x38_template</field>
-        <field name="print_report_name">'Product Labels 50x38mm'</field>
-    </record>
+<!--    <record id="action_report_product_label_50x38" model="ir.actions.report">-->
+<!--        <field name="name">Product Labels 50x38mm</field>-->
+<!--        <field name="model">print.product.label.line</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="paperformat_id" ref="paperformat_label_50x38"/>-->
+<!--        <field name="report_name">garazd_product_label.report_product_label_50x38_template</field>-->
+<!--        <field name="report_file">garazd_product_label.report_product_label_50x38_template</field>-->
+<!--        <field name="print_report_name">'Product Labels 50x38mm'</field>-->
+<!--    </record>-->
 
-    <record id="action_report_product_label_from_template" model="ir.actions.report">
-        <field name="name">Product Label from your own template</field>
-        <field name="model">print.product.label.line</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="paperformat_id" ref="garazd_product_label.paperformat_label_a4_blank"/>
-        <field name="report_name">garazd_product_label.report_product_label_from_template</field>
-        <field name="report_file">garazd_product_label.report_product_label_from_template</field>
-        <field name="print_report_name">'Product Labels Custom Design'</field>
-    </record>
+<!--    <record id="action_report_product_label_from_template" model="ir.actions.report">-->
+<!--        <field name="name">Product Label from your own template</field>-->
+<!--        <field name="model">print.product.label.line</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="paperformat_id" ref="garazd_product_label.paperformat_label_a4_blank"/>-->
+<!--        <field name="report_name">garazd_product_label.report_product_label_from_template</field>-->
+<!--        <field name="report_file">garazd_product_label.report_product_label_from_template</field>-->
+<!--        <field name="print_report_name">'Product Labels Custom Design'</field>-->
+<!--    </record>-->
 
 </odoo>

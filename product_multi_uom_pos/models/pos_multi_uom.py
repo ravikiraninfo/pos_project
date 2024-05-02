@@ -37,25 +37,29 @@ class PosMultiUom(models.Model):
                                           help='Inverse field of one2many'
                                                'field POS Multiple UoM in'
                                                'product.template')
+    product_template_id_2 = fields.Many2one('product.product',
+                                          string='Product Template',
+                                          help='Inverse field of one2many'
+                                               'field POS Multiple UoM in'
+                                               'product.template')
     category_id = fields.Many2one(
         related='product_template_id.uom_id.category_id',
         string='UoM Category', help='Category of unit of measure')
     uom_id = fields.Many2one('pos.multi.price', string='Choose a Price')
     profit = fields.Many2one('pos.profit', string="Profit(%)")
 
-    price = fields.Float(string='Sale Price', )
+    price = fields.Float(string='Sale Price', required=True)
 
     @api.onchange('profit', 'product_template_id.standard_price')
     def compute_price(self):
         for rec in self:
             if rec.profit:
-                price = (
-                                rec.product_template_id.standard_price * rec.profit.value) / 100 + rec.product_template_id.standard_price
-                tax = rec.product_template_id.taxes_id
+                price = (rec.product_template_id_2.standard_price * rec.profit.value) / 100 + rec.product_template_id_2.standard_price
+                tax = rec.product_template_id_2.taxes_id
                 amount = 0
                 for tax in tax:
                     amount += tax.amount
-                tax_amount = (rec.product_template_id.standard_price * amount) / 100
+                tax_amount = (rec.product_template_id_2.standard_price * amount) / 100
                 rec.price = price + tax_amount
             else:
                 rec.price = 0
