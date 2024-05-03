@@ -69,12 +69,13 @@ class PurchaseOrder(models.Model):
         product_ids = self.order_line
         plist = [(5, 0, 0)]
         for product in product_ids:
-            val = {
-                'selected': True,
-                'product_id': product.product_id.id,
-                'barcode': product.product_id.barcode
-            }
-            plist.append((0, 0, val))
+            for quantity in range(1, int(product.product_qty)+ 1):
+                val = {
+                    'selected': True,
+                    'product_id': product.product_id.id,
+                    'barcode': product.product_id.barcode
+                }
+                plist.append((0, 0, val))
         return {
             'name': _('Print Label'),
             'type': 'ir.actions.act_window',

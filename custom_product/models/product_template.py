@@ -14,7 +14,7 @@ class ProductTemplate(models.Model):
     product_code = fields.Char(string="Product Code")
     hsn_code = fields.Many2one('hsn.tax', string="HSN Code")
 
-    @api.onchange('hsn_code', 'mrp_price')
+    @api.onchange('hsn_code')
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
@@ -63,11 +63,22 @@ class ProductTemplate(models.Model):
         })
 
 
-
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     product_code = fields.Char(string="Product Code", compute="compute_product_code")
+
+    @api.onchange('hsn_code', 'standard_price')
+    def _onhange_hsncode(self):
+        if self.hsn_code:
+            if self.hsn_code.name.startswith('6'):
+                if self.standard_price < 1000:
+                    self.taxes_id = [19, 15]
+                else:
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+            else:
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+        # self.standard_price = self.mrp_price
 
     def compute_product_code(self):
         for rec in self:
