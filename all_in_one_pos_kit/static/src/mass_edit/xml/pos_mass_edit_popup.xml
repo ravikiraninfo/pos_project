@@ -35,7 +35,7 @@
                                     </b>
                                     </td>
                                     <td>
-                                        <input t-model="line['quantity']" type="number" name="quantity"/>
+                                        <input t-model="line['quantityStr']" t-on-change="ev => this.sendInput(ev)" type="number" name="quantity"/>
                                     </td>
                                     <td>
                                         <input t-model="line['price']" type="number" name="unitPrice"/>
