@@ -20,6 +20,7 @@
 #
 #############################################################################
 from odoo import models
+from odoo.osv import expression
 
 
 class PosSession(models.Model):
@@ -48,3 +49,20 @@ class PosSession(models.Model):
     def _get_pos_ui_pos_multi_uom(self, params):
         """Loading new model to POS"""
         return self.env['pos.multi.uom'].search_read(**params['search_params'])
+
+    def _get_partners_domain(self):
+        """ Inherited method to extend search param to only customer rank > 1 : TAG"""
+
+        res = super()._get_partners_domain()
+        domain = expression.AND([res, [("customer_rank", ">", 0)]]),
+        return domain
+    
+    def _get_pos_ui_res_partner(self, params):
+        """ Override method to set search param to only customer rank > 1 : TAG"""
+        if not self.config_id.limited_partners_loading:
+            return self.env['res.partner'].search_read(**params['search_params'])
+        partner_ids = [res[0] for res in self.config_id.get_limited_partners_loading()]
+        # Need to search_read because get_limited_partners_loading
+        # might return a partner id that is not accessible.
+        params['search_params']['domain'] = [('id', 'in', partner_ids), ("customer_rank", ">", 0)]
+        return self.env['res.partner'].search_read(**params['search_params'])

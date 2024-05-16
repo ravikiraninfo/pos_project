@@ -85,6 +85,8 @@
             'all_in_one_pos_kit/static/src/multiple_price/xml/*',
             'all_in_one_pos_kit/static/src/pos_salesperson/js/*',
             'all_in_one_pos_kit/static/src/pos_salesperson/xml/*',
+            'all_in_one_pos_kit/static/src/customer_details/js/*',
+            'all_in_one_pos_kit/static/src/customer_details/xml/*',
         ],
         'web.assets_backend': [
             'all_in_one_pos_kit/static/src/dashboard/css/pos_dashboard.css',

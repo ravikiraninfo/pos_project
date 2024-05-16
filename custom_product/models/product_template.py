@@ -82,7 +82,9 @@ class ProductProduct(models.Model):
 
     def compute_product_code(self):
         for rec in self:
-            latest_seller = rec.seller_ids.sorted('date_start', reverse=True)[0]
+            latest_seller = rec.seller_ids.sorted('date_start', reverse=True)
+            if latest_seller:
+                latest_seller = latest_seller[0]
             string_value = str(rec.standard_price).replace('.', '')
             mapping = self.env['purchase.price.code'].search_read(domain=[],
                                                                   fields=['name', 'code'])
@@ -109,7 +111,7 @@ class ProductProduct(models.Model):
             raise ValidationError(_("Please add category and code"))
         str_val = ""
         if res.pos_categ_id:
-            str_val = str(res.pos_categ_id.sequence) if res.pos_categ_id.sequence else False + " "
+            str_val = str(res.pos_categ_id.sequence) if res.pos_categ_id.sequence else "" + " "
         if res.product_template_attribute_value_ids:
             str_val = str_val + "("
             for att in res.product_template_attribute_value_ids:

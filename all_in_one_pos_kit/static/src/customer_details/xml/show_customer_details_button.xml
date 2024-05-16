@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Templates to add Show customer details button in POS session-->
+<templates id="template" xml:space="preserve">
+    <t t-name="ShowCustomerDetails" owl="1">
+        <div class="control-button">
+            <i class="fa fa-pencil-square-o"/>
+            <span>Show Customer Details</span>
+        </div>
+    </t>
+</templates>
