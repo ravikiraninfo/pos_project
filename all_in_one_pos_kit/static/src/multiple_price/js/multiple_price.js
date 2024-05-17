@@ -14,7 +14,6 @@ odoo.define('all_in_one_pos_kit.updateprice', function(require) {
         }
         async _onClick() { //Click button service charge
             var self = this;
-            console.log('lll',this.env.pos.pos_multi_price)
 //            try {
             let list = this.productsList;
             this.showPopup("PricesPopup", {

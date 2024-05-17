@@ -45,7 +45,7 @@
                                     </td>
                                     <td>
                                         <button class="input-button numpad-backspace"
-                                                t-on-mousedown.prevent="() => this.sendInput(line['id'])">
+                                                t-on-mousedown.prevent="() => this.removeLine(line)">
                                             <i class="fa fa-trash"/>
                                          </button>
                                     </td>

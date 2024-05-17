@@ -11,6 +11,11 @@ odoo.define('all_in_one_pos_kit.pos_mass_edit_popup', function(require) {
             });
 
         }
+
+        removeLine(line) {
+            var order = this.env.pos.get_order()
+            order.remove_orderline(line)
+        }
     }
     MassEditPopup.template = 'MassEditPopup';
     MassEditPopup.defaultProps = {

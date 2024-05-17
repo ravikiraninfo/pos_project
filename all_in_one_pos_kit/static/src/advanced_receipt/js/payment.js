@@ -11,7 +11,7 @@ odoo.define('all_in_one_pos_kit.PaymentScreen', function(require) {
         }
         async validateOrder(isForceValidate) {
             //Validates the order and performs additional checks if customer details are required.
-            if (this.env.pos.res_config_settings[this.env.pos.res_config_settings.length - 1].customer_details == true && !this.currentOrder.get_partner()) {
+            if (this.env.pos.res_config_settings[this.env.pos.res_config_settings.length - 1] && (this.env.pos.res_config_settings[this.env.pos.res_config_settings.length - 1].customer_details == true && !this.currentOrder.get_partner())) {
                 const {
                     confirmed
                 } = await this.showPopup('ConfirmPopup', {
