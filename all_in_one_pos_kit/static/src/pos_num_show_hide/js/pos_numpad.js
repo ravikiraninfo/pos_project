@@ -8,6 +8,15 @@ odoo.define('all_in_one_pos_kit.show_hide_numpad', function (require) {
              $(ev.target).parents().find('.pads').slideToggle('slow', function() {
                 $(ev.target).parents().find('.numpad-toggle').toggleClass('fa-eye fa-eye-slash');
             });
+        },
+
+        _setValue(val) {
+            this._super(...arguments);
+            if (this.currentOrder.get_selected_orderline()) {
+                if (this.env.pos.numpadMode === 'discount_amount') {
+                    this.currentOrder.get_selected_orderline().set_discount(val);
+                }
+            }
         }
     })
 });

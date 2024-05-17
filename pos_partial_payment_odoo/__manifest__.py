@@ -44,6 +44,7 @@
         'point_of_sale.assets': [
             'pos_partial_payment_odoo/static/src/js/payment_screen.js',
             'pos_partial_payment_odoo/static/src/js/models.js',
+            'pos_partial_payment_odoo/static/src/js/partner_detail_edit.js',
             'pos_partial_payment_odoo/static/src/js/ticket_screen.js',
             'pos_partial_payment_odoo/static/src/xml/payment_screen.xml',
             'pos_partial_payment_odoo/static/src/xml/ClientDetailsEdit.xml',

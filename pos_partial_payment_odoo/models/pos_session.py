@@ -38,4 +38,6 @@ class PosSession(models.Model):
         """
         result = super(PosSession, self)._loader_params_res_partner()
         result['search_params']['fields'].append('prevent_partial_payment')
+        result['search_params']['fields'].append('vendor_code')
+        result['search_params']['fields'].append('date_of_anniversary')
         return result

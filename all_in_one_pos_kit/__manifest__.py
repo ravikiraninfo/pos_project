@@ -87,6 +87,10 @@
             'all_in_one_pos_kit/static/src/pos_salesperson/xml/*',
             'all_in_one_pos_kit/static/src/customer_details/js/*',
             'all_in_one_pos_kit/static/src/customer_details/xml/*',
+            'all_in_one_pos_kit/static/src/numpad_widget/js/*',
+            'all_in_one_pos_kit/static/src/numpad_widget/xml/*',
+            'all_in_one_pos_kit/static/src/order_line_discount/js/*',
+            'all_in_one_pos_kit/static/src/order_line_discount/xml/*',
         ],
         'web.assets_backend': [
             'all_in_one_pos_kit/static/src/dashboard/css/pos_dashboard.css',

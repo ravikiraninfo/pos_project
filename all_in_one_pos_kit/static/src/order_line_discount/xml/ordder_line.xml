@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+        <xpath expr="//li//ul/t[2]" position="attributes">
+            <attribute name="t-if">props.line.get_discount_str() !== '0' and env.pos.numpadMode != 'discount_amount'</attribute>
+        </xpath>
+
+        <xpath expr="//li//ul/t[2]" position="after">
+
+            <t t-elif="props.line.get_discount_amount_str() !== '0'">
+                <li class="info">
+                    With a
+                    <em>
+                        <t t-esc="env.pos.format_currency(props.line.get_discount_amount_str())" />
+                    </em>
+                    discount
+                </li>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

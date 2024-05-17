@@ -14,6 +14,10 @@ class ProductTemplate(models.Model):
     product_code = fields.Char(string="Product Code")
     hsn_code = fields.Many2one('hsn.tax', string="HSN Code")
 
+    extra_cost_ids = fields.One2many("extra.cost", inverse_name="product_tmpl_id")
+
+    extra_details_description = fields.Text("Extra Details")
+
     @api.onchange('hsn_code')
     def _onhange_hsncode(self):
         if self.hsn_code:
@@ -54,10 +58,13 @@ class ProductTemplate(models.Model):
             'detailed_type': 'product'
         })
 
-    @api.onchange('pos_multi_uom_ids')
+    @api.onchange('pos_multi_uom_ids', 'extra_cost_ids')
     def _onchange_pos_multi_uom_ids(self):
         price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
         price = sum(self.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
+        
+        price += sum(self.extra_cost_ids.mapped('amount'))
+        
         self.write({
             'list_price': price
         })

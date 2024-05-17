@@ -14,6 +14,7 @@
                 <field name="date_of_birth"/>
                 <field name="relation"/>
                 <field name="customer_id"/>
+                <field name="date_of_anniversary"/>
             </xpath>
 
 

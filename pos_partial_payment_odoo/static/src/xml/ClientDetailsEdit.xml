@@ -16,6 +16,13 @@
                        t-on-change="captureChange"
                 />
                     </div>
+            <div class="partner-detail">
+                        <span class="label">DOA</span>
+                <input class="detail" name="date_of_anniversary"
+                       t-model="changes.date_of_anniversary"
+                       t-on-change="captureChange"
+                />
+                    </div>
         </xpath>
         <xpath expr="//div[hasclass('partner-details-right')]" position="inside">
             <div class="partner-detail">
