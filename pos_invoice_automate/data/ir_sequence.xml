@@ -1,0 +1,8 @@
+<odoo>
+    <record id="invoice_partial_sequence" model="ir.sequence">
+        <field name="name">Partial Invoice</field>
+        <field name="code">invoice.partial.payment</field>
+        <field name="prefix">PINV/</field>
+        <field name="padding">4</field>
+    </record>
+</odoo>

@@ -35,6 +35,7 @@
     'website': 'https://www.cybrosys.com',
     'data': [
         'data/send_mail_template.xml',
+        'data/ir_sequence.xml',
         'data/send_mail_cron.xml',
         'views/res_config_settings.xml',
         'views/pos_order.xml',

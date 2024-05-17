@@ -112,10 +112,11 @@ class ProductProduct(models.Model):
 
     @api.model
     def create(self, vals):
+        vals["categ_id"] = self.env.ref("custom_product.product_category_default").id
         liset_price = [(5, 0, 0)]
         res = super(ProductProduct, self).create(vals)
-        if not res.pos_categ_id:
-            raise ValidationError(_("Please add category and code"))
+        # if not res.pos_categ_id:
+        #     raise ValidationError(_("Please add category and code"))
         str_val = ""
         if res.pos_categ_id:
             str_val = str(res.pos_categ_id.sequence) if res.pos_categ_id.sequence else "" + " "
