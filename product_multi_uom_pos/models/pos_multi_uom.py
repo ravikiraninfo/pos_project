@@ -50,17 +50,15 @@ class PosMultiUom(models.Model):
 
     price = fields.Float(string='Sale Price', compute="_compute_price")
 
-    @api.onchange('profit', 'profit.value')
+    @api.onchange('profit', 'profit.value', 'product_template_id_2.extra_cost_ids', 'product_template_id.extra_cost_ids')
     def _compute_price(self):
         for rec in self:
-            print('\n\n\n1-1-1-1')
             if rec.profit:
-                price = ((rec.product_template_id_2.standard_price * rec.profit.value) / 100) + rec.product_template_id_2.standard_price
-                print('\n\n\nprice', price)
-                price2 = ((rec.product_template_id.standard_price * rec.profit.value) / 100) + rec.product_template_id.standard_price
-                print('\n\n\nrec.profit.name', rec.profit.name)
-                print('\n\n\nrec.profit.value', rec.profit.value)
-                print('\n\n\nrec.product_template_id.standard_price', rec.product_template_id.standard_price)
+                total_price1 = rec.product_template_id_2.standard_price + sum(rec.product_template_id_2.extra_cost_ids.mapped('amount'))
+                total_price2 = rec.product_template_id.standard_price + sum(rec.product_template_id.extra_cost_ids.mapped('amount'))
+
+                price = ((total_price1 * rec.profit.value) / 100) + total_price1
+                price2 = ((total_price2 * rec.profit.value) / 100) + total_price2
                 
                 tax = rec.product_template_id_2.taxes_id
                 tax2 = rec.product_template_id.taxes_id
@@ -70,8 +68,8 @@ class PosMultiUom(models.Model):
                     amount += tax.amount
                 for tax2 in tax2:
                     amount2 += tax2.amount
-                tax_amount = (rec.product_template_id_2.standard_price * amount) / 100
-                tax_amount2 = (rec.product_template_id.standard_price * amount) / 100
+                tax_amount = (total_price1 * amount) / 100
+                tax_amount2 = (total_price2 * amount) / 100
                 rec.price = price + tax_amount
                 rec.price += (price2 + tax_amount2)
             else:

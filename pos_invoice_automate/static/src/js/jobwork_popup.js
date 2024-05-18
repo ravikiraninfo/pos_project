@@ -7,7 +7,11 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
     class jobworkpopup extends AbstractAwaitablePopup {
         setup() {
             super.setup();
+            this.propsInfo = this.props.info
             this.state = useState({
+                partnerName: this.propsInfo.partner && this.propsInfo.partner.name || "",
+                orderNumber: this.propsInfo.currentOrder.name,
+                itemDetail: this.props.itemDetail,
                 typeValue: this.props.startingValue,
                 productValue: this.props.startingValue,
                 priceValue: this.props.priceValue,
@@ -35,7 +39,15 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
             selected_vals.push(barcode);
             return selected_vals
         }
+
+        confirm() {
+        }
+
+        // cancel() {
+        //     this.closePopup("jobworkpopup")
+        // }
     }
+
 
     jobworkpopup.defaultProps = {
         confirmText: 'Ok',

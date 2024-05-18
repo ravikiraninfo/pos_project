@@ -18,16 +18,25 @@
 								<span>Customer</span>
 							</div>
                     <div style="margin-top: 10px;">
-								<input class="name" type="text"  t-model="state.productValue"  required=""/>
+								<input class="name" type="text"  t-model="state.partnerName"  required=""/>
 							</div>
 						</div>
                 <br/>
                 <div class="row">
 							<div>
-								<span>Bill Number</span>
+								<span>Order Number</span>
 							</div>
                     <div style="margin-top: 10px;">
-								<input class="name" type="text" t-model="state.productRef" required=""/>
+								<input class="name" type="text" t-model="state.orderNumber" required=""/>
+							</div>
+						</div>
+                <br/>
+                <div class="row">
+							<div>
+								<span>Items Detail with Job</span>
+							</div>
+                    <div style="margin-top: 10px;">
+								<input class="name" type="text" t-model="state.itemDetail" required=""/>
 							</div>
 						</div>
                 <br/>

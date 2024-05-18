@@ -52,7 +52,14 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                         })
                     }
                 }
-                await super.validateOrder(isForceValidate);
+                super.validateOrder(isForceValidate);
+                var info = {
+                    currentOrder : this.currentOrder,
+                    partner : this.currentOrder.get_partner()
+                }
+                console.log("1-1-1-1")
+                // await this.showPopup("jobworkpopup", { info: info });
+
             }
             async _finalizeValidation() {
                 if ((this.currentOrder.is_paid_with_cash() || this.currentOrder.get_change()) && this.env.pos.config.iface_cashdrawer && this.env.proxy && this.env.proxy.printer) {
@@ -68,7 +75,8 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                 let syncOrderResult, hasError;
                 try {
                     // 1. Save order to server.
-                    syncOrderResult = await this.env.pos.push_single_order(this.currentOrder);
+                    console.log("this.currentOrder", this.currentOrder)
+                    syncOrderResult = this.env.pos.push_single_order(this.currentOrder);
                     // 2. Invoice.
                     if (this.shouldDownloadInvoice() && this.currentOrder.is_to_invoice()) {
                         if (syncOrderResult.length) {
@@ -150,9 +158,6 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                         }
                     }
                 }
-            this.showPopup("jobworkpopup", {
-
-            });
             }
         };
     Registries.Component.extend(PaymentScreen, PosInvoiceAutomatePaymentScreen);
