@@ -4,10 +4,13 @@ odoo.define('all_in_one_pos_kit.pos_mass_edit_popup', function(require) {
     const Registries = require('point_of_sale.Registries');
     class MassEditPopup extends AbstractAwaitablePopup {
         
-        sendInput(ev) {
+        sendInput(ev, line_id) {
         //        Function to change quantity into 0
+        console.log("this.props.body", this.props.body, line_id)
             _.each(this.props.body, function(edit) {
-                edit.quantity = ev.target.value
+                if (edit.id == line_id) {
+                    edit.quantity = ev.target.value
+                }
             });
 
         }

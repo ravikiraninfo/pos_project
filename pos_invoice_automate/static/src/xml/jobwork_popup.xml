@@ -35,11 +35,42 @@
 							<div>
 								<span>Items Detail with Job</span>
 							</div>
-                    <div style="margin-top: 10px;">
+                     <div style="margin-top: 10px;">
 								<input class="name" type="text" t-model="state.itemDetail" required=""/>
 							</div>
-						</div>
+					</div>
                 <br/>
+                <div class="row">
+                     <div>
+								<h2>Select Items</h2>
+							</div>
+                     <select class="form-select w-25 ms-1" name="aaaa">
+                        <option t-foreach="state.productItems" t-as="product" t-key="product" t-att-value="product" t-esc="product"/>
+                     </select>
+					</div>
+                <br/>
+                <hr/>
+                <div class="row">
+                     <div>
+								<h2>Services</h2>
+							</div>
+                     <select class="form-select w-25 ms-1" name="aaaa">
+                        <option t-foreach="['Saree Fall', 'Pico', 'Polishing', 'Alteration']" t-as="service" t-key="service" t-att-value="service" t-esc="service"/>
+                     </select>
+					</div>
+                <br/>
+                <hr/>
+                <div class="row">
+                     <div>
+								<h2>Select Team</h2>
+							</div>
+                     <select class="form-select w-25 ms-1" name="aaaa">
+                        <option t-foreach="['Team Saree Fall', 'Team Pico', 'Team Polishing', 'Team Alteration']" t-as="service" t-key="service" t-att-value="service" t-esc="service"/>
+                     </select>
+					</div>
+                <br/>
+                <hr/>
+                     
                 <footer class="footer">
 						<div style="color: white;background: #6EC89B;border-color: transparent;" class="button confirm"
                              t-on-click="confirm">

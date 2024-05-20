@@ -6,9 +6,8 @@
             <tr height="160px" style="border:0;margin:0;padding:0;">
                 <td class="col-xs-4 text-center" style="border:0;margin:0;padding:0;">
                     <div style="overflow:hidden; height:45px !important; padding: 3px 3px 0;">
-                         <span t-field="label.product_id.name"/><br/>
-                         <span t-if="label.product_id.product_template_attribute_value_ids"
-                               t-esc="u', '.join(map(lambda x: x.attribute_line_id.attribute_id.name + u': ' + x.name, label.product_id.product_template_attribute_value_ids))"
+                         <span t-if="label.product_id.product_tmpl_id.attribute_line_ids"
+                               t-esc="u', '.join(map(lambda x: x.attribute_id.name + u': ' + ','.join(x.value_ids.mapped('name')), label.product_id.product_tmpl_id.attribute_line_ids.filtered(lambda pa: pa.attribute_id.name.lower() in ('fabric', 'color', 'colour'))))"
                                />
                     </div>
                       <div t-if="label.product_id.product_code" style="width: 100%; padding: 0; margin: 0; font-size: 12px;">

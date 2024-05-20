@@ -34,6 +34,41 @@
         </field>
     </record>
 
+    <record id="purchase_order_form_pt" model="ir.ui.view">
+        <field name="name">purchase.order.form.pt</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="print_product_label" string="Print Product Label" type="object" class="oe_highlight"
+                        context="{'create_bill':True}"
+                        attrs="{'invisible': ['|', ('state', 'not in', ('purchase', 'done')), ('invoice_status', 'in', ('no', 'invoiced'))]}"
+                       />
+            </xpath>
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="product_template_id_1" widget="many2many_tags"/>
+                <field name="attatchmet_ids" widget="many2many_binary"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_ref']" position="attributes">
+                <attribute name="string">Bill Reference</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='name']" position="after">
+                <field name="vendor_product_code"/>
+                <field name="hsn_code"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="Extra Costs">
+                    <field name="extra_cost_ids" widget="one2many">
+                        <tree string="Extra Costs" editable="bottom">
+                            <field name="name" />
+                            <field name="amount" widget="monetary"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="payment_due_tree">
         <field name="name">Payments</field>
         <field name="model">account.payment.due</field>

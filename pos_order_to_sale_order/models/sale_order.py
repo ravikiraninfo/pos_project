@@ -8,6 +8,7 @@ from odoo import Command, _, api, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+
     @api.model
     def _prepare_from_pos(self, order_data):
         PosSession = self.env["pos.session"]

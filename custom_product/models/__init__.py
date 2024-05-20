@@ -7,4 +7,5 @@ from . import due_payments
 from . import hsn_tax
 from . import purchase_price_code
 from . import extra_cost
+from . import purchase
 # from . import loyalty_program

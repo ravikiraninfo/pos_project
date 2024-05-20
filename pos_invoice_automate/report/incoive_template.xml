@@ -30,8 +30,8 @@
     <template id="report_invoice_with_payments_templates">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"
-                     t-att-data-oe-id="o and o.id"/>
+                <!-- <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"
+                     t-att-data-oe-id="o and o.id"/> -->
                 <t t-set="lang" t-value="o.partner_id.lang"/>
                 <t t-set="print_with_payments" t-value="True"/>
                 <t t-call="pos_invoice_automate.report_invoice_document_template" t-lang="lang"/>
@@ -45,51 +45,12 @@
             <t t-set="o" t-value="o.with_context(lang=lang)"/>
             <t t-set="forced_vat"
                t-value="o.fiscal_position_id.foreign_vat"/>
-            <style>
-                table {
-                border-collapse: collapse;
-                width: 100%;
-                }
-
-                td {
-                border: 1px solid black;
-                padding: 1px;
-                text-align: left;
-                }
-                th{
-                text-align: center;
-                }
-
-                .text_cnter_row{
-                text-align: center !important;
-                border-top: none !important;
-                border-bottom: none !important;
-                }
-                .text_cnter_row_1{
-                border-top: none !important;
-                border-bottom: 1ps solid black !important;
-                }
-
-                .no-border-top {
-                border-top: none !important;
-                }
-                .no-border-bottom {
-                border-bottom: none !important;
-                }
-                .no_border{
-                border: none;
-                }
-                table_border{
-                }
-
-
-            </style>
+            
 
             <div class="header">
                 <table style="width: 100%;">
                     <tr>
                         <td>
-                            <center>
                                 <h4>
                                     <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">INVOICE</span>
                                     <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">DRAFT INVOICE
@@ -100,7 +61,6 @@
                                     <span t-if="o.move_type == 'in_refund'">Vendor Credit Note</span>
                                     <span t-if="o.move_type == 'in_invoice'">Vendor Bill</span>
                                 </h4>
-                            </center>
                         </td>
                     </tr>
                 </table>
@@ -245,6 +205,10 @@
                         </td>
                     </tr>
                 </table>
+                <t t-set="total_cgst_2_5" t-value="0" />
+                <t t-set="total_sgst_2_5" t-value="0" />
+                <t t-set="total_cgst_6" t-value="0" />
+                <t t-set="total_sgst_6" t-value="0" />
                 <table width="100%">
                     <thead>
                         <tr>
@@ -282,6 +246,11 @@
                         <t t-set="q" t-value="0"/>
                         <t t-set="t" t-value="0"/>
                         <t t-foreach="o.invoice_line_ids" t-as="line">
+                            <t t-set="total_tax_amounts" t-value="line._get_tax_amounts()" />
+                            <t t-set="total_cgst_2_5" t-value="total_cgst_2_5 + total_tax_amounts.get('total_cgst_2_5')" />
+                            <t t-set="total_sgst_2_5" t-value="total_sgst_2_5 + total_tax_amounts.get('total_sgst_2_5')" />
+                            <t t-set="total_cgst_6" t-value="total_cgst_6 + total_tax_amounts.get('total_cgst_6')" />
+                            <t t-set="total_sgst_6" t-value="total_sgst_6 + total_tax_amounts.get('total_sgst_6')" />
                             <tr class="no_border">
                                 <td class="no_border"
                                     style="border-right: 1px solid black !important;border-left: 1px solid black !important;">
@@ -377,6 +346,18 @@
 
                 </table>
                 <div class="clearfix mb-4" style="border:1px solid black;">
+                    <div>
+                        <strong>CGST (2.5%): <t t-esc="total_cgst_2_5" /></strong>
+                    </div>
+                    <div>
+                        <strong>SGST (2.5%): <t t-esc="total_sgst_2_5" /></strong>
+                    </div>
+                    <div>
+                        <strong>CGST (6%): <t t-esc="total_cgst_6" /> </strong>
+                    </div>
+                    <div>
+                        <strong>SGST (6%): <t t-esc="total_sgst_6" /></strong>
+                    </div>
                     <div id="total" class="row">
                         <!--                        <b>-->
                         <!--                            Amount In Words:-->

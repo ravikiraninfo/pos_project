@@ -16,9 +16,10 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                 }
             }
             async validateOrder(isForceValidate) {
-                const value = await this.env.pos.push_single_order(this.currentOrder);
+                // const value = await this.env.pos.push_single_order(this.currentOrder);
+                super.validateOrder(isForceValidate);
                 const config_id = this.env.pos.config.id
-                const order_id = value[0].id
+                const order_id = this.currentOrder.id
                 if (this.env.pos.config.is_started) {
                     await this.rpc({
                         model: 'pos.config',
@@ -52,13 +53,12 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                         })
                     }
                 }
-                super.validateOrder(isForceValidate);
                 var info = {
                     currentOrder : this.currentOrder,
-                    partner : this.currentOrder.get_partner()
+                    partner : this.currentOrder.get_partner(),
+                    orderlines : this.currentOrder.orderlines
                 }
-                console.log("1-1-1-1")
-                // await this.showPopup("jobworkpopup", { info: info });
+                await this.showPopup("jobworkpopup", { info: info });
 
             }
             async _finalizeValidation() {
@@ -76,6 +76,7 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                 try {
                     // 1. Save order to server.
                     console.log("this.currentOrder", this.currentOrder)
+                    
                     syncOrderResult = this.env.pos.push_single_order(this.currentOrder);
                     // 2. Invoice.
                     if (this.shouldDownloadInvoice() && this.currentOrder.is_to_invoice()) {

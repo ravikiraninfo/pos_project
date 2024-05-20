@@ -31,9 +31,10 @@
     'author': 'Cybrosys Techno Solutions',
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
-    'depends': ['account', 'point_of_sale'],
+    'depends': ['account', 'point_of_sale', 'project'],
     'website': 'https://www.cybrosys.com',
     'data': [
+        'security/ir.model.access.csv',
         'data/send_mail_template.xml',
         'data/ir_sequence.xml',
         'data/send_mail_cron.xml',
@@ -41,13 +42,17 @@
         'views/pos_order.xml',
         'views/pos_config.xml',
         'views/ir_cron.xml',
+        'views/job_work_views.xml',
         'report/incoive_template.xml'
     ],
     'assets': {
         'point_of_sale.assets': [
             'pos_invoice_automate/static/src/js/PaymentScreen.js',
             'pos_invoice_automate/static/src/js/jobwork_popup.js',
-            'pos_invoice_automate/static/src/xml/jobwork_popup.xml'
+            'pos_invoice_automate/static/src/xml/jobwork_popup.xml',
+            # 'pos_invoice_automate/static/src/js/selectItemPopup.js',
+            # 'pos_invoice_automate/static/src/xml/selectItemPopup.xml'
+            
         ],
     },
     'images': ['static/description/banner.jpg'],

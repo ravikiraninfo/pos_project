@@ -2,11 +2,14 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, models
+from odoo import api, models, fields
 
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
+
+    product_tmpl_id = fields.Many2one("product.template", related="product_id.product_tmpl_id")
+    hsn_code = fields.Many2one('hsn.tax', string="HSN Code", related="product_tmpl_id.hsn_code")
 
     @api.model
     def _prepare_from_pos(self, sequence, order_line_data):
@@ -18,6 +21,7 @@ class SaleOrderLine(models.Model):
             "price_unit": order_line_data["price_unit"],
             "tax_id": order_line_data["tax_ids"],
         }
+    
 
     def _get_sale_order_line_multiline_description_sale(self):
         res = super()._get_sale_order_line_multiline_description_sale()

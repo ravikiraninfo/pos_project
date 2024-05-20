@@ -8,6 +8,11 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
         setup() {
             super.setup();
             this.propsInfo = this.props.info
+            console.log("this.propsInfo.currentOrder.orderlines", this.propsInfo.orderlines)
+            var productitems = []
+            _.each(this.propsInfo.orderlines, function (line) {
+                productitems.push(line.product.name)
+            });
             this.state = useState({
                 partnerName: this.propsInfo.partner && this.propsInfo.partner.name || "",
                 orderNumber: this.propsInfo.currentOrder.name,
@@ -17,6 +22,7 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
                 priceValue: this.props.priceValue,
                 productRef: this.props.startingValue,
                 productImg: this.props.productImage,
+                productItems: productitems
             });
         }
         getPayload() {
@@ -41,11 +47,30 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
         }
 
         confirm() {
+            console.log("this.propsInfo.currentOrder.id", this.propsInfo.currentOrder.partial_payment)
+            let partnerId = this.rpc({
+                model: 'job.work',
+                method: 'create',
+                args: [{payment_status: this.propsInfo.currentOrder.partial_payment && "partial" || "paid", partner_id: this.propsInfo.partner.id, description: this.state.itemDetail}],
+            });
+            this.env.posbus.trigger("close-popup", {
+                popupId: this.props.id,
+                response: {
+                    confirmed: false,
+                    payload: null,
+                },
+            });
         }
 
-        // cancel() {
-        //     this.closePopup("jobworkpopup")
-        // }
+        cancelb() {
+            this.env.posbus.trigger("close-popup", {
+                popupId: this.props.id,
+                response: {
+                    confirmed: false,
+                    payload: null,
+                },
+            });
+        }
     }
 
 

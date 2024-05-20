@@ -30,11 +30,11 @@ class ProductTemplate(models.Model):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
                 if self.mrp_price < 1000:
-                    self.taxes_id = [19, 15]
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst')).ids
             else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
         self.standard_price = self.mrp_price
 
     @api.onchange('price_selection')
