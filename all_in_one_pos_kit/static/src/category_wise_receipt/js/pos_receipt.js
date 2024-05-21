@@ -15,6 +15,12 @@ odoo.define('all_in_one_pos_kit.receipt', function(require) {
             }
             return categ;
         }
+
+        export_for_printing(){
+            var receipt = super.export_for_printing(...arguments);
+            receipt.include_igst = this.env.pos.get_order().include_igst
+            return receipt
+        }
     }
     Registries.Component.extend(OrderReceipt, CategoryOrderReceipt);
     return OrderReceipt;

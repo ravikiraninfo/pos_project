@@ -122,8 +122,8 @@
                             </b>
                         </td>
                         <td class="no_border">
-                            <t t-if="o.partner_id.vat">
-                                <span t-esc="o.partner_id.vat"/>
+                            <t t-if="o.partner_id.gst_no">
+                                <span t-esc="o.partner_id.gst_no"/>
                             </t>
                         </td>
                     </tr>
@@ -134,7 +134,7 @@
                             </b>
                         </td>
                         <td class="no_border">
-                            <!--                            <span t-esc="o.partner_id.name"/>-->
+                            <span t-esc="o.partner_id.vendor_code"/>
                         </td>
                         <td class="no_border">
                             <b>
@@ -172,7 +172,7 @@
                         </td>
                         <td class="no_border">
                             <t t-if="o.name">
-                                <!--                                <span t-esc="o.partner_id.vat"/>-->
+                                <span t-esc="o.name"/>
                             </t>
                         </td>
                     </tr>
@@ -346,17 +346,25 @@
 
                 </table>
                 <div class="clearfix mb-4" style="border:1px solid black;">
+                    <b>
+                        Amount In Words:
+                        <span t-esc="o.amount_in_words"/>
+                    </b>
+                    <br/>
+                    <br/>
                     <div>
-                        <strong>CGST (2.5%): <t t-esc="total_cgst_2_5" /></strong>
-                    </div>
-                    <div>
-                        <strong>SGST (2.5%): <t t-esc="total_sgst_2_5" /></strong>
-                    </div>
-                    <div>
-                        <strong>CGST (6%): <t t-esc="total_cgst_6" /> </strong>
-                    </div>
-                    <div>
-                        <strong>SGST (6%): <t t-esc="total_sgst_6" /></strong>
+                        <!-- <div> -->
+                            <strong>CGST (2.5%): <t t-esc="total_cgst_2_5" /></strong>
+                        <!-- </div> -->
+                        <!-- <div> -->
+                            <strong>SGST (2.5%): <t t-esc="total_sgst_2_5" /></strong>
+                        <!-- </div> -->
+                        <!-- <div> -->
+                            <strong>CGST (6%): <t t-esc="total_cgst_6" /> </strong>
+                        <!-- </div> -->
+                        <!-- <div> -->
+                            <strong>SGST (6%): <t t-esc="total_sgst_6" /></strong>
+                        <!-- </div> -->
                     </div>
                     <div id="total" class="row">
                         <!--                        <b>-->
@@ -404,12 +412,7 @@
                     </div>
                     <div style="border-top:1px solid black;" class="row">
                         <div style="font-size:15px;margin-left:10px;">
-                            <b>
-                                Amount In Words:
-                                <span t-esc="o.amount_in_words"/>
-                            </b>
-                            <br/>
-                            <br/>
+                            
                             <span style="font-size:25px !important">
                                 <b>Terms &amp; Conditions:</b>
                             </span>

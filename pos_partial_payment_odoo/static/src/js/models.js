@@ -7,6 +7,7 @@ const Partial = (Order) => class Partial extends Order {
      constructor() {
      super(...arguments);
      this.partial_payment =  false
+     this.include_igst =  false
      this.is_partial_payment = this.is_partial_payment || false;
      }
      set_order_suggestion(suggestion){
@@ -16,6 +17,7 @@ const Partial = (Order) => class Partial extends Order {
      export_as_JSON() {
      const json = super.export_as_JSON(...arguments)
      json.is_partial_payment = this.is_partial_payment ;
+     json.include_igst = this.include_igst ;
      json.religion = this.religion ;
      json.date_of_birth = this.date_of_birth ;
      json.relation = this.relation ;
@@ -25,6 +27,7 @@ const Partial = (Order) => class Partial extends Order {
      init_from_JSON(json) {
      super.init_from_JSON(...arguments);
      this.is_partial_payment = json.is_partial_payment;
+     this.include_igst = json.include_igst;
       this.religion = this.religion ;
      this.date_of_birth = this.date_of_birth ;
      this.relation = this.relation ;

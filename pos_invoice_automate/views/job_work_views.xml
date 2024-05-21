@@ -6,12 +6,13 @@
         <field name="model">job.work</field>
         <field name="arch" type="xml">
             <tree string="Job Work" >
-                <field name="order_id" />
+                <field name="bill_number" />
                 <field name="partner_id" />
                 <field name="description" />
                 <field name="services" />
                 <field name="stage" />
                 <field name="payment_status" />
+                <field name="priority" widget="badge" decoration-danger="priority == '1'" />
             </tree>
         </field>
     </record>
@@ -21,12 +22,22 @@
         <field name="model">job.work</field>
         <field name="arch" type="xml">
             <form string="Job Work" >
+                <header>
+                    <button name="mark_as_sent" string="Send To Vendor" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'new')]}"/>
+                    <button name="mark_as_complete" string="Complete" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'in_progress')]}"/>
+                    <button name="mark_as_packed" string="Pack" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'received')]}"/>
+                    <button name="mark_as_delivered" string="Delivered" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'packed')]}"/>
+                    <button name="reset_to_new" string="Reset To New" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '=', 'new')]}"/>
+                    <field name="stage" widget="statusbar" />
+                </header>
                 <sheet string="Job Work">
+                    <widget name="web_ribbon" title="Urgent" bg_color="bg-danger" attrs="{'invisible': [('priority', '=', '0')]}"/>
+
                     <div class="oe_title pe-0">
                         <h1 class="d-flex justify-content-between align-items-center">
                             <div class="d-flex w-100">
                                 <field name="priority" widget="priority" class="me-3"/>
-                                <field name="vendor_id" class="o_task_name text-truncate w-100 w-md-75 pe-2" placeholder="Task Title..."/>
+                                <field name="jobwork_title" class="o_task_name text-truncate w-100 w-md-75 pe-2" placeholder="Task Title..."/>
                             </div>
                         </h1>
                     </div>
@@ -40,7 +51,7 @@
                             <field name="delivery_dates" string="Delivery Date"/>
                         </group>
                         <group>
-                            <field name="vendor_id" string="Team"/>
+                            <field name="vendor_id" />
                             <field name="estimated_delivery_dates" string="Estimated Completion Date"/>
 
                         </group>

@@ -80,6 +80,7 @@
             'all_in_one_pos_kit/static/src/order_item_count/xml/*',
             'all_in_one_pos_kit/static/src/product_creation/xml/*',
             'all_in_one_pos_kit/static/src/advanced_receipt/xml/OrderReceipt.xml',
+            'all_in_one_pos_kit/static/src/advanced_receipt/xml/ClosePosPopup.xml',
             'all_in_one_pos_kit/static/src/category_wise_receipt/xml/pos_receipt.xml',
             'all_in_one_pos_kit/static/src/multiple_price/js/*',
             'all_in_one_pos_kit/static/src/multiple_price/xml/*',

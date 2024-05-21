@@ -76,8 +76,6 @@ class AccountMoveLine(models.Model):
         cgst_6 = self.tax_ids.filtered(lambda tax: tax.name.lower().startswith('cgst') and tax.amount == 6)
         sgst_6 = self.tax_ids.filtered(lambda tax: tax.name.lower().startswith('sgst') and tax.amount == 6)
         
-        print('\n\n\nself.price_subtotal * ', self.price_subtotal)
-        print('\n\n\nscgst_2_5 ', cgst_2_5)
         amount_cgst_2_5 = (self.price_subtotal * (cgst_2_5 and cgst_2_5.amount or 0)) / 100
         amount_sgst_2_5 = (self.price_subtotal * (sgst_2_5 and sgst_2_5.amount or 0)) / 100
         amount_cgst_6 = (self.price_subtotal * (cgst_6 and cgst_6.amount or 0)) / 100

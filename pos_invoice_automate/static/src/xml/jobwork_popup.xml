@@ -2,87 +2,105 @@
 <!--    Add a popup window-->
 <templates id="template" xml:space="preserve">
    <t t-name="jobworkpopup" owl="1">
-      <div class="popup product-line-popup">
-         <main class="body">
+      <div class="row jobwork-popup">
+         <!-- <main class="body"> -->
             <div>
                <header>
-                  <h3>
-                     <span>Job Work</span>
+                  <h1>
+                     <span class="jobwork_label">Job Work</span>
                       <i class="fa fa-times" style="float:right"
                          t-on-click="cancel"/>
                       <hr/>
-                  </h3>
+                  </h1>
                </header>
-                <div class="row">
-							<div>
-								<span>Customer</span>
-							</div>
-                    <div style="margin-top: 10px;">
-								<input class="name" type="text"  t-model="state.partnerName"  required=""/>
-							</div>
+               <div class="row">
+						<div>
+							<h4 class="jobwork_label">Customer</h4>
 						</div>
+                  <div class="jobwork_value">
+							<input class="name jobwork_input" style="size: 100;" type="text"  t-model="state.partnerName" />
+						</div>
+					</div>
+               <br/>
+               <div class="row">
+                  <div>
+                     <h4 class="jobwork_label">Order Number</h4>
+                  </div>
+                  <div>
+                     <input class="name jobwork_input" type="text" t-model="state.orderNumber" required=""/>
+                  </div>
+					</div>
                 <br/>
                 <div class="row">
 							<div>
-								<span>Order Number</span>
+								<h4 class="jobwork_label">Items Detail with Job</h4>
 							</div>
-                    <div style="margin-top: 10px;">
-								<input class="name" type="text" t-model="state.orderNumber" required=""/>
-							</div>
-						</div>
-                <br/>
-                <div class="row">
-							<div>
-								<span>Items Detail with Job</span>
-							</div>
-                     <div style="margin-top: 10px;">
-								<input class="name" type="text" t-model="state.itemDetail" required=""/>
+                     <div>
+								<input class="name jobwork_input" type="text" t-model="state.itemDetail" />
 							</div>
 					</div>
                 <br/>
                 <div class="row">
                      <div>
-								<h2>Select Items</h2>
+								<h4 class="jobwork_label">Select Items</h4>
 							</div>
-                     <select class="form-select w-25 ms-1" name="aaaa">
-                        <option t-foreach="state.productItems" t-as="product" t-key="product" t-att-value="product" t-esc="product"/>
+                     <select class="selected_item form-select w-25 ms-1 jobwork_input" name="select_item" t-model="state.selectedItem">
+                        <option />
+                        <option t-foreach="state.productItems" t-as="product" t-key="product.id" t-att-value="product.id" t-esc="product.name" />
                      </select>
 					</div>
-                <br/>
-                <hr/>
                 <div class="row">
                      <div>
-								<h2>Services</h2>
+								<h4 class="jobwork_label">Services</h4>
 							</div>
-                     <select class="form-select w-25 ms-1" name="aaaa">
+                     <select class="form-select w-25 ms-1 jobwork_input" name="select_service"  t-model="state.selectedService">
+                        <option />
                         <option t-foreach="['Saree Fall', 'Pico', 'Polishing', 'Alteration']" t-as="service" t-key="service" t-att-value="service" t-esc="service"/>
                      </select>
 					</div>
-                <br/>
-                <hr/>
+                 <div>
+                  <div class="row">
+							<div>
+								<h4 class="jobwork_label">Urgent</h4>
+							</div>
+                    <div>
+								<input class="align-middle jobwork_input" type="checkbox" t-model="state.isUrgent" />
+							</div>
+						</div>
+            </div>
                 <div class="row">
                      <div>
-								<h2>Select Team</h2>
+								<h4 class="jobwork_label">Delivery Date</h4>
 							</div>
-                     <select class="form-select w-25 ms-1" name="aaaa">
-                        <option t-foreach="['Team Saree Fall', 'Team Pico', 'Team Polishing', 'Team Alteration']" t-as="service" t-key="service" t-att-value="service" t-esc="service"/>
-                     </select>
+                     <div>
+								<input class="name jobwork_input" type="date" t-model="state.deliveryDate"/>
+							</div>    
 					</div>
-                <br/>
-                <hr/>
-                     
+                <div class="row">
+                     <div>
+								<h4 class="jobwork_label">Estimated Delivery Date</h4>
+							</div>
+                     <div>
+								<input class="name jobwork_input" type="date" t-model="state.estimatedDeliveryDate"/>
+							</div>    
+					</div>
+               <hr />
+                  
                 <footer class="footer">
-						<div style="color: white;background: #6EC89B;border-color: transparent;" class="button confirm"
+						<button style="font-size: 18px; height:50px; width:20%; color: white;background: #6EC89B;border-color: transparent; text-align:center;" class="button confirm"
                              t-on-click="confirm">
                         	Create JobWork
-                    	</div>
-                    <div style="color:white;background:#D25B5B;border-color: transparent;" class="button cancel"
+                    	</button>
+                    <button style="font-size: 18px; height:50px; width:20%; color:white;background:#D25B5B;border-color: transparent;" class="button cancel"
                          t-on-click="cancelb">
 							Cancel
-						</div>
+						</button>
 					</footer>
             </div>
-         </main>
+         <!-- </main> -->
+      </div>
+      <div>
+      123456
       </div>
    </t>
 </templates>

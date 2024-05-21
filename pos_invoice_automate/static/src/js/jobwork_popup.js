@@ -5,15 +5,24 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
     const Registries = require('point_of_sale.Registries');
 
     class jobworkpopup extends AbstractAwaitablePopup {
+        init() {
+            super.init(...arguments);
+            $("select.advanced-select").select2();
+
+        }
         setup() {
             super.setup();
             this.propsInfo = this.props.info
-            console.log("this.propsInfo.currentOrder.orderlines", this.propsInfo.orderlines)
             var productitems = []
             _.each(this.propsInfo.orderlines, function (line) {
-                productitems.push(line.product.name)
+                productitems.push(line.product)
             });
             this.state = useState({
+                selectedItem: false,
+                selectedService: false,
+                isUrgent: false,
+                deliveryDate: false,
+                estimatedDeliveryDate: false,
                 partnerName: this.propsInfo.partner && this.propsInfo.partner.name || "",
                 orderNumber: this.propsInfo.currentOrder.name,
                 itemDetail: this.props.itemDetail,
@@ -25,6 +34,9 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
                 productItems: productitems
             });
         }
+
+        
+
         getPayload() {
             var selected_vals = [];
             var category = this.state.typeValue;
@@ -47,11 +59,13 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
         }
 
         confirm() {
-            console.log("this.propsInfo.currentOrder.id", this.propsInfo.currentOrder.partial_payment)
+            var values = {
+                bill_number: this.propsInfo.currentOrder.pos.invoice, product_ids: this.state.selectedItem, services: this.state.selectedService, priority: this.state.isUrgent, estimated_delivery_dates: this.state.estimatedDeliveryDate, delivery_dates: this.state.deliveryDate, payment_status: this.propsInfo.currentOrder.partial_payment && "partial" || "paid", partner_id: this.propsInfo.partner.id, description: this.state.itemDetail
+            }
             let partnerId = this.rpc({
                 model: 'job.work',
-                method: 'create',
-                args: [{payment_status: this.propsInfo.currentOrder.partial_payment && "partial" || "paid", partner_id: this.propsInfo.partner.id, description: this.state.itemDetail}],
+                method: 'create_jobwork',
+                args: [[], values],
             });
             this.env.posbus.trigger("close-popup", {
                 popupId: this.props.id,

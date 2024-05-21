@@ -39,6 +39,7 @@
         'data/ir_sequence.xml',
         'data/send_mail_cron.xml',
         'views/res_config_settings.xml',
+        'views/res_partner_views.xml',
         'views/pos_order.xml',
         'views/pos_config.xml',
         'views/ir_cron.xml',
@@ -49,7 +50,9 @@
         'point_of_sale.assets': [
             'pos_invoice_automate/static/src/js/PaymentScreen.js',
             'pos_invoice_automate/static/src/js/jobwork_popup.js',
+            'pos_invoice_automate/static/src/js/models.js',
             'pos_invoice_automate/static/src/xml/jobwork_popup.xml',
+            'pos_invoice_automate/static/src/css/jobworkpopup.css',
             # 'pos_invoice_automate/static/src/js/selectItemPopup.js',
             # 'pos_invoice_automate/static/src/xml/selectItemPopup.xml'
             

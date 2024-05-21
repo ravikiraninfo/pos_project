@@ -1,0 +1,14 @@
+.jobwork-popup {
+    width: 95%;
+    background-color: white;
+    padding: 20px 20px 20px 20px;
+    float: left;
+}
+
+.jobwork_label {
+    font-size: 24px;
+}
+
+.jobwork_input {
+    font-size: 20px;
+}

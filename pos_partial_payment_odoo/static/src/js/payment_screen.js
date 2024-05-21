@@ -29,6 +29,18 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
                     $(validate).removeClass('highlight');
                 }
             }
+
+            set_igst() {
+                if (this.currentOrder.include_igst === false) {
+                    this.currentOrder.include_igst = true;
+                    // var validate = this.root.el
+                    // $(validate).addClass('highlight');
+                } else {
+                    this.currentOrder.include_igst = false;
+                    // var validate = this.root.el
+                    // $(validate).removeClass('highlight');
+                }
+            }
              async validateOrder(isForceValidate) {
 
                 if (!this.currentOrder.partial_payment){
@@ -136,7 +148,10 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
                 partner : this.currentOrder.get_partner(),
                 orderlines : this.currentOrder.orderlines
             }
-               await this.showPopup("jobworkpopup", { info: info });
+            if (this.currentOrder.partial_payment) {
+                await this.showPopup("jobworkpopup", { info: info });
+
+            }
 
             //    await super.validateOrder(isForceValidate);
            }

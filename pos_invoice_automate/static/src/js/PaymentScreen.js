@@ -75,7 +75,6 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
                 let syncOrderResult, hasError;
                 try {
                     // 1. Save order to server.
-                    console.log("this.currentOrder", this.currentOrder)
                     
                     syncOrderResult = this.env.pos.push_single_order(this.currentOrder);
                     // 2. Invoice.

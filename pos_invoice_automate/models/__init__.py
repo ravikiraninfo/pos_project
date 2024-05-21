@@ -25,3 +25,4 @@ from . import res_config_settings
 from . import ir_cron
 from . import account_move
 from . import job_work
+from . import rea_partner
