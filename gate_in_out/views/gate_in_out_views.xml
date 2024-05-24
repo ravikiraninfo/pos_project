@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+ <record id="gate_in_out_tree_view" model="ir.ui.view">
+        <field name="name">gate.in.out.tree</field>
+        <field name="model">gate.in.out</field>
+        <field name="arch" type="xml">
+            <tree string="Gate In/Out" >
+                <field name="type" />
+                <field name="receipt_invoice" />
+                <field name="courier_company" />
+                <field name="delivery_boy" />
+                <field name="goods_quantity" />
+                <field name="gate_in_date" />
+                <field name="gate_out_date" />
+                <field name="customer_name" />
+                <field name="vendor_id" />
+                <field name="customer_address" />
+                <field name="tracking_number" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gate_in_out_form_view" model="ir.ui.view">
+        <field name="name">gate.in.out.form</field>
+        <field name="model">gate.in.out</field>
+        <field name="arch" type="xml">
+            <form string="Gate In/Out" >
+                <header>
+                    <button name="mark_as_dispatched" string="Dispatch" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('type', '!=', 'out'), ('out_state', '!=', 'packed')]}"/>
+                    <button name="mark_as_packed" string="Pack" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('type', '!=', 'out'), ('out_state', '!=', 'new')]}"/>
+                    <button name="mark_as_received" string="Received" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('type', '!=', 'in'), ('in_state', '!=', 'new')]}"/>
+                    <button name="mark_as_unpacked" string="Unpacked" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('type', '!=', 'in'), ('in_state', '!=', 'received')]}"/>
+                    <button name="reset_to_new" string="Reset To New" type="object" class="oe_highlight" />
+                    <field name="in_state" widget="statusbar" attrs="{'invisible': ['|', ('type', '=', False), ('type', '=', 'out')]}" />
+                    <field name="out_state" widget="statusbar" attrs="{'invisible': ['|', ('type', '=', False), ('type', '=', 'in')]}" />
+                </header>
+                <sheet string="Gate In/Out">
+                    <div class="oe_title pe-0">
+                        <h1 class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex w-100">
+                                <field name="name" class="o_task_name text-truncate w-100 w-md-75 pe-2" />
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type" />
+                            <field name="vendor_id" attrs="{'invisible': [('type', '=', 'out')], 'required': [('type', '=', 'in')]}"/>
+                            <field name="customer_name" attrs="{'invisible': [('type', '=', 'in')], 'required': [('type', '=', 'out')]}" />
+                            <field name="no_of_packages" />
+                            <field name="goods_quantity" attrs="{'invisible': [('type', '=', 'in')]}" />
+                            <field name="gate_in_date" attrs="{'invisible': [('type', '=', 'out')], 'required': [('type', '=', 'in')]}"/>
+                            <field name="gate_out_date" attrs="{'invisible': [('type', '=', 'in')], 'required': [('type', '=', 'out')]}" />
+                        </group>
+                        <group>
+                            <field name="goods_return" attrs="{'invisible': [('type', '=', 'in')]}" />
+                            <field name="description" attrs="{'invisible': [('type', '=', 'out')]}" />
+                            <field name="receipt_invoice" />
+                            <field name="courier_company" />
+                            <field name="courier_company_phone" />
+                            <field name="vehicle_no" attrs="{'invisible': [('type', '=', 'out')]}" />
+                            <field name="delivery_boy" attrs="{'invisible': [('type', '=', 'out')]}" />
+                            <field name="customer_address" attrs="{'invisible': [('type', '=', 'in')]}"  />
+                            <field name="tracking_number" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Goods Details">
+                            <field name="product_tmpl_ids">
+                                <tree>
+                                    <field name="display_name" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pos_gate_in_out_view_action" model="ir.actions.act_window">
+        <field name="name">Gate In/Out</field>
+        <field name="res_model">gate.in.out</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem id="gate_in_out_menu_action"
+              name="Gate In/Outs"
+              action="pos_gate_in_out_view_action"
+              />
+</odoo>

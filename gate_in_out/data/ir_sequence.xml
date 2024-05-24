@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="gate_in_out_sequence" model="ir.sequence">
+        <field name="name">Gate In/Out</field>
+        <field name="code">gate.in.out</field>
+        <field name="prefix">G/</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

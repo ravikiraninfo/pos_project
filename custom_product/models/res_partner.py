@@ -102,13 +102,13 @@ class PurchaseOrderLine(models.Model):
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
-                if self.mrp_price < 1000:
+                if self.product_id.product_tmpl_id.mrp_price < 1000:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst')).ids
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
                 self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
-
+        
     def _compute_tax_id(self):
         for line in self:
             line = line.with_company(line.company_id)

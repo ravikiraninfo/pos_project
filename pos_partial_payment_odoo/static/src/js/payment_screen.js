@@ -9,6 +9,8 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
     const PaymentScreen = require('point_of_sale.PaymentScreen');
     const Chrome = require('point_of_sale.Chrome');
     const { useRef } = owl;
+    var rpc = require('web.rpc')
+
 
     // Define the PartialPaymentButtonPaymentScreen class
     const PartialPaymentButtonPaymentScreen = (PaymentScreen) =>
@@ -33,6 +35,7 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
             set_igst() {
                 if (this.currentOrder.include_igst === false) {
                     this.currentOrder.include_igst = true;
+                    console.log("this.currentOrder.include_igst", this.currentOrder.include_igst)
                     // var validate = this.root.el
                     // $(validate).addClass('highlight');
                 } else {
@@ -148,6 +151,22 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
                 partner : this.currentOrder.get_partner(),
                 orderlines : this.currentOrder.orderlines
             }
+            var self = this
+            const codeWriter = new window.ZXing.BrowserQRCodeSvgWriter(); // Generate QR code and retrieve additional information from the server
+
+            rpc.query({
+                model: 'pos.order',
+                method: 'get_invoice',
+                args: [this.env.pos.selectedOrder.name]
+            }).then(function(result) {
+                const address = `${result.base_url}/my/invoices/${result.invoice_id}?`
+                let qr_code_svg = new XMLSerializer().serializeToString(codeWriter.write(address, 150, 150));
+                self.env.pos.qr_image = "data:image/svg+xml;base64," + window.btoa(qr_code_svg);
+                let barcode_svg = new XMLSerializer().serializeToString(codeWriter.write(result.barcode, 150, 150));
+                self.env.pos.barcode_image = "data:image/svg+xml;base64," + window.btoa(barcode_svg);
+                self.env.pos.barcode = result.barcode
+                self.env.pos.invoice = result.invoice_name
+            });
             if (this.currentOrder.partial_payment) {
                 await this.showPopup("jobworkpopup", { info: info });
 

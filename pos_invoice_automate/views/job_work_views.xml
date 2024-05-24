@@ -45,18 +45,26 @@
                         <group>
                             <field name="partner_id" string="Customer"/>
                             <field name="bill_number" string="Bill No."/>
-                            <field name="payment_status" string="Payment Status"/>
+                            <field name="payment_status" string="Bill Status"/>
                             <field name="product_ids" string="Garments" widget="many2many_tags"/>
                             <field name="description" string="Job Description"/>
-                            <field name="delivery_dates" string="Delivery Date"/>
+                            <field name="delivery_dates" string="Customer Delivery Date"/>
                         </group>
                         <group>
                             <field name="vendor_id" />
                             <field name="estimated_delivery_dates" string="Estimated Completion Date"/>
-
                         </group>
-                        
                     </group>
+                    <notebook>
+                        <page string="Garments Details">
+                            <field name="product_tmpl_ids">
+                                <tree>
+                                    <field name="display_name" />
+                                    <field name="standard_price" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -113,5 +121,5 @@
               name="Job Works"
               parent="point_of_sale.menu_point_of_sale"
               action="pos_job_work_view_action"
-              sequence="200" groups="base.group_no_one"/>
+              sequence="999"/>
 </odoo>

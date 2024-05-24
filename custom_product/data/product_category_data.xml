@@ -4,6 +4,7 @@
         <record id="product_category_default" model="product.category">
             <field name="name">Default Category</field>
             <field name="property_cost_method">average</field>
+            <field name="property_valuation">real_time</field>
         </record>
     </data>
 </odoo>

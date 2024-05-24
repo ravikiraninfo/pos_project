@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="invoice_partial_sequence" model="ir.sequence">
-        <field name="name">Partial Invoice</field>
-        <field name="code">invoice.partial.payment</field>
-        <field name="prefix">PINV/</field>
-        <field name="padding">4</field>
+    <record id="invoice_new_sequence" model="ir.sequence">
+        <field name="name">Invoice New</field>
+        <field name="code">invoice.new.sequence</field>
+        <field name="prefix">KSS/</field>
+        <field name="padding">5</field>
     </record>
 </odoo>

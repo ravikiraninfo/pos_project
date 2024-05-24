@@ -206,8 +206,8 @@ class PosOrder(models.Model):
     :return: A dictionary containing the invoice details.
     :rtype: dict"""
         invoice_id = self.env['account.move'].search(
-            [('ref', '=', self.search([('pos_reference', '=', id)]).name)])
-        return {'invoice_id': invoice_id and invoice_id[0].id, 'invoice_name': invoice_id.name,
+            [('ref', '!=',False), ('ref', '=', self.search([('pos_reference', 'ilike', id)]).name)], limit=1)
+        return {'invoice_id': invoice_id and invoice_id.id, 'invoice_name': invoice_id.name,
                 'base_url': self.env['ir.config_parameter'].get_param(
                     'web.base.url'), 'barcode': invoice_id.account_barcode}
 

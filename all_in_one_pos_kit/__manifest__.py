@@ -29,7 +29,7 @@
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'website': "https://www.cybrosys.com",
-    'depends': ['hr', 'point_of_sale', 'mrp', 'product_multi_uom_pos','sales_commission_users'],
+    'depends': ['hr', 'point_of_sale', 'mrp', 'product_multi_uom_pos','sales_commission_users', 'pos_partial_payment_odoo'],
     'external_dependencies': {'python': ['twilio', 'pandas']},
     'data': [
         'security/all_in_one_pos_kit_security.xml',

@@ -10,8 +10,8 @@
                 <t t-if="receipt.include_igst">
                     <t id="tax-details">
                         <div>
-                            <t t-esc="IGST" />
-                            <span t-esc="env.pos.format_currency_no_symbol(5)" class="pos-receipt-right-align"/>
+                            IGST
+                            <span t-esc="env.pos.format_currency_no_symbol(receipt.total_tax)" class="pos-receipt-right-align"/>
                         </div>
                     </t>
                 </t>

@@ -25,11 +25,16 @@ class JobWork(models.Model):
         [('new', 'New'), ('in_progress', 'In Progress'), ('received', 'Received'), ('packed', 'Packed'), ('delivered', 'Delivered')],
         string="Stage", default="new")
     product_ids = fields.Many2many("product.product")
+    product_tmpl_ids = fields.Many2many("product.template", compute="_compute_product_tmpl_ids")
+
+    def _compute_product_tmpl_ids(self):
+        for job in self:
+            for product_id in job.product_ids:
+                job.product_tmpl_ids += product_id.product_tmpl_id
 
     def create_jobwork(self, vals):
         service = vals.get("services") and vals.get("services").lower().replace(" ", "_") or False
         invoice = self.env["account.move"].search([("name", "=", vals.get("bill_number"))])
-
         new_vals = {
         'partner_id' : int(vals.get("partner_id")),
         'description' : vals.get("description"),
@@ -40,7 +45,7 @@ class JobWork(models.Model):
         'delivery_dates' :  vals.get("delivery_dates"),
         'payment_status' :  vals.get("payment_status"),
         "jobwork_title": vals.get("bill_number"),
-        "bill_number": invoice.id,
+        "bill_number": invoice and invoice.id ,
         }
 
         self.env["job.work"].create(new_vals)

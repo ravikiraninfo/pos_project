@@ -32,7 +32,7 @@ class ProductTemplate(models.Model):
                 if self.mrp_price < 1000:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst')).ids
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
                 self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
         self.standard_price = self.mrp_price
@@ -75,12 +75,12 @@ class ProductProduct(models.Model):
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
-                if self.standard_price < 1000:
-                    self.taxes_id = [19, 15]
+                if self.mrp_price < 1000:
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
         # self.standard_price = self.mrp_price
 
     def compute_product_code(self):
