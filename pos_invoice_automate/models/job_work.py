@@ -29,6 +29,7 @@ class JobWork(models.Model):
 
     def _compute_product_tmpl_ids(self):
         for job in self:
+            job.product_tmpl_ids = False
             for product_id in job.product_ids:
                 job.product_tmpl_ids += product_id.product_tmpl_id
 
@@ -38,7 +39,7 @@ class JobWork(models.Model):
         new_vals = {
         'partner_id' : int(vals.get("partner_id")),
         'description' : vals.get("description"),
-        'product_ids' : [(4, int(vals.get("product_ids")))],
+        # 'product_ids' : [(4, vals.get("product_ids"))],
         'services' :  service,
         'priority' :  '1' if vals.get("priority") else '0',
         'estimated_delivery_dates' :  vals.get("estimated_delivery_dates"),
@@ -48,7 +49,10 @@ class JobWork(models.Model):
         "bill_number": invoice and invoice.id ,
         }
 
-        self.env["job.work"].create(new_vals)
+        jd = self.env["job.work"].create(new_vals)
+        for pro_id in vals.get("product_ids"):
+            pro = self.env["product.product"].browse(int(pro_id))
+            jd.product_ids = [(4, int(pro.id))]
 
     def mark_as_sent(self):
         self.stage = 'in_progress'

@@ -18,9 +18,11 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
                 productitems.push(line.product)
             });
             this.state = useState({
-                selectedItem: false,
+                selectedItem: [],
+                itemQty : {},
                 selectedService: false,
                 isUrgent: false,
+                currentInputQty: 0,
                 deliveryDate: false,
                 estimatedDeliveryDate: false,
                 partnerName: this.propsInfo.partner && this.propsInfo.partner.name || "",
@@ -35,6 +37,22 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
             });
         }
 
+        _onSelectProduct (pro_id) {
+            this.state.selectedItem.push(pro_id)
+        }
+
+        async _onChangeQty (pro_id) {
+            // this.state.itemQty[pro_id]
+            console.log("pro_id qty", pro_id)
+            await this.rpc({
+                model: 'product.product',
+                method: 'set_jobwork_qty',
+                args: [[], {
+                    prod_id: pro_id,
+                    qty: this.state.currentInputQty,
+                }],
+                
+            });        }
         
 
         getPayload() {
@@ -62,7 +80,7 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
             var values = {
                 bill_number: this.propsInfo.currentOrder.pos.invoice, product_ids: this.state.selectedItem, services: this.state.selectedService, priority: this.state.isUrgent, estimated_delivery_dates: this.state.estimatedDeliveryDate, delivery_dates: this.state.deliveryDate, payment_status: this.propsInfo.currentOrder.partial_payment && "partial" || "paid", partner_id: this.propsInfo.partner.id, description: this.state.itemDetail
             }
-            let partnerId = this.rpc({
+            this.rpc({
                 model: 'job.work',
                 method: 'create_jobwork',
                 args: [[], values],

@@ -57,10 +57,16 @@
                     </group>
                     <notebook>
                         <page string="Garments Details">
-                            <field name="product_tmpl_ids">
+                            <!-- <field name="product_tmpl_ids">
                                 <tree>
                                     <field name="display_name" />
-                                    <field name="standard_price" />
+                                    <field name="qty_for_jobwork" />
+                                </tree>
+                            </field> -->
+                            <field name="product_ids">
+                                <tree>
+                                    <field name="display_name" />
+                                    <field name="qty_for_jobwork" />
                                 </tree>
                             </field>
                         </page>
