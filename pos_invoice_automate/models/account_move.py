@@ -27,54 +27,20 @@ class AccountMove(models.Model):
 
     @api.depends('posted_before', 'state', 'journal_id', 'date', 'payment_state')
     def _compute_name(self):
-        """ OVERRIDE """
-        self = self.sorted(lambda m: (m.date, m.ref or '', m.id))
-
+        super()._compute_name()
         for move in self:
-            print('\n\n\nMOvE', move.name)
-            if move.state == 'cancel':
-                continue
+            name_splitted = move.name.split("/")
+            if move.name and move.name.startswith("KSS") and name_splitted[1] == "24-24":
+                current_year = fields.Date.today().year
+                year_str = str(current_year)[-2:] + "-" + str(current_year + 1)[-2:]
+                move.name = "KSS/" + year_str + "/" + name_splitted[2]
+                
+            if move.name and move.payment_state == "partial" and move.name.startswith("KSS"):
+                move.name = "KSA" + move.name[3:]
 
-            move_has_name = move.name and move.name != '/'
-
-            if move_has_name or move.state != 'posted':
-                if move.payment_state == "partial" and move.name.startswith("KSS") and not move.ref:
-                    move.name = "KSA" + move.name[3:]
-                    continue
-                if move.payment_state != "partial" and move.name and move.name.startswith("KSA"):
-                    move.name = "KSS" + move.name[3:]
-                    continue
-                if not move.posted_before and not move._sequence_matches_date():
-                    if move._get_last_sequence(lock=False):
-                        # The name does not match the date and the move is not the first in the period:
-                        # Reset to draft
-                        move.name = False
-                        continue
-                else:
-                    if (move_has_name and move.posted_before or not move_has_name and move._get_last_sequence(lock=False)) and move.payment_state != "partial":
-                        # The move either
-                        # - has a name and was posted before, or
-                        # - doesn't have a name, but is not the first in the period
-                        # so we don't recompute the name
-                        continue
-                    elif move_has_name and move.name.startswith("KSS/"):
-                        move.name = "KSA" + move.name[3:]
-                        continue
-            if move.payment_state != "partial" and move.name and move.name.startswith("KSA/"):
+            if move.name and move.payment_state != "partial" and move.name.startswith("KSA"):
                 move.name = "KSS" + move.name[3:]
-                continue
-            move_has_name = move.name and move.name != '/'
-            if move.date and (not move_has_name or not move._sequence_matches_date()) and (move.name and not move.name.startswith("KSA/")) and move.ref:
-                name = move.env['ir.sequence'].sudo().next_by_code('invoice.new.sequence')
-                print('\n\n\n1-1-1-1-1', name)
-                move.name = "KSS/" + "24-25" + name[3:]
-            if not move_has_name and move.name and move.name.startswith("KSA/"):
-                move.name = "KSS" + move.name[3:]
-
-
-        self.filtered(lambda m: not m.name and not move.quick_edit_mode).name = '/'
-        self._inverse_name()
-
+                
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
