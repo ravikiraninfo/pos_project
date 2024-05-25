@@ -44,10 +44,21 @@
                      <div>
 								<h4 class="jobwork_label">Select Items</h4>
 							</div>
-                     <select class="selected_item form-select w-25 ms-1 jobwork_input" name="select_item" t-model="state.selectedItem">
+                     <div class="input_checkbox_div">
+                        <t t-foreach="state.productItems" t-as="product" t-key="product.id" t-att-value="product.id" >
+                           <div>
+                              <input class="input_checkbox" type="checkbox" />
+                              <t t-esc="product.name" />
+                              <input style="text-align:center; font-size: 20px; margin-left: 20px; width: 50px; height: 50px;" placeholder="QTY" type="number" />
+                           </div>
+                           <br/>
+                        </t>
+                     </div>
+
+                     <!-- <select class="selected_item form-select w-25 ms-1 jobwork_input" name="select_item" t-model="state.selectedItem">
                         <option />
-                        <option t-foreach="state.productItems" t-as="product" t-key="product.id" t-att-value="product.id" t-esc="product.name" />
-                     </select>
+                        <option t-foreach="state.productItems" t-as="product" t-key="product.id" t-att-value="product.id" t-esc="product.name" type="checkbox" />
+                     </select> -->
 					</div>
                 <div class="row">
                      <div>
@@ -64,7 +75,7 @@
 								<h4 class="jobwork_label">Urgent</h4>
 							</div>
                     <div>
-								<input class="align-middle jobwork_input" type="checkbox" t-model="state.isUrgent" />
+								<input class="input_checkbox" type="checkbox" t-model="state.isUrgent" />
 							</div>
 						</div>
             </div>

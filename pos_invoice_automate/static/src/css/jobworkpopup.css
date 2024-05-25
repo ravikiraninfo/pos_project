@@ -12,3 +12,12 @@
 .jobwork_input {
     font-size: 20px;
 }
+
+input[type="checkbox"].input_checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.input_checkbox_div {
+    font-size: 20px;
+}
