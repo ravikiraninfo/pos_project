@@ -35,7 +35,6 @@ odoo.define('pos_button.CustomButtonPaymentScreen', function (require) {
             set_igst() {
                 if (this.currentOrder.include_igst === false) {
                     this.currentOrder.include_igst = true;
-                    console.log("this.currentOrder.include_igst", this.currentOrder.include_igst)
                     // var validate = this.root.el
                     // $(validate).addClass('highlight');
                 } else {

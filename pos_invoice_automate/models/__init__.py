@@ -27,3 +27,4 @@ from . import account_move
 from . import job_work
 from . import rea_partner
 from . import product
+from . import job_work_product

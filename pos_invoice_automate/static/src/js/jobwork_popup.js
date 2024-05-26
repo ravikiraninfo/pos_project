@@ -33,26 +33,50 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
                 priceValue: this.props.priceValue,
                 productRef: this.props.startingValue,
                 productImg: this.props.productImage,
-                productItems: productitems
+                productItems: productitems,
+                product_checked : false,
+                jobwork_product_ids : []
             });
         }
 
         _onSelectProduct (pro_id) {
-            this.state.selectedItem.push(pro_id)
+            var item_checkbox_id = "item_checkbox_" + pro_id
+            const checkbox = document.getElementById(item_checkbox_id);
+
+            const isChecked = checkbox.checked;
+            if (isChecked && !this.state.selectedItem.includes(pro_id)) {
+                this.state.selectedItem.push(pro_id)
+            } else if (!isChecked && this.state.selectedItem.includes(pro_id)) {
+                this.state.selectedItem.pop(pro_id)   
+            }
+
+            
         }
 
         async _onChangeQty (pro_id) {
-            // this.state.itemQty[pro_id]
-            console.log("pro_id qty", pro_id)
+            var input_class = ".input_qty_" + pro_id
+            var pro_qty = $(input_class).val();
+            if (!this.state.selectedItem.includes(pro_id)) {
+                return
+            }
+            var self = this
+
             await this.rpc({
-                model: 'product.product',
+                model: 'job.work.product',
                 method: 'set_jobwork_qty',
                 args: [[], {
                     prod_id: pro_id,
-                    qty: this.state.currentInputQty,
+                    qty: pro_qty,
                 }],
                 
-            });        }
+            }).then(function (jobworkproduct) {
+                if (jobworkproduct) {
+                    self.state.jobwork_product_ids.push(jobworkproduct)
+                }
+
+            }); 
+        
+        }
         
 
         getPayload() {
@@ -78,7 +102,7 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
 
         confirm() {
             var values = {
-                bill_number: this.propsInfo.currentOrder.pos.invoice, product_ids: this.state.selectedItem, services: this.state.selectedService, priority: this.state.isUrgent, estimated_delivery_dates: this.state.estimatedDeliveryDate, delivery_dates: this.state.deliveryDate, payment_status: this.propsInfo.currentOrder.partial_payment && "partial" || "paid", partner_id: this.propsInfo.partner.id, description: this.state.itemDetail
+                job_work_product_ids: this.state.jobwork_product_ids, bill_number: this.propsInfo.currentOrder.pos.invoice, product_ids: this.state.selectedItem, services: this.state.selectedService, priority: this.state.isUrgent, estimated_delivery_dates: this.state.estimatedDeliveryDate, delivery_dates: this.state.deliveryDate, payment_status: this.propsInfo.currentOrder.partial_payment && "partial" || "paid", partner_id: this.propsInfo.partner.id, description: this.state.itemDetail
             }
             this.rpc({
                 model: 'job.work',

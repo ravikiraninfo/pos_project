@@ -63,10 +63,10 @@
                                     <field name="qty_for_jobwork" />
                                 </tree>
                             </field> -->
-                            <field name="product_ids">
+                            <field name="job_work_product_ids">
                                 <tree>
-                                    <field name="display_name" />
-                                    <field name="qty_for_jobwork" />
+                                    <field name="product_id" />
+                                    <field name="qty_for_job_work" />
                                 </tree>
                             </field>
                         </page>
