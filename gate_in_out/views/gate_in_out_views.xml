@@ -55,6 +55,7 @@
                         </group>
                         <group>
                             <field name="goods_return" attrs="{'invisible': [('type', '=', 'in')]}" />
+                            <field name="voucher_number" attrs="{'invisible': [('type', '=', 'in')]}" />
                             <field name="description" attrs="{'invisible': [('type', '=', 'out')]}" />
                             <field name="receipt_invoice" />
                             <field name="courier_company" />

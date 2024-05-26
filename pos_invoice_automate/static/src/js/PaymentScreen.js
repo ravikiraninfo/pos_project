@@ -80,7 +80,6 @@ odoo.define('pos_invoice_automate.PaymentScreen', function(require) {
 //                     syncOrderResult = this.env.pos.push_single_order(this.currentOrder);
 //                     // 2. Invoice.
 //                     if (this.shouldDownloadInvoice() && this.currentOrder.is_to_invoice()) {
-//                         console.log("syncOrderResult.length", Boolean(syncOrderResult))
 //                         if (syncOrderResult) {
 //                             await this.env.legacyActionManager.do_action('pos_invoice_automate.account_invoices_template', {
 //                                 additional_context: {

@@ -22,8 +22,6 @@ odoo.define('product_multi_uom_pos.multi_uom_pos', function(require) {
             var price = splitTargetValue[0]
             var uomId = splitTargetValue[1]
             var uomName = splitTargetValue[2]
-            console.log('pppp',uomId)
-            console.log('ccc',uomName)
             // Set the selected unit of measure on the order line
 //            this.props.line.set_uom({0:uomId,1:uomName})
 

@@ -17,11 +17,12 @@ class GateInOut(models.Model):
     delivery_boy_phone = fields.Char("Delivery Boy Phone")
     goods_quantity = fields.Float()
     product_tmpl_ids = fields.Many2many("product.template")
-    gate_in_date = fields.Datetime()
-    gate_out_date = fields.Datetime()
+    gate_in_date = fields.Datetime(default=fields.Datetime.now(), readonly=True)
+    gate_out_date = fields.Datetime(default=fields.Datetime.now(), readonly=True)
     no_of_packages = fields.Float("No. Of Packages", required=True)
 
-    goods_return = fields.Float()
+    goods_return = fields.Boolean()
+    voucher_number = fields.Char()
 
     customer_name = fields.Many2one("res.partner")
     description = fields.Char()

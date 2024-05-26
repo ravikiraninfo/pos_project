@@ -27,7 +27,6 @@ odoo.define('all_in_one_pos_kit.pos_show_customer_details_button', function(requ
             //     var current_order = this.env.pos.get_order();
             //     var current_customer = current_order.get_partner();
             //     var all_orders = this.env.pos.db.load('orders');
-            //     console.log("all_orders", all_orders)
             //     // var all_receipts = this.env.pos.get_order().get_orderlines();
             //     if (!current_customer) {
             //         return this.showPopup('ErrorPopup', {

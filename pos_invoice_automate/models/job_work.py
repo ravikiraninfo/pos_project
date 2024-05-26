@@ -38,7 +38,7 @@ class JobWork(models.Model):
     def create_jobwork(self, vals):
         jobwork_product_ids = vals.get("job_work_product_ids")
         service = vals.get("services") and vals.get("services").lower().replace(" ", "_") or False
-        invoice = self.env["account.move"].search([("name", "=", vals.get("bill_number"))])
+        invoice = self.env["account.move"].search([("name", "=", vals.get("bill_number")), ("move_type", "=", "out_invoice")])
         new_vals = {
         'partner_id' : int(vals.get("partner_id")),
         'description' : vals.get("description"),

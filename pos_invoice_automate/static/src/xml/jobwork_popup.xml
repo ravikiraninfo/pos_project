@@ -49,7 +49,7 @@
                            <div>
                               <input class="input_checkbox" t-attf-id="{{ 'item_checkbox_' + product.id }}" type="checkbox" t-on-change="() => this._onSelectProduct(product.id)" />
                               <t t-esc="product.name" />
-                              <input t-attf-class="{{ 'input_qty_' + product.id }}" style="text-align:center; font-size: 20px; margin-left: 20px; width: 50px; height: 50px;" placeholder="QTY" type="number" name="pro_qty" t-on-change="() => this._onChangeQty(product.id)"/>
+                              <input t-attf-class="{{ 'input_qty_' + product.id }}"  t-att-value="1" style="text-align:center; font-size: 20px; margin-left: 20px; width: 50px; height: 50px;" placeholder="QTY" type="number" name="pro_qty" t-on-change="() => this._onChangeQty(product.id)"/>
                            </div>
                            <br/>
                         </t>
@@ -76,7 +76,7 @@
             </div>
                 <div class="row">
                      <div>
-								<h4 class="jobwork_label">Delivery Date</h4>
+								<h4 class="jobwork_label">Customer Delivery Date</h4>
 							</div>
                      <div>
 								<input class="name jobwork_input" type="date" t-model="state.deliveryDate"/>
@@ -84,7 +84,7 @@
 					</div>
                 <div class="row">
                      <div>
-								<h4 class="jobwork_label">Estimated Delivery Date</h4>
+								<h4 class="jobwork_label">Estimated Completion Date</h4>
 							</div>
                      <div>
 								<input class="name jobwork_input" type="date" t-model="state.estimatedDeliveryDate"/>
