@@ -6,7 +6,7 @@ class JobWorkProduct(models.Model):
 
     product_id = fields.Many2one("product.product")
     qty_for_job_work = fields.Float("")
-    job_work_id = fields.Many2one("job.work")
+    job_work_id = fields.Many2one("job.work", ondelete="cascade")
 
     def set_jobwork_qty(self, vals):
         prod = self.env["product.product"].browse(int(vals.get("prod_id")))
