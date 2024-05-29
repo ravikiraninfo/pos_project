@@ -73,9 +73,11 @@ class PurchaseOrder(models.Model):
                 val = {
                     'selected': True,
                     'product_id': product.product_id.id,
-                    'barcode': product.product_id.barcode
+                    'barcode': product.product_id.barcode,
+                    'vendor_product_code': product.vendor_product_code
                 }
                 plist.append((0, 0, val))
+        
         return {
             'name': _('Print Label'),
             'type': 'ir.actions.act_window',
@@ -84,7 +86,7 @@ class PurchaseOrder(models.Model):
             'view_id': self.env.ref(
                 'garazd_product_label.print_product_label_view_form').id,
             'context': {
-                'default_label_ids': plist
+                'default_label_ids': plist,
             },
             'target': 'current'
         }
