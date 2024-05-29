@@ -257,9 +257,9 @@ class PosOrderLine(models.Model):
     """Inherit the class pos_order_line"""
     _inherit = "pos.order.line"
 
-    user_id = fields.Many2many('res.users', string='Salesperson',
+    user_id = fields.Many2one('res.users', string='Salesperson',
                               help="You can see salesperson here")
-    employee_id = fields.Many2many('hr.employee',string="Helper")
+    employee_id = fields.Many2one('hr.employee',string="Helper")
 
     def get_product_details(self, ids):
         """Function to get the product details"""

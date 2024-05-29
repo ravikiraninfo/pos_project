@@ -362,11 +362,18 @@
                             <t t-else="">
                                 <span>
                                     <div  style="margin-left: 630px;">
-                                        
-                                        <strong>CGST (2.5%): <t t-esc="total_cgst_2_5" /></strong><br />
-                                        <strong>SGST (2.5%): <t t-esc="total_sgst_2_5" /></strong><br />
-                                        <strong>CGST (6%): <t t-esc="total_cgst_6" /> </strong><br />
-                                        <strong>SGST (6%): <t t-esc="total_sgst_6" /></strong>
+                                        <t t-if="total_cgst_2_5">
+                                            <strong>CGST (2.5%): <t t-esc="total_cgst_2_5" /></strong><br />
+                                        </t>
+                                        <t t-if="total_sgst_2_5">
+                                            <strong>SGST (2.5%): <t t-esc="total_sgst_2_5" /></strong><br />
+                                        </t>
+                                        <t t-if="total_cgst_6">
+                                            <strong>CGST (6%): <t t-esc="total_cgst_6" /> </strong><br />
+                                        </t>
+                                        <t t-if="total_sgst_6">
+                                            <strong>SGST (6%): <t t-esc="total_sgst_6" /></strong>
+                                        </t>
                                     </div>
                                 </span>
                             </t>
@@ -438,10 +445,18 @@
                             .All disputes subject to Delhi Jurisdiction only.
                             <br/>
                             This is a Computer generated bill Signature is Not Required.
-                            <span style="font-size:15px !important;margin-left:15%">
+                            <!-- <span style="font-size:15px !important;margin-left:15%">
                                 <b>Counter</b>
+                            </span> -->
+                            <br/>
+                            <br/>
+                            <span style="font-size:15px">
+                                <b>Salesperson ID: </b> <t t-if="o.pos_order_ids" t-esc="o.pos_order_ids[0].lines[0].user_id.partner_id.barcode" />
                             </span>
-                            <span style="font-size:15px !important;margin-left:15%">
+                            <span style="font-size:15px !important;margin-left:20%">
+                                <b>Helper ID:</b> <t t-if="o.pos_order_ids" t-esc="o.pos_order_ids[0].lines[0].employee_id.barcode"/>
+                            </span>
+                            <span style="font-size:15px !important;margin-left:25%">
                                 <b>SIGNATURE</b>
                             </span>
                         </div>
@@ -483,12 +498,12 @@
                 <p t-if="not is_html_empty(o.fiscal_position_id.note)" name="note">
                     <span t-field="o.fiscal_position_id.note"/>
                 </p>
-                <p t-if="o.invoice_incoterm_id" name="incoterm">
+                <!-- <p t-if="o.invoice_incoterm_id" name="incoterm">
                     <strong>Incoterm:</strong>
                     <span t-field="o.invoice_incoterm_id.code"/>
                     -
                     <span t-field="o.invoice_incoterm_id.name"/>
-                </p>
+                </p> -->
                 <div id="qrcode" t-if="o.display_qr_code and o.amount_residual > 0">
                     <t t-set="qr_code_url" t-value="o._generate_qr_code(silent_errors=True)"/>
                     <p t-if="qr_code_url">

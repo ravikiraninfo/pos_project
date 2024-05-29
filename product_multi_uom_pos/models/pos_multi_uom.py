@@ -48,7 +48,7 @@ class PosMultiUom(models.Model):
     uom_id = fields.Many2one('pos.multi.price', string='Choose a Price')
     profit = fields.Many2one('pos.profit', string="Profit(%)")
 
-    price = fields.Float(string='Sale Price', compute="_compute_price")
+    price = fields.Float(string='Sale Price', compute="_compute_price", readonly=False, store=True)
 
     @api.onchange('profit', 'profit.value', 'product_template_id_2.extra_cost_ids', 'product_template_id.extra_cost_ids')
     def _compute_price(self):
