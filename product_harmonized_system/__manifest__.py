@@ -23,7 +23,7 @@
         "security/product_hs_security.xml",
         "security/ir.model.access.csv",
         "views/hs_code.xml",
-        "views/product_category.xml",
+        # "views/product_category.xml",
         "views/product_template.xml",
     ],
     "demo": ["demo/product_demo.xml"],

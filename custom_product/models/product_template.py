@@ -19,6 +19,9 @@ class ProductTemplate(models.Model):
     extra_details_description = fields.Text("Extra Details")
     list_price = fields.Float(compute="_compute_list_price")
 
+    product_tag_ids = fields.Many2many(string='Work Tags')
+
+
     @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.price")
     def _compute_list_price(self):
         for tmpl in self:
