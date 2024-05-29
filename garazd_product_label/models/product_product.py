@@ -15,6 +15,8 @@ class ProductProduct(models.Model):
     def _get_att_vals(self):
         vals = {}
         for line in self.product_tmpl_id.attribute_line_ids:
+            if line.attribute_id.name.lower() not in ["color", "colour", "fabric"]:
+                continue
             vals[line.attribute_id.name] = ""
             variant_att_vals = self.product_template_attribute_value_ids.mapped("name")
             if line.attribute_id.name.lower() in ["color", 'colour']:
