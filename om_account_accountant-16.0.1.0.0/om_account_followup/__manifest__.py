@@ -24,7 +24,7 @@
         'views/followup_partner_view.xml',
         'report/followup_report.xml',
     ],
-    'demo': ['demo/demo.xml'],
+    # 'demo': ['demo/demo.xml'],
     'images': ['static/description/banner.png'],
     'installable': True,
     'auto_install': False,

@@ -10,7 +10,7 @@ class FollowupFollowup(models.Model):
     _rec_name = 'name'
 
     name = fields.Char(string="Name", related='company_id.name', readonly=True)
-    followup_line = fields.One2many('followup.line', 'followup_id', 'Follow-up', copy=True)
+    followup_line = fields.One2many('followup.line', 'followup_id', string='Follow-up', copy=True)
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.company)
 
     _sql_constraints = [('company_uniq', 'unique(company_id)',
@@ -41,7 +41,7 @@ class FollowupLine(models.Model):
                               store=False,
                               help="Gives the sequence order when displaying a list of follow-up lines.")
     followup_id = fields.Many2one('followup.followup', 'Follow Ups',
-                                  required=True, ondelete="cascade")
+                                  ondelete="cascade")
     delay = fields.Integer('Due Days',
                            help="The number of days after the due date of the "
                                 "invoice to wait before sending the reminder. Could be negative if you want "

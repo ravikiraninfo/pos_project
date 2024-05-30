@@ -21,13 +21,6 @@ class ProductTemplate(models.Model):
 
     product_tag_ids = fields.Many2many(string='Work Tags')
 
-
-    @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.price")
-    def _compute_list_price(self):
-        for tmpl in self:
-            price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
-            tmpl.list_price = sum(tmpl.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
-
     @api.onchange('hsn_code')
     def _onhange_hsncode(self):
         if self.hsn_code:
