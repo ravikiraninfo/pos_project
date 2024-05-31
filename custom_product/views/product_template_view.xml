@@ -48,6 +48,9 @@
             <xpath expr="//page[@name='general_information']//group//group//field[@name='categ_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//page[@name='general_information']//group//group[@name='group_standard_price']//field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             
             
         </field>

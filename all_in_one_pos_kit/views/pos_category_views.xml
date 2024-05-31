@@ -12,4 +12,9 @@
             </xpath>
         </field>
     </record>
+
+    <menuitem id="menu_products_pos_category_purchase"
+        action="point_of_sale.product_pos_category_action"
+        parent="purchase.menu_purchase_config"
+        />
 </odoo>
