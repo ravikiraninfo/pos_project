@@ -17,7 +17,7 @@ class ProductTemplate(models.Model):
     extra_cost_ids = fields.One2many("extra.cost", inverse_name="product_tmpl_id")
 
     extra_details_description = fields.Text("Extra Details")
-    list_price = fields.Float(compute="_compute_list_price")
+    list_price = fields.Float(compute="_compute_list_price", readonly=False, store=True)
 
     product_tag_ids = fields.Many2many(string='Work Tags')
 
@@ -66,6 +66,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     product_code = fields.Char(string="Product Code", compute="compute_product_code")
+    list_price = fields.Monetary(string="Sales Price", readonly=False)
 
     @api.onchange('hsn_code', 'standard_price')
     def _onhange_hsncode(self):

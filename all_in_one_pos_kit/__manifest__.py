@@ -44,6 +44,7 @@
         'views/pos_report_views.xml',
         'views/pos_greetings_views.xml',
         'views/meals_planning_views.xml',
+        'views/pos_category_views.xml',
         'report/all_in_one_pos_kit_templates.xml',
     ],
     'assets': {

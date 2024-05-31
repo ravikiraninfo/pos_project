@@ -76,6 +76,12 @@
                 <field name="product_code"/>
                 <field name="hsn_code"/>
             </xpath>
+            <xpath expr="//field[@name='list_price']" position="attributes">
+                <attribute name="attrs" />
+                <attribute name="invisible"/>
+            </xpath>
+            <xpath expr="//label[@for='lst_price']" position="replace"/>            
+            <xpath expr="//field[@name='lst_price']" position="replace"/>            
         </field>
     </record>
 </odoo>
