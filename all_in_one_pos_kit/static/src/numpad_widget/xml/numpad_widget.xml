@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="all_in_one_pos_kit.NumpadWidget" t-inherit="point_of_sale.NumpadWidget" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//div//button[11]" position="after">
+            <button class="mode-button" t-att-class="{
+                    'selected-mode': props.activeMode === 'discount_amount',
+                    'disabled-mode': !hasManualDiscount
+                }"
+                t-att-disabled="!hasManualDiscount"
+                t-on-click="() => this.changeMode('discount_amount')">Disc (in Amount)</button> 
+        </xpath>
+        <xpath expr="//div//button/t[@t-esc='decimalSeparator']/.." position="after">
+            <xpath expr="//div//button[13]" position="move">
+        </xpath>
+        
+    </t>
+</templates>

@@ -77,7 +77,6 @@ class PosOrder(models.Model):
         if not attachment_invoice:
             report = self.env['ir.actions.report']._render_qweb_pdf(
                 "pos_invoice_automate.account_invoices_template", self.account_move.ids[0])
-            print('reppp',report)
 
             values = {
                 'name': "Invoice" + self.name,

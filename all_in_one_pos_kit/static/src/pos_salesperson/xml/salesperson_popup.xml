@@ -2,9 +2,14 @@
 <!--    Add a popup window-->
 <templates id="template" xml:space="preserve">
    <t t-name="SalesPersonPopup" owl="1">
+      <style>
+      .modal-lg {
+    width: 80%
+}
+      </style>
       <div class="popup product-line-popup">
-         <main class="body">
-            <div>
+         <main class="body" >
+            <div style="padding-left: 20px; text-align: left;">
                <header>
                   <h3>
                      <span>Salespersons/Helpers</span>

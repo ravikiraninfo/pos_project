@@ -31,6 +31,10 @@ class AccountMove(models.Model):
     account_barcode = fields.Char(string='Barcode',
                                   help='Barcode associated with the account '
                                        'move.')
+    # include_igst = fields.Boolean()
+
+    # def set_include_igst(self):
+    #     self.include_igst = True
 
     @api.model
     def create(self, vals):

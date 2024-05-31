@@ -13,6 +13,7 @@ class PrintProductLabelLine(models.TransientModel):
 
     sequence = fields.Integer(default=900)
     selected = fields.Boolean(string='Print', default=True)
+    vendor_product_code = fields.Char()
     wizard_id = fields.Many2one(comodel_name='print.product.label')  # Not make required
     product_id = fields.Many2one(comodel_name='product.product', required=True)
     barcode = fields.Char(compute='_compute_barcode')

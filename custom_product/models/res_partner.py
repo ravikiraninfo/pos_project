@@ -73,9 +73,11 @@ class PurchaseOrder(models.Model):
                 val = {
                     'selected': True,
                     'product_id': product.product_id.id,
-                    'barcode': product.product_id.barcode
+                    'barcode': product.product_id.barcode,
+                    'vendor_product_code': product.vendor_product_code
                 }
                 plist.append((0, 0, val))
+        
         return {
             'name': _('Print Label'),
             'type': 'ir.actions.act_window',
@@ -84,7 +86,7 @@ class PurchaseOrder(models.Model):
             'view_id': self.env.ref(
                 'garazd_product_label.print_product_label_view_form').id,
             'context': {
-                'default_label_ids': plist
+                'default_label_ids': plist,
             },
             'target': 'current'
         }
@@ -95,15 +97,25 @@ class PurchaseOrderLine(models.Model):
 
     partner_rf = fields.Char(string="Bill Reference", related="order_id.partner_ref")
     vendor_product_code = fields.Char(string="Vendor Product Code")
-    hsn_code = fields.Many2one('hsn.tax', string="HSN Code")
+    product_tmpl_id = fields.Many2one("product.template", related="product_id.product_tmpl_id")
+    hsn_code = fields.Many2one('hsn.tax', string="HSN Code", related="product_tmpl_id.hsn_code", readonly=False)
 
     @api.onchange('hsn_code', 'price_unit')
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
-                if self.price_unit < 1000:
-                    self.taxes_id = [19, 15]
+                if self.product_id.product_tmpl_id.mrp_price < 1000:
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
+        
+    def _compute_tax_id(self):
+        for line in self:
+            line = line.with_company(line.company_id)
+            fpos = line.order_id.fiscal_position_id or line.order_id.fiscal_position_id._get_fiscal_position(line.order_id.partner_id)
+            # filter taxes by company
+            taxes = line.product_id.supplier_taxes_id.filtered(lambda r: r.company_id == line.env.company)
+            line.taxes_id = fpos.map_tax(taxes)
+            line.taxes_id += line.hsn_code.tax_ids

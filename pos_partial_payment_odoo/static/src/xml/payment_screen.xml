@@ -15,6 +15,17 @@
               </div>
               </t>
           </xpath>
+          <xpath expr="//div[hasclass('payment-controls')]" position="inside">
+              <div t-ref="include_igst">
+                  <div class="button"
+                       t-ref=""
+                       t-on-click="set_igst"
+                       t-att-class="{ highlight: currentOrder.include_igst }">
+                      <i class="fa fa-file-text-o"/>
+                      Include IGST
+                  </div>
+              </div>
+          </xpath>
     <!--Adding T-ref-->
       <xpath expr="//div[hasclass('next')]" position="attributes">
           <attribute name="t-ref">PartialPayment</attribute>

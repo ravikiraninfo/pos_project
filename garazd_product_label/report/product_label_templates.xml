@@ -6,13 +6,15 @@
             <tr height="160px" style="border:0;margin:0;padding:0;">
                 <td class="col-xs-4 text-center" style="border:0;margin:0;padding:0;">
                     <div style="overflow:hidden; height:45px !important; padding: 3px 3px 0;">
-                         <span t-field="label.product_id.name"/><br/>
-                         <span t-if="label.product_id.product_template_attribute_value_ids"
-                               t-esc="u', '.join(map(lambda x: x.attribute_line_id.attribute_id.name + u': ' + x.name, label.product_id.product_template_attribute_value_ids))"
-                               />
+                        <t t-set="att_vals" t-value="label.product_id._get_att_vals()" />
+                        <t t-foreach="att_vals" t-as="vals">
+                            <span t-if="vals">
+                               <t t-esc="vals"/>: <t t-esc="att_vals[vals]"/>,
+                            </span>
+                        </t>
                     </div>
                       <div t-if="label.product_id.product_code" style="width: 100%; padding: 0; margin: 0; font-size: 12px;">
-                        <span t-field="label.product_id.product_code"/>
+                        <span t-field="label.product_id.product_code"/><t t-esc="label.vendor_product_code"/>
                     </div>
                     <div style="width: 100%; padding: 0; margin: 0; font-size: 21px; font-weight: bold;">
                         <span t-if="label.product_id.currency_id.position == 'before'" t-field="label.product_id.currency_id.symbol"/>

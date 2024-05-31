@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="custom_product_loyalty_program_gift_ewallet_view_form_inherit" model="ir.ui.view">
+        <field name="name">custom.product.loyalty.program.gift.ewallet.view.form.inherit</field>
+        <field name="model">loyalty.program</field>
+        <field name="inherit_id" ref="loyalty.loyalty_program_gift_ewallet_view_form"/>
+        <field name="arch" type="xml">
+            <field name="mail_template_id" position="after">
+                <field name="pos_categ_id" />
+            </field>
+        </field>
+    </record>
+</odoo>

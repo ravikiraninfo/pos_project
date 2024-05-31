@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+ <record id="job_work_tree_view" model="ir.ui.view">
+        <field name="name">job.work.tree</field>
+        <field name="model">job.work</field>
+        <field name="arch" type="xml">
+            <tree string="Job Work" >
+                <field name="bill_number" />
+                <field name="partner_id" />
+                <field name="description" />
+                <field name="services" />
+                <field name="stage" />
+                <field name="payment_status" />
+                <field name="priority" widget="badge" decoration-danger="priority == '1'" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="job_work_form_view" model="ir.ui.view">
+        <field name="name">job.work.form</field>
+        <field name="model">job.work</field>
+        <field name="arch" type="xml">
+            <form string="Job Work" >
+                <header>
+                    <button name="mark_as_sent" string="Send To Vendor" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'new')]}"/>
+                    <button name="mark_as_complete" string="Complete" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'in_progress')]}"/>
+                    <button name="mark_as_packed" string="Pack" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'received')]}"/>
+                    <button name="mark_as_delivered" string="Delivered" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '!=', 'packed')]}"/>
+                    <button name="reset_to_new" string="Reset To New" type="object" class="oe_highlight" attrs="{'invisible': [('stage', '=', 'new')]}"/>
+                    <field name="stage" widget="statusbar" />
+                </header>
+                <sheet string="Job Work">
+                    <widget name="web_ribbon" title="Urgent" bg_color="bg-danger" attrs="{'invisible': [('priority', '=', '0')]}"/>
+
+                    <div class="oe_title pe-0">
+                        <h1 class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex w-100">
+                                <field name="priority" widget="priority" class="me-3"/>
+                                <field name="jobwork_title" class="o_task_name text-truncate w-100 w-md-75 pe-2" placeholder="Task Title..."/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" string="Customer"/>
+                            <field name="bill_number" string="Bill No."/>
+                            <field name="payment_status" string="Bill Status"/>
+                            <field name="product_ids" string="Garments" widget="many2many_tags"/>
+                            <field name="description" string="Job Description"/>
+                            <field name="delivery_dates" string="Customer Delivery Date"/>
+                        </group>
+                        <group>
+                            <field name="vendor_id" />
+                            <field name="estimated_delivery_dates" string="Estimated Completion Date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Garments Details">
+                            <!-- <field name="product_tmpl_ids">
+                                <tree>
+                                    <field name="display_name" />
+                                    <field name="qty_for_jobwork" />
+                                </tree>
+                            </field> -->
+                            <field name="job_work_product_ids">
+                                <tree>
+                                    <field name="product_id" />
+                                    <field name="qty_for_job_work" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_job_work_kanban">
+            <field name="name">job.work.kanban</field>
+            <field name="model">job.work</field>
+            <field name="arch" type="xml">
+                <kanban
+                    default_group_by="stage"
+                    class="o_kanban_small_column o_kanban_job_work"
+                >
+                    <!-- examples="project" -->
+                    <field name="stage" options='{"group_by_tooltip": {"description": "Description"}}'/>
+                    <!-- <field name="user_ids"/> -->
+                    <field name="partner_id"/>
+                    <field name="description"/>
+                    
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <s><field name="order_id" /></s>
+                                            <t><field name="order_id"/></t>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="partner_id" />  
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+
+
+    <record id="pos_job_work_view_action" model="ir.actions.act_window">
+        <field name="name">Job Works</field>
+        <field name="res_model">job.work</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem id="pos_job_work_menu_action"
+              name="Job Works"
+              parent="point_of_sale.menu_point_of_sale"
+              action="pos_job_work_view_action"
+              sequence="999"/>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--    Add a popup window-->
+<templates id="template" xml:space="preserve">
+   <t t-name="selectItemPopup" owl="1">
+      <div class="popup product-line-popup">
+         <main class="body">
+            <div>
+               <header>
+                  <h3>
+                     <span>Select Items for Job Work</span>
+                      <i class="fa fa-times" style="float:right"
+                         t-on-click="cancel"/>
+                      <hr/>
+                  </h3>
+               </header>
+                <div class="row">
+							<div>
+								<span>Items</span>
+							</div>
+                            <!-- <t t-foreach="state.currentOrder.orderline" t-as="line">
+                                <div style="margin-top: 10px;">
+                                    <t t-esc="line.product.name"  />
+                                </div>
+                             </t> -->
+						</div>
+                <br/>
+                     
+                <footer class="footer">
+						<div style="color: white;background: #6EC89B;border-color: transparent;" class="button confirm"
+                             t-on-click="confirm">
+                        	Confirm
+                    	</div>
+                    <div style="color:white;background:#D25B5B;border-color: transparent;" class="button cancel"
+                         t-on-click="cancelb">
+							Cancel
+						</div>
+					</footer>
+            </div>
+         </main>
+      </div>
+   </t>
+</templates>

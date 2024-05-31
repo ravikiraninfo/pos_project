@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    
+    <t t-name="ClosePosPopup" t-inherit="point_of_sale.ClosePosPopup"
+       t-inherit-mode="extension" owl="1">
+        <xpath expr="//main//div[hasclass('payment-methods-overview')]//table" position="before">
+            <t t-set="other_amount" t-value="0" />
+        </xpath>
+        <xpath expr="//main//div[hasclass('payment-methods-overview')]//table//tbody[@t-if='otherPaymentMethods.length &gt; 0']//tr//td[1]" position="before">
+            <t t-set="other_amount" t-value="other_amount + pm.amount" />
+
+            
+        </xpath>
+        <xpath expr="//main//div[hasclass('payment-methods-overview')]//table" position="after">
+            <br/>
+            <br/>
+            <div>
+                Total Cash: <t t-esc="env.pos.format_currency(defaultCashDetails.amount)" />
+            </div>
+            <div>
+                Total Bank:<t t-esc="env.pos.format_currency(other_amount)" />
+            </div>
+        </xpath>
+    </t>
+</templates>

@@ -37,3 +37,4 @@ class ResPartner(models.Model):
     date_of_birth = fields.Char(string="Date Of Birth")
     relation = fields.Char(string="Relation")
     customer_id = fields.Char(string="Customer ID")
+    date_of_anniversary = fields.Date(string="DOA")

@@ -36,8 +36,12 @@ class PosOrderLine(models.Model):
     @api.model
     def create(self, values):
         """Updates UoM in POS order lines"""
-        if values.get('product_uom_id'):
-            values['uom_id'] = values['product_uom_id']
+        # if values.get('product_uom_id'):
+        #     values['uom_id'] = values['product_uom_id']
+        if not values.get("user_id"):
+            values["user_id"] = False
+        if not values.get("employee_id"):
+            values["employee_id"] = False
         return super(PosOrderLine, self).create(values)
 
 

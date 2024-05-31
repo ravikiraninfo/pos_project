@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="CustomerDetailsScreen" owl="1">
+        <div class="customerdetails-screen screen">
+            <div class="screen-content">
+                <div class="top-content">
+                    <div>
+                        <div>
+                            <span><i class="fa fa-close" t-on-click="_onPressClose" /></span>
+                        </div>
+                    </div>
+                    <!-- <div class="search-bar-container sb-customerdetails">
+                        <div class="pos-search-bar">
+                            <i class="fa fa-search" t-on-click="_onPressEnterKey"/> -->
+                            <!-- <input t-ref="search-word-input-partner" placeholder="Search Orders..." size="1" t-on-keyup="updatePartnerList" /> -->
+                            <!-- <input t-ref="search-word-input-order" placeholder="Search Orders..." size="1" /> -->
+                            <!-- <i class="fa fa-times" t-on-click="_clearSearch"/> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                </div>
+                <section class="full-content">
+                    <div class="detail-window">
+                        <section class="subwindow list">
+                            <div class="subwindow-container">
+                                <div class="subwindow-container-fix scrollable-y">
+                                    <table class="detail-list">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <!-- <th t-if="!env.isMobile">Address</th>
+                                                <th t-if="!env.isMobile" class="partner-line-email">Contact</th>
+                                                <th t-if="env.isMobile">ZIP</th>
+                                                <th class="pos-right-align" t-if="isBalanceDisplayed">Balance</th>
+                                                <th class="partner-line-details"></th>
+                                                <th class="partner-line-last-column-placeholder oe_invisible"></th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody class="details-list-contents">
+                                            <t t-foreach="orders" t-as="order"
+                                               t-key="order.id">
+                                                <OrderDetailLine order="order"
+                                                            selectedOrder="state.selectedOrder"
+                                                            onClickOrder.bind="clickOrder"
+                                                            />
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <!-- <div t-if="state.query" class="search-more-button">
+                                        <div class="button" t-on-click="_onPressEnterKey">Search more</div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+
+</templates>

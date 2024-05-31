@@ -36,13 +36,14 @@ odoo.define('all_in_one_pos_kit.Orderline', function(require) {
          * @returns {Object} - The JSON object that represents the order line.
          */
         export_as_JSON() {
+            console.log("this.salesperson", this.salesperson)
             if (this.salesperson) {
-                var user_id = this.salesperson.map(salesperson => salesperson[0]);
+                var user_id = this.salesperson[0][0];
             } else {
                 var user_id = ''
             }
             if (this.helpperson) {
-                var employee_id = this.helpperson.map(helpperson => helpperson[0]);
+                var employee_id = this.helpperson[0][0];
             } else {
                 var employee_id = ''
             }

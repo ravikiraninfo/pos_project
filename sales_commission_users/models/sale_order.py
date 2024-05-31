@@ -104,7 +104,7 @@ class PosOrder(models.Model):
         for line in self.lines:
             for usr in line.user_id:
                 user.append(usr)
-        user_list = set(usr)
+        user_list = set(user)
         for com in user_list:
             commission_amount = 0.0
             description = ''

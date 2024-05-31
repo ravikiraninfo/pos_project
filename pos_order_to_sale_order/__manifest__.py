@@ -8,11 +8,11 @@
     "author": "GRAP,Odoo Community Association (OCA)",
     "category": "Point Of Sale",
     "license": "AGPL-3",
-    "depends": ["point_of_sale", "sale"],
+    "depends": ["point_of_sale", "sale", "custom_product"],
     "maintainers": ["legalsylvain"],
     "development_status": "Production/Stable",
     "website": "https://github.com/OCA/pos",
-    "data": ["views/view_res_config_settings.xml"],
+    "data": ["views/view_res_config_settings.xml", "views/sale_order_views.xml"],
     "assets": {
         "point_of_sale.assets": [
             "pos_order_to_sale_order/static/src/css/pos.css",

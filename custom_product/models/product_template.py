@@ -14,16 +14,23 @@ class ProductTemplate(models.Model):
     product_code = fields.Char(string="Product Code")
     hsn_code = fields.Many2one('hsn.tax', string="HSN Code")
 
+    extra_cost_ids = fields.One2many("extra.cost", inverse_name="product_tmpl_id")
+
+    extra_details_description = fields.Text("Extra Details")
+    list_price = fields.Float(compute="_compute_list_price")
+
+    product_tag_ids = fields.Many2many(string='Work Tags')
+
     @api.onchange('hsn_code')
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
                 if self.mrp_price < 1000:
-                    self.taxes_id = [19, 15]
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
         self.standard_price = self.mrp_price
 
     @api.onchange('price_selection')
@@ -54,14 +61,6 @@ class ProductTemplate(models.Model):
             'detailed_type': 'product'
         })
 
-    @api.onchange('pos_multi_uom_ids')
-    def _onchange_pos_multi_uom_ids(self):
-        price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
-        price = sum(self.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
-        self.write({
-            'list_price': price
-        })
-
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
@@ -72,17 +71,19 @@ class ProductProduct(models.Model):
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
-                if self.standard_price < 1000:
-                    self.taxes_id = [19, 15]
+                if self.mrp_price < 1000:
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.id not in [16, 21, 23, 24]).ids
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
         # self.standard_price = self.mrp_price
 
     def compute_product_code(self):
         for rec in self:
-            latest_seller = rec.seller_ids.sorted('date_start', reverse=True)[0]
+            latest_seller = rec.seller_ids.sorted('date_start', reverse=True)
+            if latest_seller:
+                latest_seller = latest_seller[0]
             string_value = str(rec.standard_price).replace('.', '')
             mapping = self.env['purchase.price.code'].search_read(domain=[],
                                                                   fields=['name', 'code'])
@@ -90,8 +91,7 @@ class ProductProduct(models.Model):
             result = ''.join(mapping_dict.get(digit, digit) for digit in string_value)
             rec.product_code = str(rec.pos_categ_id.sequence) + "-" + str(
                 latest_seller.partner_id.supplier_code) + "-" + str(
-                rec.create_date.date().strftime("%d%m%y")) + "-" + result + "-" + str(
-                latest_seller.product_code)
+                rec.create_date.date().strftime("%d%m%y")) + "-" + result + "-"
 
     @api.onchange('price_selection')
     def _onchane_price_selection(self):
@@ -103,13 +103,14 @@ class ProductProduct(models.Model):
 
     @api.model
     def create(self, vals):
+        vals["categ_id"] = self.env.ref("custom_product.product_category_default").id
         liset_price = [(5, 0, 0)]
         res = super(ProductProduct, self).create(vals)
-        if not res.pos_categ_id:
-            raise ValidationError(_("Please add category and code"))
+        # if not res.pos_categ_id:
+        #     raise ValidationError(_("Please add category and code"))
         str_val = ""
         if res.pos_categ_id:
-            str_val = str(res.pos_categ_id.sequence) if res.pos_categ_id.sequence else False + " "
+            str_val = str(res.pos_categ_id.sequence) if res.pos_categ_id.sequence else "" + " "
         if res.product_template_attribute_value_ids:
             str_val = str_val + "("
             for att in res.product_template_attribute_value_ids:

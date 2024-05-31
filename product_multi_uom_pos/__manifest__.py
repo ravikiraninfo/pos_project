@@ -29,7 +29,7 @@
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'website': "https://www.cybrosys.com",
-    'depends': ['base', 'point_of_sale'],
+    'depends': ['point_of_sale'],
     'data':
         [
             'security/ir.model.access.csv',

@@ -4,8 +4,33 @@
     customer details, barcode and invoice number in pos receipt -->
     <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt"
        t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//div//t[@t-if='isTaxIncluded']" position="replace">
+            <t t-if="isTaxIncluded">
+                <t t-if="receipt.include_igst">
+                    <t id="tax-details">
+                        <div>
+                            IGST
+                            <span t-esc="env.pos.format_currency_no_symbol(receipt.total_tax)" class="pos-receipt-right-align"/>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <t id="tax-details" t-foreach="receipt.tax_details" t-as="tax" t-key="tax.tax.id">
+                        <div>
+                            <t t-esc="tax.name" />
+                            <span t-esc="env.pos.format_currency_no_symbol(tax.amount)" class="pos-receipt-right-align"/>
+                        </div>
+                    </t>
+                </t>
+                <div>
+                    Total Taxes
+                    <span t-esc="env.pos.format_currency(receipt.total_tax)" class="pos-receipt-right-align"/>
+                </div>
+            </t>
+        </xpath>
         <xpath expr="//div[hasclass('pos-receipt-contact')]" position="inside">
-            <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].customer_details">
+            <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1] and this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].customer_details">
                 <div style="font-weight:bold;">Customer Details:
                     </div>
                 <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].customer_name and this.env.pos.selectedOrder.partner.name">
@@ -34,17 +59,17 @@
                     </div>
                 </t>
                 <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].customer_vat and this.env.pos.selectedOrder.partner.vat">
-                <div style="font-weight:bold;">Vat:
-                    <t t-esc="this.env.pos.selectedOrder.partner.vat"/>
-                </div>
+                    <div style="font-weight:bold;">Vat:
+                        <t t-esc="this.env.pos.selectedOrder.partner.vat"/>
+                    </div>
+                </t>
             </t>
-            </t>
-            <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].invoice_number and this.env.pos.invoice">
+            <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1] and this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].invoice_number and this.env.pos.invoice">
                 <div style="font-weight:bold;">Invoice Number:
                     <t t-esc="this.env.pos.invoice"/>
                 </div>
             </t>
-            <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].barcode">
+            <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1] and this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].barcode">
                 <t t-if="this.env.pos.res_config_settings[this.env.pos.res_config_settings.length -1].barcode_type === 'qr_code' and this.env.pos.invoice">
                     <div style="font-weight:bold;">
                         <img t-attf-src="{{this.env.pos.qr_image}}"

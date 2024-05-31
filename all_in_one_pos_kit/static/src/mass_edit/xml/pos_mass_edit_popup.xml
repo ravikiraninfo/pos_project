@@ -35,7 +35,7 @@
                                     </b>
                                     </td>
                                     <td>
-                                        <input t-model="line['quantity']" type="number" name="quantity"/>
+                                        <input t-model="line['quantityStr']" t-on-change="ev => this.sendInput(ev, line['id'])" type="number" name="quantity"/>
                                     </td>
                                     <td>
                                         <input t-model="line['price']" type="number" name="unitPrice"/>
@@ -45,7 +45,7 @@
                                     </td>
                                     <td>
                                         <button class="input-button numpad-backspace"
-                                                t-on-mousedown.prevent="() => this.sendInput(line['id'])">
+                                                t-on-mousedown.prevent="() => this.removeLine(line)">
                                             <i class="fa fa-trash"/>
                                          </button>
                                     </td>

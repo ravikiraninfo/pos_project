@@ -19,7 +19,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class ProductTemplate(models.Model):
@@ -34,6 +34,13 @@ class ProductTemplate(models.Model):
     pos_multi_uom_ids = fields.One2many('pos.multi.uom', 'product_template_id',
                                         string="POS Multiple Price",
                                         )
+    
+    @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.price")
+    def _compute_list_price(self):
+        for tmpl in self:
+            price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
+            tmpl.list_price = sum(tmpl.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
+
 
     def _compute_multi_uom(self):
         """

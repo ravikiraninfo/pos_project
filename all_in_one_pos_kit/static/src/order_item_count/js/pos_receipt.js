@@ -13,6 +13,7 @@ odoo.define('all_in_one_pos_kit.OrderReceipt', function(require) {
                 sum += t.quantity;
             })
             result.sum = sum
+            result.include_igst = this.include_igst
             return result;
         }
     }

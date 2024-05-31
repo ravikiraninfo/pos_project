@@ -206,8 +206,8 @@ class PosOrder(models.Model):
     :return: A dictionary containing the invoice details.
     :rtype: dict"""
         invoice_id = self.env['account.move'].search(
-            [('ref', '=', self.search([('pos_reference', '=', id)]).name)])
-        return {'invoice_id': invoice_id.id, 'invoice_name': invoice_id.name,
+            [('ref', '!=',False), ('ref', '=', self.search([('pos_reference', 'ilike', id)]).name)], limit=1)
+        return {'invoice_id': invoice_id and invoice_id.id, 'invoice_name': invoice_id.name,
                 'base_url': self.env['ir.config_parameter'].get_param(
                     'web.base.url'), 'barcode': invoice_id.account_barcode}
 
@@ -257,9 +257,9 @@ class PosOrderLine(models.Model):
     """Inherit the class pos_order_line"""
     _inherit = "pos.order.line"
 
-    user_id = fields.Many2many('res.users', string='Salesperson',
+    user_id = fields.Many2one('res.users', string='Salesperson',
                               help="You can see salesperson here")
-    employee_id = fields.Many2many('hr.employee',string="Helper")
+    employee_id = fields.Many2one('hr.employee',string="Helper")
 
     def get_product_details(self, ids):
         """Function to get the product details"""
