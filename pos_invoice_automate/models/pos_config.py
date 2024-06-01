@@ -41,7 +41,7 @@ class PosConfig(models.Model):
         ('days', 'Day'),
         ('weeks', 'Week'),
         ('months', 'Months')
-    ], string='Period', help='Period for the cron scheduler', required=True)
+    ], string='Period', default="days", help='Period for the cron scheduler', required=True)
     is_started = fields.Boolean(default=False, help='Is the cron is started')
     is_stopped = fields.Boolean(default=True, help='Is the cron is stopped')
 

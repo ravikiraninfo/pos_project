@@ -8,15 +8,15 @@
         </xpath>
         <xpath expr="//main//div[hasclass('payment-methods-overview')]//table//tbody[@t-if='otherPaymentMethods.length &gt; 0']//tr//td[1]" position="before">
             <t t-set="other_amount" t-value="other_amount + pm.amount" />
-
-            
         </xpath>
         <xpath expr="//main//div[hasclass('payment-methods-overview')]//table" position="after">
             <br/>
             <br/>
-            <div>
-                Total Cash: <t t-esc="env.pos.format_currency(defaultCashDetails.amount)" />
-            </div>
+            <t t-if="defaultCashDetails">
+                <div>
+                    Total Cash: <t t-esc="env.pos.format_currency(defaultCashDetails.amount)" />
+                </div>
+            </t>
             <div>
                 Total Bank:<t t-esc="env.pos.format_currency(other_amount)" />
             </div>

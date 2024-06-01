@@ -102,32 +102,39 @@ class ProductProduct(models.Model):
             if rec.price_selection == "wh_price":
                 rec.list_price = rec.whole_sale_price
 
-    @api.model
-    def create(self, vals):
-        vals["categ_id"] = self.env.ref("custom_product.product_category_default").id
-        liset_price = [(5, 0, 0)]
-        res = super(ProductProduct, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        liset_price = []
+        for vals in vals_list:
+            vals["categ_id"] = self.env.ref("custom_product.product_category_default").id
+            liset_price = [(5, 0, 0)]
+        res = super(ProductProduct, self).create(vals_list)
         # if not res.pos_categ_id:
         #     raise ValidationError(_("Please add category and code"))
-        str_val = ""
-        if res.pos_categ_id:
-            str_val = str(res.pos_categ_id.sequence) if res.pos_categ_id.sequence else "" + " "
-        if res.product_template_attribute_value_ids:
-            str_val = str_val + "("
-            for att in res.product_template_attribute_value_ids:
-                str_val = str_val + att.product_attribute_value_id.attribute_id.name + "-" + att.product_attribute_value_id.name + ","
-            str_val = str_val + ")"
-        barcode_str = self.env['barcode.nomenclature'].sanitize_ean(
-            "%s%s" % (res.id, datetime.now().strftime("%d%m%y%H%M")))
-        res.barcode = barcode_str
-        res.default_code = str_val
-        price_val = {
-            'uom_id': self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
-        }
-        liset_price.append((0, 0, price_val))
-        res.update({
-            'pos_multi_uom_ids': liset_price,
-        })
+        IrSequence = self.env['ir.sequence'].sudo()
+
+        for product in res:
+            str_val = ""
+            if product.pos_categ_id:
+                str_val = str(product.pos_categ_id.sequence) if product.pos_categ_id.sequence else "" + " "
+            if product.product_template_attribute_value_ids:
+                str_val = str_val + "("
+                for att in product.product_template_attribute_value_ids:
+                    str_val = str_val + att.product_attribute_value_id.attribute_id.name + "-" + att.product_attribute_value_id.name + ","
+                str_val = str_val + ")"
+            barcode_str = self.env['barcode.nomenclature'].sanitize_ean(
+                "%s%s" % (product.id, datetime.now().strftime("%d%m%y%H%M")))
+            # product.barcode = barcode_str
+            product.barcode = IrSequence.next_by_code("product.barcode")
+
+            product.default_code = str_val
+            price_val = {
+                'uom_id': res.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
+            }
+            liset_price.append((0, 0, price_val))
+            product.update({
+                'pos_multi_uom_ids': liset_price,
+            })
         return res
     #
     # def write(self, vals):
