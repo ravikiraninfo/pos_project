@@ -92,7 +92,7 @@ class ProductProduct(models.Model):
             result = ''.join(mapping_dict.get(digit, digit) for digit in string_value)
             rec.product_code = str(rec.pos_categ_id.sequence) + "-" + str(
                 latest_seller.partner_id.supplier_code) + "-" + str(
-                rec.create_date.date().strftime("%d%m%y")) + "-" + result + "-"
+                rec.create_date.date().strftime("%d%m%y")) + "-" + result + "-" 
 
     @api.onchange('price_selection')
     def _onchane_price_selection(self):

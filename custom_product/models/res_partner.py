@@ -66,15 +66,16 @@ class PurchaseOrder(models.Model):
                 line.product_id.product_tmpl_id.sudo().write(vals)
 
     def print_product_label(self):
-        product_ids = self.order_line
+        lines = self.order_line
         plist = [(5, 0, 0)]
-        for product in product_ids:
-            for quantity in range(1, int(product.product_qty)+ 1):
+        for line in lines:
+            for quantity in range(1, int(line.product_qty)+ 1):
                 val = {
                     'selected': True,
-                    'product_id': product.product_id.id,
-                    'barcode': product.product_id.barcode,
-                    'vendor_product_code': product.vendor_product_code
+                    'product_id': line.product_id.id,
+                    'barcode': line.product_id.barcode,
+                    'vendor_product_code': line.vendor_product_code,
+                    'price_unit': line.price_unit
                 }
                 plist.append((0, 0, val))
         

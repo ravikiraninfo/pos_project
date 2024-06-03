@@ -23,6 +23,7 @@ class PrintProductLabelLine(models.TransientModel):
         comodel_name='res.company',
         compute='_compute_company_id',
     )
+    price_unit = fields.Float()
 
     @api.depends('wizard_id.company_id')
     def _compute_company_id(self):

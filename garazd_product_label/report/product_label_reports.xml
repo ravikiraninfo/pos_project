@@ -62,7 +62,7 @@
         <field name="print_report_name">'Product Labels 57x35mm'</field>
     </record> -->
     <record id="action_report_product_label_35x25" model="ir.actions.report">
-        <field name="name">Product Labels 35x25mm (A4, 21 pcs)</field>
+        <field name="name">Product Labels 35x25mm</field>
         <field name="model">print.product.label.line</field>
         <field name="report_type">qweb-pdf</field>
         <field name="paperformat_id" ref="paperformat_label_35x25"/>
