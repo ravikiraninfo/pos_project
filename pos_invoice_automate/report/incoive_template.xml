@@ -40,6 +40,13 @@
         </t>
     </template>
 
+    
+
+    <template id="pai_external_layout_standard" inherit_id="web.external_layout_standard">
+        <xpath expr="//div//div[3]" position="replace"/>
+    </template>
+
+    
     <template id="report_invoice_document_template">
         <t t-call="web.external_layout">
             <t t-set="o" t-value="o.with_context(lang=lang)"/>
