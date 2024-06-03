@@ -39,11 +39,50 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
             });
         }
 
+        
+        async _onSelectService (pro_id) {
+            var input_class = ".service_selection_" + pro_id
+            var service = $(input_class).val();
+            if (!this.state.selectedItem.includes(pro_id)) {
+                return
+            }
+            var self = this
+
+            await this.rpc({
+                model: 'job.work.product',
+                method: 'set_jobwork_services',
+                args: [[], {
+                    prod_id: pro_id,
+                    service: service,
+                }],
+                
+            }).then(function (jobworkproduct) {
+                if (jobworkproduct) {
+                    self.state.jobwork_product_ids.push(jobworkproduct)
+                }
+
+            }); 
+        
+        }
+
         async _onSelectProduct (pro_id) {
             var item_checkbox_id = "item_checkbox_" + pro_id
             const checkbox = document.getElementById(item_checkbox_id);
 
             const isChecked = checkbox.checked;
+            const input_qty_id = document.querySelector('.'+"input_qty_" + pro_id);
+            const service_selection_id = document.querySelector('.'+"service_selection_" + pro_id);
+            const service_detail_id = document.querySelector('.'+"input_service_detail_" + pro_id);
+            if (isChecked) {
+                input_qty_id.style.removeProperty("display")
+                service_selection_id.style.removeProperty("display")
+                service_detail_id.style.removeProperty("display")
+            } else {
+                service_detail_id.style.display = "none"
+                service_selection_id.style.display = "none"
+                input_qty_id.style.display = "none"
+            }
+
             if (isChecked && !this.state.selectedItem.includes(pro_id)) {
                 this.state.selectedItem.push(pro_id)
             } else if (!isChecked && this.state.selectedItem.includes(pro_id)) {
@@ -59,7 +98,7 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
 
             await this.rpc({
                 model: 'job.work.product',
-                method: 'set_jobwork_qty',
+                method: 'create_job_work_product',
                 args: [[], {
                     prod_id: pro_id,
                     qty: pro_qty,
@@ -73,6 +112,32 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
             }); 
 
             
+        }
+
+        
+        async _onChangeServiceDetails (pro_id) {
+            var input_class = ".input_service_detail_" + pro_id
+            var service_details = $(input_class).val();
+            if (!this.state.selectedItem.includes(pro_id)) {
+                return
+            }
+            var self = this
+
+            await this.rpc({
+                model: 'job.work.product',
+                method: 'set_jobwork_service_details',
+                args: [[], {
+                    prod_id: pro_id,
+                    service_details: service_details,
+                }],
+                
+            }).then(function (jobworkproduct) {
+                if (jobworkproduct) {
+                    self.state.jobwork_product_ids.push(jobworkproduct)
+                }
+
+            }); 
+        
         }
 
         async _onChangeQty (pro_id) {

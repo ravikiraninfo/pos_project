@@ -66,6 +66,8 @@
                             <field name="job_work_product_ids">
                                 <tree>
                                     <field name="product_id" />
+                                    <field name="job_work_service" />
+                                    <field name="job_work_service_details" />
                                     <field name="qty_for_job_work" />
                                 </tree>
                             </field>

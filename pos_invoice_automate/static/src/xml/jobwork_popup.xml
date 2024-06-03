@@ -49,13 +49,18 @@
                            <div>
                               <input class="input_checkbox" t-attf-id="{{ 'item_checkbox_' + product.id }}" type="checkbox" t-on-change="() => this._onSelectProduct(product.id)" />
                               <t t-esc="product.name" />
-                              <input t-attf-class="{{ 'input_qty_' + product.id }}"  t-att-value="1" style="text-align:center; font-size: 20px; margin-left: 20px; width: 50px; height: 50px;" placeholder="QTY" type="number" name="pro_qty" t-on-change="() => this._onChangeQty(product.id)"/>
+                              <input t-attf-class="{{ 'input_qty_' + product.id }}"  t-att-value="1" style="display: none; text-align:center; font-size: 20px; margin-left: 20px; width: 50px; height: 50px;" placeholder="QTY" type="number" name="pro_qty" t-on-change="() => this._onChangeQty(product.id)"/>
+                              <select t-attf-class="{{ 'service_selection_' + product.id }} form-select w-25 ms-1 jobwork_input" name="select_service"  t-attf-id="{{ 'service_' + product.id }}" t-on-change="() => this._onSelectService(product.id)" style="display: none; margin-left: 20px;">
+                                 <option />
+                                 <option t-foreach="['Saree Fall', 'Pico', 'Polishing', 'Alteration']" t-as="service" t-key="service" t-att-value="service" t-esc="service"/>
+                              </select>
+                              <input t-attf-class="{{ 'input_service_detail_' + product.id }}" style="display: none; margin-left: 20px; width: 250px; height: 50px;" placeholder="Service Details..." type="text" name="pro_qty" t-on-change="() => this._onChangeServiceDetails(product.id)"/>
                            </div>
                            <br/>
                         </t>
                      </div>
 					</div>
-                <div class="row">
+                <!-- <div class="row">
                      <div>
 								<h4 class="jobwork_label">Services</h4>
 							</div>
@@ -63,7 +68,7 @@
                         <option />
                         <option t-foreach="['Saree Fall', 'Pico', 'Polishing', 'Alteration']" t-as="service" t-key="service" t-att-value="service" t-esc="service"/>
                      </select>
-					</div>
+					</div> -->
                  <div>
                   <div class="row">
 							<div>
