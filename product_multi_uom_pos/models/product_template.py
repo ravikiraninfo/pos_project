@@ -65,6 +65,15 @@ class Productproduct(models.Model):
     pos_multi_uom_ids = fields.One2many('pos.multi.uom', 'product_template_id_2',
                                         string="POS Multiple Price",
                                         )
+    
+    list_price = fields.Float(compute="_compute_list_price", readonly=False, store=True)
+
+    @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.price")
+    def _compute_list_price(self):
+        for prod in self:
+            price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
+            prod.list_price = sum(prod.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
+
 
     def _compute_multi_uom(self):
         """

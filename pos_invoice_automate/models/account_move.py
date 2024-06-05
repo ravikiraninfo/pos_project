@@ -20,7 +20,7 @@ class AccountMove(models.Model):
 
     def compute_amount_in_words(self):
         for rec in self:
-            rec.amount_in_words = num2words(rec.amount_total)
+            rec.amount_in_words = num2words(rec.amount_total).upper()
 
     def _constrains_date_sequence(self):
         pass
@@ -57,9 +57,9 @@ class AccountMoveLine(models.Model):
         amount_cgst_6 = (self.price_subtotal * (cgst_6 and cgst_6.amount or 0)) / 100
         amount_sgst_6 = (self.price_subtotal * (sgst_6 and sgst_6.amount or 0)) / 100
         res = {
-            "total_cgst_2_5": amount_cgst_2_5,
-            "total_sgst_2_5": amount_sgst_2_5,
-            "total_cgst_6": amount_cgst_6,
-            "total_sgst_6": amount_sgst_6,
+            "total_cgst_2_5": round(amount_cgst_2_5, 2),
+            "total_sgst_2_5": round(amount_sgst_2_5, 2),
+            "total_cgst_6": round(amount_cgst_6, 2),
+            "total_sgst_6": round(amount_sgst_6, 2),
         }
         return res

@@ -43,6 +43,9 @@
     
 
     <template id="pai_external_layout_standard" inherit_id="web.external_layout_standard">
+        <xpath expr="//div//div[1]" position="replace">
+            <div/>
+        </xpath>
         <xpath expr="//div//div[3]" position="replace"/>
     </template>
 
@@ -258,71 +261,71 @@
                             <t t-set="total_sgst_2_5" t-value="total_sgst_2_5 + total_tax_amounts.get('total_sgst_2_5')" />
                             <t t-set="total_cgst_6" t-value="total_cgst_6 + total_tax_amounts.get('total_cgst_6')" />
                             <t t-set="total_sgst_6" t-value="total_sgst_6 + total_tax_amounts.get('total_sgst_6')" />
-                            <tr class="no_border">
+                            <tr class="no_border" style="border: none;" >
                                 <td class="no_border"
-                                    style="border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                    style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     <span t-esc="i"/>
                                     <t t-set="i" t-value="i+1"/>
                                 </td>
-                                <td class="text_cnter_row" style="text-align: left !important;">
-                                    <span t-esc="line.product_id.default_code"/>
+                                <td class="text_cnter_row" style="border: none; text-align: left !important;">
+                                    <span t-esc="line.product_id.product_code"/>
                                 </td>
-                                <td class="text_cnter_row">
+                                <td class="text_cnter_row" style="border: none;">
                                     <span t-esc="line.product_id.hsn_code.name"/>
                                 </td>
-                                <td class="text_cnter_row">
+                                <td class="text_cnter_row" style="border: none;">
                                     <span t-esc="line.quantity"/>
                                     <t t-set="q" t-value="q+line.quantity"/>
                                 </td>
-                                <td class="text_cnter_row">
+                                <td class="text_cnter_row" style="border: none;">
                                     <span class="text-nowrap" t-field="line.discount"/>
                                 </td>
-                                <td class="text_cnter_row">
-                                    <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"
-                                          id="line_tax_ids"/>
+                                <td class="text_cnter_row" style="border: none;">
+                                    <t t-set="total_tax" t-value="sum(line.tax_ids.mapped('amount'))"/>
+                                    <span t-esc="total_tax" id="line_tax_ids"/> %
                                 </td>
-                                <td class="text_cnter_row">
+                                <td class="text_cnter_row" style="border: none;">
                                     <span class="text-nowrap" t-field="line.price_total"
                                     />
                                     <t t-set="t" t-value="line.price_total+t"/>
                                 </td>
                             </tr>
                         </t>
-                        <t t-foreach="o.row_check" t-as="length">
+                        <!-- <t t-foreach="o.row_check" t-as="length">
                             <tr class="no_border">
                                 <td class="no_border"
-                                    style="padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
                                 <td class="no_border"
-                                    style="padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
                                 <td class="no_border"
-                                    style="padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
                                 <td class="no_border"
-                                    style="padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
                                 <td class="no_border"
-                                    style="padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
                                 <td class="no_border"
-                                    style="padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
                                 <td class="no_border"
-                                    style="padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
                             </tr>
                         </t>
                         <tr class="no_border">
-                            <td class="text_cnter_row_1">
+                            <td class="text_cnter_row_1" style="border: none;">
                             </td>
-                            <td class="text_cnter_row_1">
+                            <td class="text_cnter_row_1" style="border: none;">
                             </td>
-                            <td class="text_cnter_row_1">
+                            <td class="text_cnter_row_1" style="border: none;">
                             </td>
-                            <td class="text_cnter_row_1">
+                            <td class="text_cnter_row_1" style="border: none;">
                             </td>
-                            <td class="text_cnter_row_1">
+                            <td class="text_cnter_row_1" style="border: none;">
                             </td>
-                            <td class="text_cnter_row_1">
+                            <td class="text_cnter_row_1" style="border: none;">
                             </td>
 
-                            <td class="text_cnter_row_1">
+                            <td class="text_cnter_row_1" style="border: none;">
                             </td>
-                        </tr>
+                        </tr> -->
 
                         <tr class="no_border">
                             <td class="text_cnter_row">
@@ -368,7 +371,7 @@
                             </t>
                             <t t-else="">
                                 <span>
-                                    <div  style="margin-left: 630px;">
+                                    <div  style="margin-left: 45%;">
                                         <t t-if="total_cgst_2_5">
                                             <strong>CGST (2.5%): <t t-esc="total_cgst_2_5" /></strong><br />
                                         </t>
@@ -436,14 +439,14 @@
                             <span style="font-size:25px !important">
                                 <b>Terms &amp; Conditions:</b>
                             </span>
-                            <span style="font-size:25px !important;margin-left:25%">
+                            <span style="font-size:25px !important;margin-left:50%; padding-right:0;">
                                 <b>KUMAR SAREE GHAR PVT LTD</b>
                                 <br/>
                             </span>
                             No gaurantee for colour cloths and zari.
                             <br/>
                             All Goods dry Cleaned Only.
-                            <span style="font-size:20px !important;margin-left:15%">
+                            <span style="font-size:20px !important;margin-left:30%">
                                 <b>Thanks For Visit</b>
                                 <br/>
                             </span>

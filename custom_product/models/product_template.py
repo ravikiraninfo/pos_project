@@ -66,18 +66,17 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     product_code = fields.Char(string="Product Code", compute="compute_product_code")
-    list_price = fields.Monetary(string="Sales Price", readonly=False)
 
     @api.onchange('hsn_code', 'standard_price')
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
-                if self.mrp_price < 1000:
+                if self.standard_price < 1000:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst')).ids
         # self.standard_price = self.mrp_price
 
     def compute_product_code(self):
@@ -85,7 +84,11 @@ class ProductProduct(models.Model):
             latest_seller = rec.seller_ids.sorted('date_start', reverse=True)
             if latest_seller:
                 latest_seller = latest_seller[0]
+            value_after_dec = str(rec.standard_price).split(".")[1]
             string_value = str(rec.standard_price).replace('.', '')
+
+            if int(value_after_dec) == 0:
+                string_value = str(int(rec.standard_price))
             mapping = self.env['purchase.price.code'].search_read(domain=[],
                                                                   fields=['name', 'code'])
             mapping_dict = {item['name']: item['code'] for item in mapping}

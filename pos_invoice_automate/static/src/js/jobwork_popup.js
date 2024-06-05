@@ -12,17 +12,19 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
         }
         setup() {
             super.setup();
-            this.propsInfo = this.props.info
-            var productitems = []
+            this.propsInfo = this.props.info;
+            var productitems = [];
             _.each(this.propsInfo.orderlines, function (line) {
                 productitems.push(line.product)
             });
+            
             this.state = useState({
                 selectedItem: [],
                 itemQty : {},
                 selectedService: false,
                 isUrgent: false,
                 currentInputQty: 0,
+                jobwork_product: {},
                 deliveryDate: false,
                 estimatedDeliveryDate: false,
                 partnerName: this.propsInfo.partner && this.propsInfo.partner.name || "",
@@ -95,21 +97,25 @@ odoo.define('pos_product_creation.jobworkpopup', function(require) {
                 return
             }
             var self = this
+            
+            if (!this.state.jobwork_product.hasOwnProperty(pro_id)) {
 
-            await this.rpc({
-                model: 'job.work.product',
-                method: 'create_job_work_product',
-                args: [[], {
-                    prod_id: pro_id,
-                    qty: pro_qty,
-                }],
-                
-            }).then(function (jobworkproduct) {
-                if (jobworkproduct) {
-                    self.state.jobwork_product_ids.push(jobworkproduct)
-                }
-
-            }); 
+                await this.rpc({
+                    model: 'job.work.product',
+                    method: 'create_job_work_product',
+                    args: [[], {
+                        prod_id: pro_id,
+                        qty: pro_qty,
+                    }],
+                    
+                }).then(function (jobworkproduct) {
+                    if (jobworkproduct) {
+                        self.state.jobwork_product_ids.push(jobworkproduct)
+                        self.state.jobwork_product[pro_id] = jobworkproduct
+                    }
+                    
+                }); 
+            }
 
             
         }
