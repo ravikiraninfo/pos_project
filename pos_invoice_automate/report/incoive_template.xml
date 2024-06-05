@@ -267,24 +267,24 @@
                                     <span t-esc="i"/>
                                     <t t-set="i" t-value="i+1"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none; text-align: left !important;">
+                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important; text-align: left !important;">
                                     <span t-esc="line.product_id.product_code"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none;">
+                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     <span t-esc="line.product_id.hsn_code.name"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none;">
+                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     <span t-esc="line.quantity"/>
                                     <t t-set="q" t-value="q+line.quantity"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none;">
+                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     <span class="text-nowrap" t-field="line.discount"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none;">
+                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     <t t-set="total_tax" t-value="sum(line.tax_ids.mapped('amount'))"/>
                                     <span t-esc="total_tax" id="line_tax_ids"/> %
                                 </td>
-                                <td class="text_cnter_row" style="border: none;">
+                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     <span class="text-nowrap" t-field="line.price_total"
                                     />
                                     <t t-set="t" t-value="line.price_total+t"/>
