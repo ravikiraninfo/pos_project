@@ -19,7 +19,7 @@
 #   If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from odoo import models
+from odoo import models, fields
 
 
 class AccountPayment(models.Model):
@@ -36,10 +36,11 @@ class AccountPayment(models.Model):
         Overriding print_checks button to generate a wizard view to print
         cheque by selecting a cheque print format.
         """
-        if self.payment_method_line_id.payment_method_id.name == 'Checks':
-            cheque_date = self.date
-        elif self.payment_method_line_id.payment_method_id.name == 'PDC':
-            cheque_date = self.effective_date
+        # if self.payment_method_line_id.payment_method_id.name == 'Checks':
+        #     cheque_date = self.date
+        # elif self.payment_method_line_id.payment_method_id.name == 'PDC':
+        #     cheque_date = self.effective_date
+
         return {
             'name': "Cheque Format",
             'type': 'ir.actions.act_window',
@@ -48,11 +49,11 @@ class AccountPayment(models.Model):
             'res_model': 'cheque.types',
             'target': 'new',
             'context': {
-                'default_partner_id': self.partner_id.id,
-                'default_cheque_amount_in_words': self.check_amount_in_words,
-                'default_cheque_date': cheque_date,
-                'default_cheque_amount': self.amount,
-                'default_check_number': self.check_number,
-                'default_payment_id': self.id
+                'default_partner_id': self[0].partner_id.id,
+                'default_cheque_amount_in_words': self[0].currency_id.amount_to_text(sum(self.mapped("amount"))),
+                'default_cheque_date': fields.Datetime.now(),
+                'default_cheque_amount': sum(self.mapped("amount")),
+                'default_check_number': self[0].check_number,
+                'default_payment_id': len(self) == 1 and self.id or False,
             }
         }
