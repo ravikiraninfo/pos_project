@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','product','sale','purchase','account', 'l10n_in'],
+    'depends': ['base','product','sale','purchase','account', 'l10n_in', 'loyalty', 'pos_loyalty'],
 
     # always loaded
     'data': [
@@ -31,8 +31,14 @@
         'views/sale_order_view.xml',
         'views/purchase_order_view.xml',
         'views/res_partner_view.xml',
-        # 'views/loyalty_program_views.xml'
+        'views/loyalty_program_views.xml'
 
     ],
+
+    'assets': {
+        'point_of_sale.assets': [
+            'custom_product/static/src/js/PosLoyaltyOrder.js',
+            ]
+        }
 
 }
