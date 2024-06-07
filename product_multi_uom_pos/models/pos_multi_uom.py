@@ -50,31 +50,36 @@ class PosMultiUom(models.Model):
 
     price = fields.Float(string='Sale Price', compute="_compute_price", readonly=False, store=True)
 
-    @api.depends('profit', 'profit.value', 'product_template_id.extra_cost_ids')
+    @api.depends('profit', 'profit.value', 'product_template_id.extra_cost_ids', 'product_template_id_2.standard_price', "product_template_id.standard_price")
     def _compute_price(self):
         for rec in self:
             if rec.profit:
                 amount = 0
                 if rec.product_template_id_2:
                     total_price1 = rec.product_template_id_2.standard_price + sum(rec.product_template_id_2.extra_cost_ids.mapped('amount'))
+                    print('\n\n\ntotal_price1', total_price1)
                     price = ((total_price1 * rec.profit.value) / 100) + total_price1
-                    taxs = rec.product_template_id_2.taxes_id
-                    for tax in taxs:
-                        amount += tax.amount
-                    tax_amount = (total_price1 * amount) / 100
-                    rec.price = price + tax_amount
+                    print('\n\n\nprice', price)
+
+                    # taxs = rec.product_template_id_2.taxes_id
+                    # for tax in taxs:
+                    #     amount += tax.amount
+                    # tax_amount = (total_price1 * amount) / 100
+                    # rec.price = price + tax_amount
+                    rec.price = price
                     continue
                 total_price2 = rec.product_template_id.standard_price + sum(rec.product_template_id.extra_cost_ids.mapped('amount'))
 
                 price2 = ((total_price2 * rec.profit.value) / 100) + total_price2
                 
-                tax2 = rec.product_template_id.taxes_id
-                amount2 = 0
+                # tax2 = rec.product_template_id.taxes_id
+                # amount2 = 0
                 
-                for tax2 in tax2:
-                    amount2 += tax2.amount
-                tax_amount2 = (total_price2 * amount) / 100
-                rec.price = (price2 + tax_amount2)
+                # for tax2 in tax2:
+                #     amount2 += tax2.amount
+                # tax_amount2 = (total_price2 * amount) / 100
+                # rec.price = (price2 + tax_amount2)
+                rec.price = price2
             else:
                 rec.price = 0
 

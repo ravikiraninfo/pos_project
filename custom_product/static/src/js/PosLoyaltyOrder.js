@@ -6,7 +6,7 @@ odoo.define('custom_product.models', function (require) {
 
     const PatchPosLotaltyOrder = (Order) => class PatchPosLotaltyOrder extends Order {
         _updateRewards () {
-            if (!this.pos.programs || this.pos.programs.length === 0) {
+            if (this.pos.programs === 0 || this.pos.programs.length === 0) {
                 return;
             }
             super._updateRewards();

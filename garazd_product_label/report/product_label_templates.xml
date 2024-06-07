@@ -13,7 +13,7 @@
                         </t>
                     </div>
                       <div t-if="label.product_id.product_code" style="width: 100%; padding: 0; margin: 0; margin-top: -10px; font-size: 8px;">
-                        <span t-field="label.product_id.product_code"/><t t-esc="label.vendor_product_code"/>
+                        <span t-field="label.product_id.product_code"/>
                     </div>
                     <div t-if="label.product_id.barcode" style="width: 100%; padding: 0; margin: 0; font-size: 10px;">
                         <span t-field="label.product_id.barcode"/>

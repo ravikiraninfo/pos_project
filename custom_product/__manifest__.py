@@ -31,14 +31,14 @@
         'views/sale_order_view.xml',
         'views/purchase_order_view.xml',
         'views/res_partner_view.xml',
-        'views/loyalty_program_views.xml'
+        # 'views/loyalty_program_views.xml'
 
     ],
 
-    'assets': {
-        'point_of_sale.assets': [
-            'custom_product/static/src/js/PosLoyaltyOrder.js',
-            ]
-        }
+    # 'assets': {
+    #     'point_of_sale.assets': [
+    #         'custom_product/static/src/js/PosLoyaltyOrder.js',
+    #         ]
+    #     }
 
 }

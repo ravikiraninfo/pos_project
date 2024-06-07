@@ -74,7 +74,6 @@ class Productproduct(models.Model):
             price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
             prod.list_price = sum(prod.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
 
-
     def _compute_multi_uom(self):
         """
          Updates the 'multi_uom' field based on the configuration parameter

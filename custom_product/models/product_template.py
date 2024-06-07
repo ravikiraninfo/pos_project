@@ -81,7 +81,7 @@ class ProductProduct(models.Model):
 
     def compute_product_code(self):
         for rec in self:
-            latest_seller = rec.seller_ids.sorted('date_start', reverse=True)
+            latest_seller = rec.seller_ids
             if latest_seller:
                 latest_seller = latest_seller[0]
             value_after_dec = str(rec.standard_price).split(".")[1]
@@ -95,7 +95,8 @@ class ProductProduct(models.Model):
             result = ''.join(mapping_dict.get(digit, digit) for digit in string_value)
             rec.product_code = str(rec.pos_categ_id.sequence) + "-" + str(
                 latest_seller.partner_id.supplier_code) + "-" + str(
-                rec.create_date.date().strftime("%d%m%y")) + "-" + result + "-" 
+                rec.create_date.date().strftime("%d%m%y")) + "-" + result + "-" + str(
+                latest_seller.product_code)
 
     @api.onchange('price_selection')
     def _onchane_price_selection(self):

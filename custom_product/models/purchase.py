@@ -17,6 +17,7 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
+
     # @api.depends("order_id.total_extra_cost")
     # def _compute_price_unit_and_date_planned_and_name(self):
     #     res = super()._compute_price_unit_and_date_planned_and_name()

@@ -33,6 +33,18 @@ class PurchaseOrder(models.Model):
     product_template_id_1 = fields.Many2many('product.template', string="Product")
     attatchmet_ids = fields.Many2many('ir.attachment', string="Bill Document")
 
+    def button_confirm(self):
+        for order in self:
+            for line in order.order_line:
+                if not line.product_id or not line.product_id.seller_ids:
+                    continue
+                for seller in line.product_id.seller_ids:
+                    if seller.partner_id != order.partner_id:
+                        continue
+                    seller.product_code = line.vendor_product_code
+        return super().button_confirm()
+
+
     def _add_supplier_to_product(self):
         for line in self.order_line:
             partner = self.partner_id if not self.partner_id.parent_id else self.partner_id.parent_id
@@ -75,7 +87,7 @@ class PurchaseOrder(models.Model):
                     'product_id': line.product_id.id,
                     'barcode': line.product_id.barcode,
                     'vendor_product_code': line.vendor_product_code,
-                    'price_unit': line.price_unit
+                    'price_unit': round(line.product_id.list_price, 2)
                 }
                 plist.append((0, 0, val))
         
@@ -105,7 +117,7 @@ class PurchaseOrderLine(models.Model):
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
-                if self.product_id.product_tmpl_id.mrp_price < 1000:
+                if self.price_unit < 1000:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
