@@ -78,12 +78,10 @@ class Productproduct(models.Model):
                     var.pos_multi_uom_ids[0].profit = var.product_tmpl_id.pos_multi_uom_ids[0].profit.id
                 else:
                     new = var.product_tmpl_id.pos_multi_uom_ids[0].copy({"product_template_id": False, "product_template_id_2": var.id})
-                    print('\n\n\nnew', new)
 
     @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.profit")
     def _compute_list_price(self):
         for prod in self:
-            print('\n\n\n1-1-1-1****', prod.name)
             total_price1 = prod.standard_price + sum(prod.extra_cost_ids.mapped('amount'))
             price = ((total_price1 * prod.pos_multi_uom_ids[0].profit.value) / 100) + total_price1
             prod.list_price = price
