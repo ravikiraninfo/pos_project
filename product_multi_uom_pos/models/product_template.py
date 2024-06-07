@@ -64,15 +64,29 @@ class Productproduct(models.Model):
                                     ' is enabled in Configuration settings')
     pos_multi_uom_ids = fields.One2many('pos.multi.uom', 'product_template_id_2',
                                         string="POS Multiple Price",
+                                        compute="_compute_pos_multi_uom_ids"
                                         )
     
     list_price = fields.Float(compute="_compute_list_price", readonly=False, store=True)
 
-    @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.price")
+    @api.depends("product_tmpl_id", "product_tmpl_id.pos_multi_uom_ids")
+    def _compute_pos_multi_uom_ids(self):
+        for var in self:
+            var.pos_multi_uom_ids = var.pos_multi_uom_ids
+            if var.product_tmpl_id.pos_multi_uom_ids:
+                if var.pos_multi_uom_ids:
+                    var.pos_multi_uom_ids[0].profit = var.product_tmpl_id.pos_multi_uom_ids[0].profit.id
+                else:
+                    new = var.product_tmpl_id.pos_multi_uom_ids[0].copy({"product_template_id": False, "product_template_id_2": var.id})
+                    print('\n\n\nnew', new)
+
+    @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.profit")
     def _compute_list_price(self):
         for prod in self:
-            price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
-            prod.list_price = sum(prod.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
+            print('\n\n\n1-1-1-1****', prod.name)
+            total_price1 = prod.standard_price + sum(prod.extra_cost_ids.mapped('amount'))
+            price = ((total_price1 * prod.pos_multi_uom_ids[0].profit.value) / 100) + total_price1
+            prod.list_price = price
 
     def _compute_multi_uom(self):
         """
