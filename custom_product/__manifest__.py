@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','product','sale','purchase','account', 'l10n_in', 'loyalty', 'pos_loyalty'],
+    'depends': ['base','product','sale','purchase','account', 'l10n_in'],
 
     # always loaded
     'data': [

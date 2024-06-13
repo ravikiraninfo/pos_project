@@ -86,7 +86,7 @@
         </field>
     </record>
 
-    <record id="action_print_label_from_template" model="ir.actions.act_window">
+    <!-- <record id="action_print_label_from_template" model="ir.actions.act_window">
         <field name="name">Custom Product Labels</field>
         <field name="res_model">print.product.label</field>
         <field name="view_mode">form</field>
@@ -94,9 +94,9 @@
         <field name="context">{'default_product_ids': active_ids}</field>
         <field name="binding_model_id" ref="product.model_product_template"/>
         <field name="binding_type">report</field>
-    </record>
+    </record> -->
 
-    <record id="action_print_label_from_product" model="ir.actions.act_window">
+    <!-- <record id="action_print_label_from_product" model="ir.actions.act_window">
         <field name="name">Custom Product Labels</field>
         <field name="res_model">print.product.label</field>
         <field name="view_mode">form</field>
@@ -104,6 +104,6 @@
         <field name="context">{'default_product_ids': active_ids}</field>
         <field name="binding_model_id" ref="product.model_product_product"/>
         <field name="binding_type">report</field>
-    </record>
+    </record> -->
 
 </odoo>

@@ -12,9 +12,6 @@
 <!--                <field name="product_code"/>-->
                 <field name="hsn_code"/>
             </xpath>
-<!--            <xpath expr="//field[@name='standard_price']" position="attributes">-->
-<!--                <attribute name="invisible">1</attribute>-->
-<!--            </xpath>-->
            
             <xpath expr="//notebook" position="inside">
                 <page name="Extra Costs">
@@ -51,6 +48,9 @@
             <xpath expr="//page[@name='general_information']//group//group[@name='group_standard_price']//field[@name='company_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//form//header//button[@name='action_open_label_layout']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             
             
         </field>
@@ -75,6 +75,10 @@
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//form//header" position="inside">
+                <button name="print_product_label" string="Print Product Label" type="object" class="oe_highlight"
+                    />
+            </xpath>
             <xpath expr="//field[@name='barcode']" position="after">
                 <field name="product_code"/>
                 <field name="hsn_code"/>

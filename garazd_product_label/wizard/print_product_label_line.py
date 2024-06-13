@@ -25,6 +25,11 @@ class PrintProductLabelLine(models.TransientModel):
     )
     price_unit = fields.Float()
 
+    def _compute_tax_included(self, price):
+        res = self.product_id.product_tmpl_id.taxes_id.compute_all(price, product=self.product_id.product_tmpl_id, partner=self.env['res.partner'])
+        included = res['total_included']
+        return included
+
     @api.depends('wizard_id.company_id')
     def _compute_company_id(self):
         for label in self:

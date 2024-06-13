@@ -45,10 +45,10 @@ class ProductTemplate(models.Model):
     def onchange_name(self):
         list_a = [(5, 0, 0)]
         liset_price = [(5, 0, 0)]
-        attribute_id = [1, 2, 3, 4, 5]
-        for aid in attribute_id:
+        attribute_ids = self.env["product.attribute"].search([])
+        for aid in attribute_ids:
             val = {
-                'attribute_id': aid
+                'attribute_id': aid.id
             }
             list_a.append((0, 0, val))
         price_val = {
@@ -66,6 +66,32 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     product_code = fields.Char(string="Product Code", compute="compute_product_code")
+
+    def print_product_label(self):
+        plist = [(5, 0, 0)]
+        val = {
+            'selected': True,
+            'product_id': self.id,
+            'barcode': self.barcode,
+            'vendor_product_code': self.product_code,
+            'price_unit': round(self.list_price, 2)
+        }
+        plist.append((0, 0, val))
+    
+        return {
+            'name': _('Print Label'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'print.product.label',
+            'view_id': self.env.ref(
+                'garazd_product_label.print_product_label_view_form').id,
+            'context': {
+                'default_label_ids': plist,
+            },
+            'target': 'current'
+        }
+
+
 
     @api.onchange('hsn_code', 'standard_price')
     def _onhange_hsncode(self):
