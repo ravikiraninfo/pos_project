@@ -11,7 +11,7 @@
                 t-on-click="() => this.changeMode('discount_amount')">Disc (in Amount)</button> 
         </xpath>
         <xpath expr="//div//button/t[@t-esc='decimalSeparator']/.." position="after">
-            <xpath expr="//div//button[13]" position="move">
+            <xpath expr="//div//button[13]" position="move"/>
         </xpath>
         
     </t>

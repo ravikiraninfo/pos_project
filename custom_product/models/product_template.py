@@ -131,7 +131,7 @@ class ProductProduct(models.Model):
                 rec.list_price = rec.mrp_price
             if rec.price_selection == "wh_price":
                 rec.list_price = rec.whole_sale_price
-
+        
     @api.model_create_multi
     def create(self, vals_list):
         liset_price = []

@@ -11,9 +11,11 @@
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
         <field name="dpi">90</field>
+        <field name="print_page_width">148</field>
+        <field name="print_page_height">210</field>
     </record>
     <record id="account_invoices_template" model="ir.actions.report">
-        <field name="name">Invoices</field>
+        <field name="name">Invoices A5</field>
         <field name="model">account.move</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">pos_invoice_automate.report_invoice_with_payments_templates</field>
@@ -43,10 +45,12 @@
     
 
     <template id="pai_external_layout_standard" inherit_id="web.external_layout_standard">
-        <xpath expr="//div//div[1]" position="replace">
+        <xpath expr="//div[1]//div[1]" position="replace">
             <div/>
         </xpath>
-        <xpath expr="//div//div[3]" position="replace"/>
+        <xpath expr="//div[1]//div[3]" position="replace"/>
+        <xpath expr="//div[3]" position="replace">
+        </xpath>
     </template>
 
     
@@ -97,13 +101,13 @@
                         <td class="no-border-top no-border-bottom">
                             <center>
                                 <span>
-                                    <t t-if="o.partner_id.phone">
+                                    <t t-if="o.company_id.phone">
                                         PH :
-                                        <span t-esc="o.partner_id.phone"/>
+                                        <span t-esc="o.company_id.phone"/>
                                     </t>
-                                    <t t-if="o.partner_id.email">
+                                    <t t-if="o.company_id.email">
                                         EMAIL :
-                                        <span t-esc="o.partner_id.email"/>
+                                        <span t-esc="o.company_id.email"/>
                                     </t>
                                 </span>
                             </center>
@@ -255,6 +259,9 @@
                         <t t-set="i" t-value="1"/>
                         <t t-set="q" t-value="0"/>
                         <t t-set="t" t-value="0"/>
+                        <t t-set="total_line_count" t-value="len(o.invoice_line_ids)"/>                     
+                        <t t-set="empty_line_count" t-value="15 - total_line_count"/>
+                        <t t-esc="empty_line_count > 0" />                 
                         <t t-foreach="o.invoice_line_ids" t-as="line">
                             <t t-set="total_tax_amounts" t-value="line._get_tax_amounts()" />
                             <t t-set="total_cgst_2_5" t-value="total_cgst_2_5 + total_tax_amounts.get('total_cgst_2_5')" />
@@ -262,52 +269,75 @@
                             <t t-set="total_cgst_6" t-value="total_cgst_6 + total_tax_amounts.get('total_cgst_6')" />
                             <t t-set="total_sgst_6" t-value="total_sgst_6 + total_tax_amounts.get('total_sgst_6')" />
                             <tr class="no_border" style="border: none;" >
+                                <!-- <td class="no_border"
+                                    style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
                                 <td class="no_border"
-                                    style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     <span t-esc="i"/>
                                     <t t-set="i" t-value="i+1"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important; text-align: left !important;">
-                                    <span t-esc="line.product_id.product_code"/>
+                                <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important; text-align: left !important;"> -->
+                                <td class="no_border"
+                                    style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                <span t-esc="line.product_id.product_code"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
-                                    <span t-esc="line.product_id.hsn_code.name"/>
+                                <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
+                                <td class="no_border"
+                                    style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">     
+                                <span t-esc="line.product_id.hsn_code.name"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
-                                    <span t-esc="line.quantity"/>
+                                <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
+                                    <td class="no_border"
+                                    style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                    
+                                <span t-esc="line.quantity"/>
                                     <t t-set="q" t-value="q+line.quantity"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
-                                    <span class="text-nowrap" t-field="line.discount"/>
+                                <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
+                                    <td class="no_border"
+                                    style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                    
+                                <span class="text-nowrap" t-field="line.discount"/>
                                 </td>
-                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
-                                    <t t-set="total_tax" t-value="sum(line.tax_ids.mapped('amount'))"/>
+                                <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
+                                    <td class="no_border"
+                                    style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                    
+                                <t t-set="total_tax" t-value="sum(line.tax_ids.mapped('amount'))"/>
                                     <span t-esc="total_tax" id="line_tax_ids"/> %
                                 </td>
-                                <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;">
-                                    <span class="text-nowrap" t-field="line.price_total"
+                                <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
+                                    <td class="no_border"
+                                    style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                    
+                                <span class="text-nowrap" t-field="line.price_total"
                                     />
                                     <t t-set="t" t-value="line.price_total+t"/>
                                 </td>
                             </tr>
                         </t>
-                        <!-- <t t-foreach="o.row_check" t-as="length">
-                            <tr class="no_border">
-                                <td class="no_border"
-                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
-                                <td class="no_border"
-                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
-                                <td class="no_border"
-                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
-                                <td class="no_border"
-                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
-                                <td class="no_border"
-                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
-                                <td class="no_border"
-                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
-                                <td class="no_border"
-                                    style="border: none; padding-bottom:60px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
-                            </tr>
+                        <t t-if="empty_line_count > 0">
+                            <t t-foreach="range(0, empty_line_count)" t-as="line">
+                                <!-- <tr class="no_border" style="border: none;" ></tr>
+                            </t>
+                            <t t-foreach="o.row_check" t-as="length"> -->
+                                <tr class="no_border">
+                                    <td class="no_border"
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    <td class="no_border"
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    <td class="no_border"
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    <td class="no_border"
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    <td class="no_border"
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    <td class="no_border"
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                    <td class="no_border"
+                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;"></td>
+                                </tr>
+                            </t>
                         </t>
                         <tr class="no_border">
                             <td class="text_cnter_row_1" style="border: none;">
@@ -325,7 +355,7 @@
 
                             <td class="text_cnter_row_1" style="border: none;">
                             </td>
-                        </tr> -->
+                        </tr>
 
                         <tr class="no_border">
                             <td class="text_cnter_row">
@@ -439,7 +469,7 @@
                             <span style="font-size:25px !important">
                                 <b>Terms &amp; Conditions:</b>
                             </span>
-                            <span style="font-size:25px !important;margin-left:50%; padding-right:0;">
+                            <span style="font-size:25px !important;margin-left:45%; padding-right:0;">
                                 <b>KUMAR SAREE GHAR PVT LTD</b>
                                 <br/>
                             </span>

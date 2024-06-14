@@ -67,6 +67,7 @@
             'all_in_one_pos_kit/static/src/product_creation/js/*',
             'all_in_one_pos_kit/static/src/pos_auto_lot/js/auto_lot.js',
             'all_in_one_pos_kit/static/src/advanced_receipt/js/payment.js',
+            'all_in_one_pos_kit/static/src/advanced_receipt/js/closePosPopup.js',
             'all_in_one_pos_kit/static/src/category_wise_receipt/js/pos_receipt.js',
             'all_in_one_pos_kit/static/src/time_based_product/js/*',
             'all_in_one_pos_kit/static/src/exchange_product/xml/*',
