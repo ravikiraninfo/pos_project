@@ -35,3 +35,4 @@ class PosConfig(models.Model):
                                      default=True,
                                      help="If enabled, the Point of Sale system"
                                           "allows partial payments for orders.")
+    manager_password = fields.Char("Password for POS Access")

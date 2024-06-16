@@ -35,11 +35,11 @@ class ProductTemplate(models.Model):
                                         string="POS Multiple Price",
                                         )
     
-    @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.price")
-    def _compute_list_price(self):
-        for tmpl in self:
-            price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
-            tmpl.list_price = sum(tmpl.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
+    # @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.price")
+    # def _compute_list_price(self):
+    #     for tmpl in self:
+    #         price_id = self.env['pos.multi.price'].search([('name', '=', 'List Price')]).id
+    #         tmpl.list_price = sum(tmpl.pos_multi_uom_ids.filtered(lambda x: x.uom_id.id == price_id).mapped('price'))
 
 
     def _compute_multi_uom(self):
@@ -54,7 +54,7 @@ class ProductTemplate(models.Model):
         })
 
 class Productproduct(models.Model):
-    """Inherits model 'product.template' and adds field to set multiple units
+    """Inherits model 'product.product' and adds field to set multiple units
     of measure"""
     _inherit = 'product.product'
 
@@ -64,28 +64,29 @@ class Productproduct(models.Model):
                                     ' is enabled in Configuration settings')
     pos_multi_uom_ids = fields.One2many('pos.multi.uom', 'product_template_id_2',
                                         string="POS Multiple Price",
-                                        # compute="_compute_pos_multi_uom_ids",
-                                        )
+                                        compute="_compute_pos_multi_uom_ids",
+                                        readonly=False)
     
-    list_price = fields.Float(compute="_compute_list_price", readonly=False, store=True)
+    # list_price = fields.Float(compute="_compute_list_price", readonly=False, store=True)
 
-    # # @api.depends("product_tmpl_id", "product_tmpl_id.pos_multi_uom_ids")
-    # def _compute_pos_multi_uom_ids(self):
-    #     for var in self:
-    #         var.pos_multi_uom_ids = var.pos_multi_uom_ids
-    #         if var.product_tmpl_id.pos_multi_uom_ids:
-    #             var.pos_multi_uom_ids = [(6, 0, [])]
-                # if var.pos_multi_uom_ids:
-                #     var.pos_multi_uom_ids[0].profit = var.product_tmpl_id.pos_multi_uom_ids[0].profit.id
-                # else:
-                #     new = var.product_tmpl_id.pos_multi_uom_ids[0].copy({"product_template_id": False, "product_template_id_2": var.id})
+    # @api.depends("product_tmpl_id", "product_tmpl_id.pos_multi_uom_ids")
+    def _compute_pos_multi_uom_ids(self):
+        for var in self:
+            var.pos_multi_uom_ids = var.pos_multi_uom_ids
+            if var.product_tmpl_id.pos_multi_uom_ids:
+                var.pos_multi_uom_ids = [(6, 0, [])]
+                if var.pos_multi_uom_ids:
+                    var.pos_multi_uom_ids[0].profit = var.product_tmpl_id.pos_multi_uom_ids[0].profit.id
+                else:
+                    for muom in var.product_tmpl_id.pos_multi_uom_ids:
+                        muom.copy({"product_template_id": False, "product_template_id_2": var.id})
 
-    @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.profit")
-    def _compute_list_price(self):
-        for prod in self:
-            total_price1 = prod.standard_price + sum(prod.extra_cost_ids.mapped('amount'))
-            price = ((total_price1 * (prod.pos_multi_uom_ids and prod.pos_multi_uom_ids[0].profit.value or 0)) / 100) + total_price1
-            prod.list_price = price
+    # @api.depends('pos_multi_uom_ids', "pos_multi_uom_ids.profit", )
+    # def _compute_list_price(self):
+    #     for prod in self:
+    #         total_price1 = prod.standard_price + sum(prod.extra_cost_ids.mapped('amount'))
+    #         price = ((total_price1 * (prod.pos_multi_uom_ids and prod.pos_multi_uom_ids[0].profit.value or 0)) / 100) + total_price1
+    #         prod.list_price = price
 
     def _compute_multi_uom(self):
         """

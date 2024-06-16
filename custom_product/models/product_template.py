@@ -1,7 +1,7 @@
 from odoo import fields, models, api, _
 import random
 from datetime import datetime
-from odoo.exceptions import ValidationError
+from odoo.tools import format_amount
 
 
 class ProductTemplate(models.Model):
@@ -17,21 +17,65 @@ class ProductTemplate(models.Model):
     extra_cost_ids = fields.One2many("extra.cost", inverse_name="product_tmpl_id")
 
     extra_details_description = fields.Text("Extra Details")
-    list_price = fields.Float(compute="_compute_list_price", readonly=False, store=True)
+    # list_price = fields.Float(compute="_compute_list_price", readonly=False, store=True)
 
     product_tag_ids = fields.Many2many(string='Work Tags')
+    taxes_id = fields.Many2many(compute="_compute_taxes_id")
 
-    @api.onchange('hsn_code')
+    sales_price_with_tax_editable = fields.Integer("Sales Price(Incl. Tax)")
+
+    @api.onchange("sales_price_with_tax_editable")
+    def _onchange_sales_price_with_tax_editable(self):
+        if self.sales_price_with_tax_editable > 0:
+            total_tax_amount = self.taxes_id.mapped("amount")
+            sales_price_without_tax = ((self.sales_price_with_tax_editable * 100) / (100 + sum(total_tax_amount)))
+            self.list_price = sales_price_without_tax
+
+    def _construct_tax_string(self, price):
+        currency = self.currency_id
+        res = self.taxes_id.compute_all(price, product=self, partner=self.env['res.partner'])
+        joined = []
+        included = res['total_included']
+        included = round(int(float(included)))
+        if currency.compare_amounts(included, price):
+            joined.append(_('%s Incl. Taxes', format_amount(self.env, included, currency)))
+        excluded = res['total_excluded']
+        if currency.compare_amounts(excluded, price):
+            joined.append(_('%s Excl. Taxes', format_amount(self.env, excluded, currency)))
+        if joined:
+            tax_string = f"(= {', '.join(joined)})"
+        else:
+            tax_string = " "
+        return tax_string
+
+
+    @api.depends("hsn_code", "standard_price")
+    def _compute_taxes_id(self):
+        for tmpl in self:
+            tmpl.taxes_id = tmpl.taxes_id
+            if not tmpl.hsn_code:
+                continue 
+            if tmpl.hsn_code.name.startswith('6'):
+                if tmpl.standard_price < 1000:
+                    tmpl.taxes_id = tmpl.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5)
+                else:
+                    tmpl.taxes_id = tmpl.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5)
+            else:
+                tmpl.taxes_id = tmpl.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst'))
+
+
+
+    @api.onchange('hsn_code', "standard_price")
     def _onhange_hsncode(self):
         if self.hsn_code:
             if self.hsn_code.name.startswith('6'):
-                if self.mrp_price < 1000:
+                if self.standard_price < 1000:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
                 else:
                     self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
             else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: x.name.lower() != "igst").ids
-        self.standard_price = self.mrp_price
+                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst')).ids
+        # self.standard_price = self.mrp_price
 
     @api.onchange('price_selection')
     def _onchane_price_selection(self):
@@ -60,13 +104,68 @@ class ProductTemplate(models.Model):
             'pos_multi_uom_ids': liset_price,
             'detailed_type': 'product'
         })
+    
+    @api.depends_context('company')
+    @api.depends('product_variant_ids', 'product_variant_ids.standard_price')
+    def _compute_standard_price(self):
+        # Depends on force_company context because standard_price is company_dependent
+        # on the product_product
+        # unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
+        for template in self:
+            template.standard_price = sum(template.product_variant_ids.mapped("standard_price")) / len(template.product_variant_ids)
+        
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     product_code = fields.Char(string="Product Code", compute="compute_product_code")
+    sales_price_with_tax_editable = fields.Integer("Sales Price(Incl. Tax)")
+    # taxes_id = fields.Many2many("account.tax", compute="_compute_taxes_id", store=True)
 
+    # @api.depends("hsn_code", "standard_price")
+    # def _compute_taxes_id(self):
+    #     for var in self:
+    #         var.taxes_id = var.taxes_id
+    #         if not var.hsn_code:
+    #             continue 
+    #         if var.hsn_code.name.startswith('6'):
+    #             if var.standard_price < 1000:
+    #                 var.taxes_id = var.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
+    #             else:
+    #                 var.taxes_id = var.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
+    #         else:
+    #             var.taxes_id = var.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst')).ids
+    #         print('\n\n\nvar.taxes_id', var.taxes_id)
+    
+
+    # @api.onchange("sales_price_with_tax_editable")
+    # def _onchange_sales_price_with_tax_editable(self):
+    #     if self.sales_price_with_tax_editable > 0:
+    #         total_tax_amount = self.taxes_id.mapped("amount")
+    #         sales_price_without_tax = ((self.sales_price_with_tax_editable * 100) / (100 + sum(total_tax_amount)))
+    #         self.price_extra += (sales_price_without_tax + (self.pos_multi_uom_ids and (self.pos_multi_uom_ids[0].price - self.standard_price) or 0))
+            # self.lst_price = sales_price_without_tax   
+    
+    # @api.depends("product_template_attribute_value_ids.price_extra")
+    # def _compute_product_price_extra(self):
+    #     for product in self:
+    #         if product.sales_price_with_tax_editable > 0:
+    #             total_tax_amount = product.taxes_id.mapped("amount")
+    #             sales_price_without_tax = ((product.sales_price_with_tax_editable * 100) / (100 + sum(total_tax_amount)))
+    #             tax = product.sales_price_with_tax_editable - sales_price_without_tax
+    #             print('\n\n\ntax', tax)
+    #             print('\n\n\nproduct.list_price', product.list_price)
+    #             product.price_extra = (product.sales_price_with_tax_editable - tax - product.list_price) + sum(product.product_template_attribute_value_ids.mapped('price_extra'))
+    #         else:
+    #             product.price_extra = sum(product.product_template_attribute_value_ids.mapped('price_extra'))
+
+    #         print('\n\n\nproduct.price_extra111', product.price_extra)
+
+    def _update_sales_price(self):
+        for record in self:
+            record.sales_price_with_tax_editable = 0
+            
     def print_product_label(self):
         plist = [(5, 0, 0)]
         val = {
@@ -74,7 +173,7 @@ class ProductProduct(models.Model):
             'product_id': self.id,
             'barcode': self.barcode,
             'vendor_product_code': self.product_code,
-            'price_unit': round(self.list_price, 2)
+            'price_unit': round(self.lst_price, 2)
         }
         plist.append((0, 0, val))
     
@@ -91,19 +190,16 @@ class ProductProduct(models.Model):
             'target': 'current'
         }
 
-
-
-    @api.onchange('hsn_code', 'standard_price')
-    def _onhange_hsncode(self):
-        if self.hsn_code:
-            if self.hsn_code.name.startswith('6'):
-                if self.standard_price < 1000:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
-                else:
-                    self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
-            else:
-                self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst')).ids
-        # self.standard_price = self.mrp_price
+    # @api.onchange('hsn_code', 'standard_price')
+    # def _onhange_hsncode(self):
+    #     if self.hsn_code:
+    #         if self.hsn_code.name.startswith('6'):
+    #             if self.standard_price < 1000:
+    #                 self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
+    #             else:
+    #                 self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount > 2.5).ids
+    #         else:
+    #             self.taxes_id = self.hsn_code.tax_ids.filtered(lambda x: not x.name.lower().startswith('igst') and x.amount == 2.5).ids
 
     def compute_product_code(self):
         for rec in self:
@@ -124,13 +220,18 @@ class ProductProduct(models.Model):
                 rec.create_date.date().strftime("%d%m%y")) + "-" + result + "-" + str(
                 latest_seller.product_code)
 
-    @api.onchange('price_selection')
-    def _onchane_price_selection(self):
-        for rec in self:
-            if rec.price_selection == "mrp_price":
-                rec.list_price = rec.mrp_price
-            if rec.price_selection == "wh_price":
-                rec.list_price = rec.whole_sale_price
+    # @api.onchange('price_selection')
+    # def _onchane_price_selection(self):
+    #     for rec in self:
+    #         if rec.price_selection == "mrp_price":
+    #             rec.list_price = rec.mrp_price
+    #         if rec.price_selection == "wh_price":
+    #             rec.list_price = rec.whole_sale_price
+
+    @api.onchange("standard_price")
+    def _onchange_standard_price_new(self):
+        self.product_tmpl_id.standard_price = self.standard_price
+
         
     @api.model_create_multi
     def create(self, vals_list):
@@ -166,29 +267,28 @@ class ProductProduct(models.Model):
                 'pos_multi_uom_ids': liset_price,
             })
         return res
-    #
-    # def write(self, vals):
-    #     res = super(ProductProduct, self).write(vals)
-    #     str_val = ""
-    #     if self.pos_categ_id:
-    #         str_val = str(self.pos_categ_id.sequence) if self.pos_categ_id.sequence else False + " "
-    #     if self.product_template_attribute_value_ids:
-    #         str_val = str_val + "("
-    #         for att in self.product_template_attribute_value_ids:
-    #             str_val = str_val + att.product_attribute_value_id.attribute_id.name + "-" + att.product_attribute_value_id.name + ","
-    #         str_val = str_val + ")"
-    #     barcode_str = self.env['barcode.nomenclature'].sanitize_ean(
-    #         "%s%s" % (self.id, datetime.now().strftime("%d%m%y%H%M")))
-    #     barcode = barcode_str
-    #     default_code = str_val
-    #     if not self.seller_ids:
-    #         raise ValidationError(_("Please add vendor"))
-    #     product_code = str(self.pos_categ_id.sequence) if self.pos_categ_id.sequence else " " + "-"
-    #     + self.seller_ids[0].partner_id.vendor_code if self.seller_ids[0].partner_id.vendor_code else " " + "-" + str(
-    #         self.create_date.date()) + "-" + str(str(self.standard_price).encode())
-    #     self.update({
-    #         'barcode': barcode,
-    #         'default_code': default_code,
-    #         'product_code': product_code
-    #     })
-    #     return res
+    
+    @api.depends('list_price', 'price_extra', 'standard_price')
+    @api.depends_context('uom')
+    def _compute_product_lst_price(self):
+        # to_uom = None
+        # if 'uom' in self._context:
+        #     to_uom = self.env['uom.uom'].browse(self._context['uom'])
+
+        for product in self:
+            # if to_uom:
+            #     list_price = product.uom_id._compute_price(product.list_price, to_uom)
+            # else:
+            #     list_price = product.list_price
+            if product.sales_price_with_tax_editable > 0:
+                total_tax_amount = product.taxes_id.mapped("amount")
+                sales_price_without_tax = ((product.sales_price_with_tax_editable * 100) / (100 + sum(total_tax_amount)))
+                product.lst_price = sales_price_without_tax
+                continue
+
+
+            list_price = product.pos_multi_uom_ids and product.pos_multi_uom_ids[0].price or 0
+            print('\n\n\n1-1-1list_price', list_price)
+            print('\n\n\nproduct.price_extra1-1-1', product.price_extra)
+            product.lst_price = list_price + product.price_extra
+    

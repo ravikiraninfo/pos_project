@@ -45,6 +45,7 @@
         'views/pos_greetings_views.xml',
         'views/meals_planning_views.xml',
         'views/pos_category_views.xml',
+        'views/account_move_views.xml',
         'report/all_in_one_pos_kit_templates.xml',
     ],
     'assets': {
@@ -96,6 +97,7 @@
             'all_in_one_pos_kit/static/src/order_line_discount/xml/*',
         ],
         'web.assets_backend': [
+            'all_in_one_pos_kit/static/src/tax_totals/js/*',
             'all_in_one_pos_kit/static/src/dashboard/css/pos_dashboard.css',
             'all_in_one_pos_kit/static/src/pos_report/css/*',
             'all_in_one_pos_kit/static/src/dashboard/js/pos_dashboard.js',

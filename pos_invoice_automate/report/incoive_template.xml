@@ -268,49 +268,49 @@
                             <t t-set="total_sgst_2_5" t-value="total_sgst_2_5 + total_tax_amounts.get('total_sgst_2_5')" />
                             <t t-set="total_cgst_6" t-value="total_cgst_6 + total_tax_amounts.get('total_cgst_6')" />
                             <t t-set="total_sgst_6" t-value="total_sgst_6 + total_tax_amounts.get('total_sgst_6')" />
-                            <tr class="no_border" style="border: none;" >
+                            <tr class="no_border" style="border-bottom: none;" >
                                 <!-- <td class="no_border"
                                     style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
                                 <td class="no_border"
-                                        style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
-                                    <span t-esc="i"/>
+                                        style="border: none; border-bottom: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
+                                    <span style="padding-left:10px;" t-esc="i"/>
                                     <t t-set="i" t-value="i+1"/>
                                 </td>
                                 <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important; text-align: left !important;"> -->
                                 <td class="no_border"
                                     style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
-                                <span t-esc="line.product_id.product_code"/>
+                                <span style="padding-left:10px;" t-esc="line.product_id.product_code"/>
                                 </td>
                                 <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
                                 <td class="no_border"
                                     style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">     
-                                <span t-esc="line.product_id.hsn_code.name"/>
+                                <span style="padding-left:10px;" t-esc="line.product_id.hsn_code.name"/>
                                 </td>
                                 <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
                                     <td class="no_border"
                                     style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     
-                                <span t-esc="line.quantity"/>
+                                <span style="padding-left:10px;" t-esc="line.quantity"/>
                                     <t t-set="q" t-value="q+line.quantity"/>
                                 </td>
                                 <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
                                     <td class="no_border"
                                     style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     
-                                <span class="text-nowrap" t-field="line.discount"/>
+                                <span style="padding-left:10px;" class="text-nowrap" t-field="line.discount"/>
                                 </td>
                                 <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
                                     <td class="no_border"
                                     style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     
                                 <t t-set="total_tax" t-value="sum(line.tax_ids.mapped('amount'))"/>
-                                    <span t-esc="total_tax" id="line_tax_ids"/> %
+                                    <span style="padding-left:10px;" t-esc="total_tax" id="line_tax_ids"/> %
                                 </td>
                                 <!-- <td class="text_cnter_row" style="border: none; border-right: 1px solid black !important;border-left: 1px solid black !important;"> -->
                                     <td class="no_border"
                                     style="border: none; padding-bottom:50px !important;border-right: 1px solid black !important;border-left: 1px solid black !important;">
                                     
-                                <span class="text-nowrap" t-field="line.price_total"
+                                <span style="padding-left:10px;" class="text-nowrap" t-field="line.price_total"
                                     />
                                     <t t-set="t" t-value="line.price_total+t"/>
                                 </td>
@@ -369,7 +369,7 @@
                             </td>
                             <td class="text_cnter_row">
                                 <b>
-                                    <span t-esc="q"/>
+                                    <span style="padding-left:10px;" t-esc="q"/>
                                 </b>
                             </td>
                             <td class="text_cnter_row">
@@ -378,7 +378,7 @@
                             </td>
 
                             <td class="text_cnter_row">
-                                <span t-esc="t"/>
+                                <span style="padding-left:10px;" t-esc="t"/>
                             </td>
                         </tr>
                     </tbody>

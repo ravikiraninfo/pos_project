@@ -31,6 +31,12 @@ class AccountMove(models.Model):
     account_barcode = fields.Char(string='Barcode',
                                   help='Barcode associated with the account '
                                        'move.')
+    
+    rounded_tax_totals = fields.Binary(
+        string="Invoice Totals Rounded",
+        related="tax_totals",
+        exportable=False,
+    )
     # include_igst = fields.Boolean()
 
     # def set_include_igst(self):

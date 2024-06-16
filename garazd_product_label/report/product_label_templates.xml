@@ -25,7 +25,7 @@
                         <strong><b>
 
                             <span t-if="label.product_id.currency_id.position == 'before'" t-field="label.product_id.currency_id.symbol"/>
-                            <t t-esc="label._compute_tax_included(label.price_unit)"/>
+                            <t t-esc="round(label._compute_tax_included(label.price_unit))"/>
                             <span t-if="label.product_id.currency_id.position == 'after'" t-field="label.product_id.currency_id.symbol"/>
                         </b></strong>
                     </div>
