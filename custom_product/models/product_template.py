@@ -288,7 +288,5 @@ class ProductProduct(models.Model):
 
 
             list_price = product.pos_multi_uom_ids and product.pos_multi_uom_ids[0].price or 0
-            print('\n\n\n1-1-1list_price', list_price)
-            print('\n\n\nproduct.price_extra1-1-1', product.price_extra)
             product.lst_price = list_price + product.price_extra
     
